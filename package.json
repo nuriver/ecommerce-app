@@ -6,7 +6,7 @@
   "scripts": {
     "format": "npx prettier . --write .",
     "ci:format": "npx prettier . --check",
-    "lint": "eslint './**/*.{ts}' --max-warnings 0",
+    "lint": "eslint ./src/**/*.ts --max-warnings 0",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "start": "webpack serve",
