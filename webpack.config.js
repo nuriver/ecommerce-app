@@ -57,7 +57,7 @@ const baseConfig = {
             ],
         }),
         new FaviconsWebpackPlugin({
-            logo: './src/assets/chat-favicon.png',
+            logo: './src/assets/bag-favicon.png',
         }),
     ],
 };
