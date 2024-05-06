@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": ["airbnb-typescript/base", "airbnb-base"],
+  "extends": ["airbnb-typescript/base", "airbnb-base", "plugin:@typescript-eslint/recommended", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
@@ -16,6 +16,14 @@
     "no-debugger": "off",
     "no-console": 0,
     "class-methods-use-this": "off",
-    "@typescript-eslint/no-explicit-any": 2
+    "@typescript-eslint/no-explicit-any": 2,
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ]
   }
 }
