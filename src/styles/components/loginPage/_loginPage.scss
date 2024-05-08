@@ -1,0 +1,64 @@
+.login-wrapper {
+  max-width: 1440px;
+  height: 1024px;
+  margin: 0 auto;
+  display: flex;
+  .login-img-container {
+    width: 643px;
+    background-image: url('/src/assets/images/login_img.png');
+    background-position: center;
+
+    /*  .login-img {
+      width: 643px;
+    }*/
+  }
+  .login-content-container {
+    width: 797px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    .login-form-wrapper {
+      height: 445px;
+      width: 486px;
+      .login-heading {
+        margin: 0 auto;
+        margin-bottom: 48px;
+        width: 148px;
+        font-size: 48px;
+        font-weight: 650;
+      }
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        input {
+          display: block;
+          height: 40px;
+          width: 100%;
+          margin-bottom: 30px;
+          font-size: 18px;
+          border: 3px solid black;
+          font-family: inherit;
+          padding: 10px;
+          &:nth-of-type(2) {
+            margin-bottom: 48px;
+          }
+        }
+        label {
+          margin-left: 21px;
+          margin-bottom: 15px;
+          font-size: 18px;
+          font-weight: 600;
+        }
+        .button {
+          margin: 0 auto;
+          margin-bottom: 30px;
+        }
+      }
+    }
+    .team-name {
+      font-size: 14px;
+    }
+  }
+}

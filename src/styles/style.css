@@ -2,4 +2,105 @@ html * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/src/assets/fonts/Inter-VariableFont_slnt,wght.ttf');
+}
+body {
+  font-family: 'Inter';
+}
+
+.login-wrapper {
+  max-width: 1440px;
+  height: 1024px;
+  margin: 0 auto;
+  display: flex;
+}
+.login-wrapper .login-img-container {
+  width: 643px;
+  background-image: url('/src/assets/images/login_img.png');
+  background-position: center;
+  /*  .login-img {
+      width: 643px;
+    }*/
+}
+.login-wrapper .login-content-container {
+  width: 797px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+}
+.login-wrapper .login-content-container .login-form-wrapper {
+  height: 445px;
+  width: 486px;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-heading {
+  margin: 0 auto;
+  margin-bottom: 48px;
+  width: 148px;
+  font-size: 48px;
+  font-weight: 650;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form {
+  display: flex;
+  flex-direction: column;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form input {
+  display: block;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 30px;
+  font-size: 18px;
+  border: 3px solid black;
+  font-family: inherit;
+  padding: 10px;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form input:nth-of-type(2) {
+  margin-bottom: 48px;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form label {
+  margin-left: 21px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form .button {
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.login-wrapper .login-content-container .team-name {
+  font-size: 14px;
+}
+
+.button {
+  display: inline-block;
+  width: 264px;
+  height: 40px;
+  font-size: 18px;
+  color: white;
+  font-family: inherit;
+  background-color: #000000;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+.button:disabled {
+  background-color: #bcbcbc;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+}
+
+.button-white {
+  background-color: white;
+  color: #000000;
+  font-size: 15px;
+  border: 3px solid #000000;
 } /*# sourceMappingURL=style.css.map */
