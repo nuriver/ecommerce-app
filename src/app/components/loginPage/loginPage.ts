@@ -1,4 +1,6 @@
 import createElement from '../../utilities/createElement';
+import createHeader from '../header/createHeader';
+import createBurger from '../header/createBurger';
 
 const { body } = document;
 
@@ -8,7 +10,9 @@ export default loginWrapper;
 createElement('div', ['login-img-container'], loginWrapper);
 
 const loginContentContainer = createElement('div', ['login-content-container'], loginWrapper);
-createElement('div', ['login-header', 'header'], loginContentContainer);
+
+createHeader(loginContentContainer);
+createBurger(loginContentContainer);
 
 const loginFormWrapper = createElement('div', ['login-form-wrapper'], loginContentContainer);
 createElement('h1', ['login-heading'], loginFormWrapper, 'LOGIN');

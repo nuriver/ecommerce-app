@@ -7,10 +7,6 @@
     width: 643px;
     background-image: url('/src/assets/images/login_img.png');
     background-position: center;
-
-    /*  .login-img {
-      width: 643px;
-    }*/
   }
   .login-content-container {
     width: 797px;
@@ -19,8 +15,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 50px;
+    .header {
+      margin: 0 auto;
+    }
     .login-form-wrapper {
-      height: 445px;
       width: 486px;
       .login-heading {
         margin: 0 auto;
@@ -59,6 +57,74 @@
     }
     .team-name {
       font-size: 14px;
+    }
+  }
+  @media screen and (min-width: 901px) {
+    .header {
+      display: flex !important;
+    }
+  }
+  @media screen and (max-width: 900px) {
+    .login-img-container {
+      display: none;
+    }
+    .login-content-container {
+      max-width: 100%;
+      position: relative;
+      justify-content: center !important;
+      .burger {
+        display: flex;
+      }
+      .header {
+        @include header-tablets;
+        .header-link {
+          @include header-link-tablets;
+        }
+      }
+      .team-name {
+        position: absolute;
+        top: 35px;
+        left: 30px;
+      }
+    }
+  }
+  @media screen and (max-width: 605px) {
+    .login-content-container {
+      padding: 20px !important;
+      justify-content: center;
+      .login-form-wrapper {
+        width: 400px !important;
+      }
+    }
+  }
+  @media screen and (max-width: 450px) {
+    height: 667px;
+    .login-content-container {
+      .header-link {
+        @include header-link-mobile;
+      }
+      .login-form-wrapper {
+        width: 300px !important;
+        .login-heading {
+          font-size: 24px;
+          width: 74px;
+          margin-bottom: 32px !important;
+        }
+        .button {
+          width: 241px;
+          font-size: 14px;
+          &-white {
+            font-size: 11px;
+          }
+        }
+        input {
+          margin-bottom: 20px !important;
+        }
+        label {
+          margin-bottom: 10px !important;
+          font-size: 13px !important;
+        }
+      }
     }
   }
 }

@@ -7,6 +7,7 @@ type ElementMap = {
   form: HTMLFormElement;
   label: HTMLLabelElement;
   p: HTMLParagraphElement;
+  a: HTMLAnchorElement;
 };
 
 export default ElementMap;
