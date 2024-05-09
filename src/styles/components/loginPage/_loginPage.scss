@@ -102,6 +102,9 @@
           @include header-link-tablets;
         }
       }
+      .header-hide {
+        display: none !important;
+      }
       .team-name {
         position: absolute;
         top: 35px;
@@ -189,4 +192,7 @@
   flex-direction: column;
   justify-content: flex-end;
   height: 60px;
+}
+.header-hide {
+  display: flex;
 }

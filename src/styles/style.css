@@ -164,6 +164,9 @@ body {
     font-size: 48px;
     font-weight: 650;
   }
+  .login-wrapper .login-content-container .header-hide {
+    display: none !important;
+  }
   .login-wrapper .login-content-container .team-name {
     position: absolute;
     top: 35px;
@@ -250,6 +253,10 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   height: 60px;
+}
+
+.header-hide {
+  display: flex;
 }
 
 .header {
