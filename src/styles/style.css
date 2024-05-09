@@ -2,4 +2,211 @@ html * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/src/assets/fonts/Inter-VariableFont_slnt,wght.ttf');
+}
+body {
+  font-family: 'Inter';
+}
+
+.button {
+  display: inline-block;
+  width: 264px;
+  height: 40px;
+  font-size: 18px;
+  color: white;
+  font-family: inherit;
+  background-color: #000000;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+.button:disabled {
+  background-color: #bcbcbc;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+}
+
+.button-white {
+  background-color: white;
+  color: #000000;
+  font-size: 15px;
+  border: 3px solid #000000;
+}
+
+.login-wrapper {
+  max-width: 1440px;
+  height: 1024px;
+  margin: 0 auto;
+  display: flex;
+}
+.login-wrapper .login-img-container {
+  width: 643px;
+  background-image: url('/src/assets/images/login_img.png');
+  background-position: center;
+}
+.login-wrapper .login-content-container {
+  width: 797px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+}
+.login-wrapper .login-content-container .header {
+  margin: 0 auto;
+}
+.login-wrapper .login-content-container .login-form-wrapper {
+  width: 486px;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-heading {
+  margin: 0 auto;
+  margin-bottom: 48px;
+  width: 148px;
+  font-size: 48px;
+  font-weight: 650;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form {
+  display: flex;
+  flex-direction: column;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form input {
+  display: block;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 30px;
+  font-size: 18px;
+  border: 3px solid black;
+  font-family: inherit;
+  padding: 10px;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form input:nth-of-type(2) {
+  margin-bottom: 48px;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form label {
+  margin-left: 21px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.login-wrapper .login-content-container .login-form-wrapper .login-form .button {
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.login-wrapper .login-content-container .team-name {
+  font-size: 14px;
+}
+@media screen and (min-width: 901px) {
+  .login-wrapper .header {
+    display: flex !important;
+  }
+}
+@media screen and (max-width: 900px) {
+  .login-wrapper .login-img-container {
+    display: none;
+  }
+  .login-wrapper .login-content-container {
+    max-width: 100%;
+    position: relative;
+    justify-content: center !important;
+  }
+  .login-wrapper .login-content-container .burger {
+    display: flex;
+  }
+  .login-wrapper .login-content-container .header {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    background-color: white;
+  }
+  .login-wrapper .login-content-container .header .header-link {
+    font-size: 48px;
+    font-weight: 650;
+  }
+  .login-wrapper .login-content-container .team-name {
+    position: absolute;
+    top: 35px;
+    left: 30px;
+  }
+}
+@media screen and (max-width: 605px) {
+  .login-wrapper .login-content-container {
+    padding: 20px !important;
+    justify-content: center;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper {
+    width: 400px !important;
+  }
+}
+@media screen and (max-width: 450px) {
+  .login-wrapper {
+    height: 667px;
+  }
+  .login-wrapper .login-content-container .header-link {
+    font-size: 24px !important;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper {
+    width: 300px !important;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper .login-heading {
+    font-size: 24px;
+    width: 74px;
+    margin-bottom: 32px !important;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper .button {
+    width: 241px;
+    font-size: 14px;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper .button-white {
+    font-size: 11px;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper input {
+    margin-bottom: 20px !important;
+  }
+  .login-wrapper .login-content-container .login-form-wrapper label {
+    margin-bottom: 10px !important;
+    font-size: 13px !important;
+  }
+}
+
+.header {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 17px;
+  display: flex;
+  gap: 69px;
+}
+.header .header-link {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.burger {
+  position: absolute;
+  top: 39px;
+  right: 32px;
+  width: 43px;
+  height: 14px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.burger .burger-part {
+  width: 100%;
+  height: 3px;
+  background-color: black;
 } /*# sourceMappingURL=style.css.map */
