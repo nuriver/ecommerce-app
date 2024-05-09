@@ -1,4 +1,18 @@
 .register-page {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.register-page__user-data {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 466px;
+  margin-top: 20px;
+}
+.user-data__label {
+    line-height: 35px;
+}
+.user-data__input {
+    height: 40px;
 }
