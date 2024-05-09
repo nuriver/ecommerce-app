@@ -4,7 +4,21 @@ html * {
   box-sizing: border-box;
 }
 
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+span {
+  font-size: 18px;
+}
+
 .register-page {
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,13 +29,42 @@ html * {
   flex-direction: column;
   width: 100%;
   max-width: 466px;
-  margin-top: 20px;
+  margin: 20px 0 34px 0;
 }
 
 .user-data__label {
   line-height: 35px;
+  font-size: 18px;
 }
 
-.user-data__input {
+.user-data__input,
+.address-block__input {
   height: 40px;
+}
+
+.register-page__addresses-block {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1196px;
+  margin-bottom: 60px;
+}
+
+.address-block {
+  display: flex;
+  flex-direction: column;
+  max-width: 486px;
+  width: 100%;
+}
+
+.billing-address__input, .shipping-address__input {
+  margin-bottom: 34px;
+}
+
+.checkbox-block {
+  margin-bottom: 25px;
+}
+
+.register-page__register-button {
+  margin-bottom: 25px;
 }/*# sourceMappingURL=style.css.map */

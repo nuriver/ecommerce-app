@@ -3,7 +3,8 @@ type ElementMap = {
   input: HTMLInputElement;
   div: HTMLDivElement;
   h1: HTMLElement;
-  span: HTMLSpanElement;
+  h2: HTMLElement;
+  label: HTMLLabelElement;
 };
 
 export default ElementMap;
