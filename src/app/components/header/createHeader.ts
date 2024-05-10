@@ -9,7 +9,7 @@ const headerLinks = [
 ];
 
 function createHeader(container: HTMLElement): void {
-  const header = createElement('div', ['header'], container);
+  const header = createElement('div', ['header', 'header-hide'], container);
   headerLinks.forEach((link) => {
     const headerLink = createElement('a', ['header-link'], header, `${link.name}`);
     headerLink.href = `${link.href}`;
