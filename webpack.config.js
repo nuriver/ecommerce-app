@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const baseConfig = {
   entry: path.resolve(__dirname, './src/index.ts'),
@@ -58,6 +59,11 @@ const baseConfig = {
     }),
     new FaviconsWebpackPlugin({
       logo: './src/assets/images/bag-favicon.png',
+    }),
+    new Dotenv({
+      path: './.env',
+      safe: true,
+      systemvars: true,
     }),
   ],
 };
