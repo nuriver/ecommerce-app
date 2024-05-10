@@ -20,6 +20,7 @@ const loginFormWrapper = createElement('div', ['login-form-wrapper'], loginConte
 createElement('h1', ['login-heading'], loginFormWrapper, 'LOGIN');
 
 const loginForm = createElement('form', ['login-form'], loginFormWrapper);
+loginForm.autocomplete = 'off';
 
 export const emailError = createElement('p', ['error-indicator', 'email-error-indicator'], loginForm);
 export const passwordError = createElement('p', ['error-indicator', 'password-error-indicator'], loginForm);
