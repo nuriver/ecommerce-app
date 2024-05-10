@@ -4,55 +4,132 @@ h1 {
 
 h2 {
   font-size: 24px;
+  margin-bottom: 11px;
 }
-span {
-    font-size: 18px;
+label {
+  font-size: 18px;
+  margin: 10px auto 15px 17px;
 }
+.body-locked {
+  overflow-y: hidden;
+}
+
 .register-page {
   max-width: 1440px;
   margin: 0 auto;
+  padding: 25px 121px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.register-page__user-data {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 466px;
-  margin: 20px 0 34px 0;
-}
-.user-data__label {
-  line-height: 35px;
-  font-size: 18px;
-}
-.user-data__input,
-.address-block__input {
-  height: 40px;
-}
 
-.register-page__addresses-block {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1196px;
-  margin-bottom: 60px;
-}
+  .header {
+    width: 100%;
+    display: flex;
+    margin: 0 auto 39px;
+    justify-content: space-between;
+  }
+  .register-page__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1196px;
+  }
+  .register-page__user-data {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 466px;
+    margin: 20px 0 34px 0;
+  }
+  .user-data__input,
+  .address-block__input {
+    height: 40px;
+  }
 
-.address-block {
-  display: flex;
-  flex-direction: column;
-  max-width: 486px;
-  width: 100%;
-}
-.billing-address__input, .shipping-address__input {
-    margin-bottom: 34px;
+  .register-page__addresses-block {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1196px;
+    margin-bottom: 60px;
+    gap: 15px;
+  }
 
-}
-.checkbox-block {
+  .address-block {
+    display: flex;
+    flex-direction: column;
+    max-width: 486px;
+    width: 100%;
+  }
+  .billing-address__label,
+  .shipping-address__label {
+    margin-bottom: 11px;
+  }
+  .checkbox-block {
     margin-bottom: 25px;
-}
+  }
+  .checkbox-block_default {
+    margin-top: 34px;
+  }
 
-.register-page__register-button {
+  .register-page__register-button {
     margin-bottom: 25px;
+  }
+  .register-page__to-login-button {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+  }
+  @media screen and (max-width: 900px) {
+    .register-page {
+      position: relative;
+    }
+    .header {
+      display: none;
+    }
+
+    .register-page__wrapper {
+      margin-top: 56px;
+    }
+
+    .register-page__addresses-block {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .burger {
+      display: flex;
+    }
+    .header {
+      @include header-tablets;
+      .header-link {
+        @include header-link-tablets;
+      }
+    }
+  }
+  @media screen and (max-width: 450px) {
+    .header-link {
+      @include header-link-mobile;
+    }
+    h1 {
+      font-size: 24px;
+    }
+
+    label {
+      font-size: 13px;
+    }
+    .checkbox-block__checkbox-label {
+      font-size: 11px;
+    }
+    checkbox-block_default {
+      margin-top: 10px;
+    }
+    checkbox-block {
+      margin-bottom: 5px;
+    }
+  }
+  .header-hide {
+    display: flex;
+  }
 }

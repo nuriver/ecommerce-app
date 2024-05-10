@@ -1,9 +1,13 @@
 import createElement from '../../utilities/createElement';
+import createHeader from '../header/createHeader';
+import createBurger from '../header/createBurger'; 
 
 const { body } = document;
 
-const registerWrapper: HTMLDivElement = createElement('div', ['register-page'], body);
-
+const registerPage: HTMLDivElement = createElement('div', ['register-page'], body);
+createHeader(registerPage);
+createBurger(registerPage);
+const registerWrapper: HTMLDivElement = createElement('div', ['register-page__wrapper'], registerPage)
 createElement('h1', ['register-page__title'], registerWrapper, 'REGISTRATION');
 
 const userData: HTMLDivElement = createElement('div', ['register-page__user-data'], registerWrapper);
@@ -59,7 +63,7 @@ const billingPostalCode: HTMLInputElement = createElement(
 );
 billingPostalCode.id = 'billingPostalCode';
 
-const checkboxBillingAdd: HTMLDivElement = createElement('div', ['checkbox-block'], billingAddress);
+const checkboxBillingAdd: HTMLDivElement = createElement('div', ['checkbox-block', 'checkbox-block_default'], billingAddress);
 
 const checkboxInputBillingAdd: HTMLInputElement = createElement('input', ['checkbox-block__checkbox-input'], checkboxBillingAdd);
 checkboxInputBillingAdd.id = 'address-billing-default';
@@ -79,7 +83,7 @@ const shippingAddress: HTMLDivElement = createElement(
   ['address-block', 'addresses-block__billing-address'],
   addressesBlock
 );
-createElement('h2', ['billing-address__label'], shippingAddress, 'Shipping address');
+createElement('h2', ['shipping-address__label'], shippingAddress, 'Shipping address');
 
 createElement('label', ['user-data__label'], shippingAddress, 'country');
 const shippingCountry: HTMLInputElement = createElement(
@@ -110,7 +114,7 @@ const shippingPostalCode: HTMLInputElement = createElement(
 );
 shippingPostalCode.id = 'shippingPostalCode';
 
-const checkboxShippingAdd: HTMLDivElement = createElement('div', ['checkbox-block'], shippingAddress);
+const checkboxShippingAdd: HTMLDivElement = createElement('div', ['checkbox-block', 'checkbox-block_default'], shippingAddress);
 
 const checkboxInputShippingAdd: HTMLInputElement = createElement('input', ['checkbox-block__checkbox-input'], checkboxShippingAdd);
 checkboxInputShippingAdd.id = 'address-shipping-default';
@@ -119,7 +123,7 @@ createElement('label', ['checkbox-block__checkbox-label'], checkboxShippingAdd, 
 
 const registerButton: HTMLButtonElement = createElement('button', ['button', 'register-page__register-button'], registerWrapper, 'REGISTER');
 console.log(registerButton)
-const toLoginPageButton: HTMLButtonElement = createElement('button', ['button', 'register-page__register-button'], registerWrapper, 'TO THE LOGIN PAGE');
+const toLoginPageButton: HTMLButtonElement = createElement('button', ['button', 'register-page__to-login-button'], registerWrapper, 'TO THE LOGIN PAGE');
 console.log(toLoginPageButton)
 
 

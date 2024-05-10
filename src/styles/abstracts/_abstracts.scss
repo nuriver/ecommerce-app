@@ -1,0 +1,19 @@
+@mixin header-tablets {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  background-color: white;
+}
+
+@mixin header-link-tablets {
+  font-size: 48px;
+  font-weight: 650;
+}
+
+@mixin header-link-mobile {
+  font-size: 24px !important;
+}
