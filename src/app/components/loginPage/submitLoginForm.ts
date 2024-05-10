@@ -1,3 +1,6 @@
+import { getCustomers, signInCustomer } from '../../api/SDK/client';
+import isEmailRegistered from './isEmailRegistered';
+
 function submitLoginForm(form: HTMLFormElement, event: Event): void {
   event.preventDefault();
   const loginBtn = event.target as HTMLButtonElement;
@@ -19,8 +22,33 @@ function submitLoginForm(form: HTMLFormElement, event: Event): void {
   }
 
   if (emailInput.value.length > 0 && passwordInput.value.length > 0) {
-    emailInput.value = '';
-    passwordInput.value = '';
+    const credentials = {
+      email: emailInput.value,
+      password: passwordInput.value,
+    };
+
+    signInCustomer(credentials)
+      .then(() => {
+        // TODO: logic to go to main page
+        emailInput.value = '';
+        passwordInput.value = '';
+      })
+      .catch(() =>
+        getCustomers().then((response) => {
+          const { email } = credentials;
+          const registeredCustomers = response.body.results;
+          if (isEmailRegistered(registeredCustomers, email)) {
+            passwordInput.value = '';
+            passwordError.style.display = 'flex';
+            passwordError.innerText = 'incorrect password';
+          } else {
+            emailError.style.display = 'flex';
+            emailError.innerText = 'this email is not registered';
+            emailInput.value = '';
+            passwordInput.value = '';
+          }
+        })
+      );
   }
 }
 
