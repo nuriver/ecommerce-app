@@ -6,7 +6,7 @@ import {
   CustomerPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import CustomerCredentials from '../../types/interfaces';
-import ctpClient from './clientBuilder';
+import { createCtpClientPasswordFlow, ctpClient } from './clientBuilder';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
@@ -17,7 +17,11 @@ export function createCustomer(customerDraft: CustomerDraft): Promise<ClientResp
 }
 
 export function signInCustomer(credentials: CustomerCredentials): Promise<ClientResponse<CustomerSignInResult>> {
-  return apiRoot.login().post({ body: credentials }).execute();
+  const ctpClientPasswordFlow = createCtpClientPasswordFlow(credentials);
+  const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+  return apiRootPasswordFlow.login().post({ body: credentials }).execute();
 }
 
 export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
