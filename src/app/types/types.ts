@@ -9,6 +9,8 @@ type ElementMap = {
   label: HTMLLabelElement;
   p: HTMLParagraphElement;
   a: HTMLAnchorElement;
+  select: HTMLSelectElement;
+  option: HTMLOptionElement;
 };
 
 export default ElementMap;

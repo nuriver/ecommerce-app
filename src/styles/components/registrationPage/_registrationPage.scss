@@ -1,33 +1,8 @@
-h1 {
-  font-size: 32px;
-}
-
-h2 {
-  font-size: 24px;
-  margin-bottom: 11px;
-}
-label {
-  font-size: 18px;
-  margin: 10px auto 15px 17px;
-}
-.body-locked {
-  overflow-y: hidden;
-}
-
 .register-page {
-  max-width: 1440px;
-  margin: 0 auto;
+  @include wrapper;
   padding: 25px 121px;
-  display: flex;
   flex-direction: column;
   align-items: center;
-
-  .header {
-    width: 100%;
-    display: flex;
-    margin: 0 auto 39px;
-    justify-content: space-between;
-  }
   .register-page__wrapper {
     display: flex;
     flex-direction: column;
@@ -45,6 +20,7 @@ label {
   .user-data__input,
   .address-block__input {
     height: 40px;
+    padding: 5px;
   }
 
   .register-page__addresses-block {
@@ -81,12 +57,10 @@ label {
     color: #000000;
     border: 2px solid #000000;
   }
+
   @media screen and (max-width: 900px) {
     .register-page {
       position: relative;
-    }
-    .header {
-      display: none;
     }
 
     .register-page__wrapper {
@@ -97,17 +71,8 @@ label {
       flex-direction: column;
       align-items: center;
     }
-
-    .burger {
-      display: flex;
-    }
-    .header {
-      @include header-tablets;
-      .header-link {
-        @include header-link-tablets;
-      }
-    }
   }
+
   @media screen and (max-width: 450px) {
     .header-link {
       @include header-link-mobile;
@@ -128,8 +93,5 @@ label {
     checkbox-block {
       margin-bottom: 5px;
     }
-  }
-  .header-hide {
-    display: flex;
   }
 }

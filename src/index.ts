@@ -1,4 +1,10 @@
 import './styles/style.css';
-import registerWrapper from './app/components/registrationPage/registrationPage';
+import createHeader from './app/components/header';
+import createRegistrationPage from './app/components/registrationPage/registrationPage';
+import createLoginPage from './app/components/loginPage/loginPage';
 
-console.log(registerWrapper)
+const { body } = document;
+
+createHeader(body);
+// createRegistrationPage(body);
+createLoginPage(body);
