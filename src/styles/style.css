@@ -65,6 +65,10 @@ label {
   display: flex;
   height: 1024px;
 }
+.login-wrapper .email-input__errors,
+.login-wrapper .password-input__errors {
+  color: rgba(221, 0, 0, 0.7411764706);
+}
 .login-wrapper .login-img-container {
   width: 643px;
   background-image: url("/src/assets/images/login_img.png");

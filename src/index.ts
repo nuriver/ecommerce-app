@@ -6,5 +6,5 @@ import createLoginPage from './app/components/loginPage/loginPage';
 const { body } = document;
 
 createHeader(body);
-createRegistrationPage(body);
-// createLoginPage(body);
+// createRegistrationPage(body);
+createLoginPage(body);

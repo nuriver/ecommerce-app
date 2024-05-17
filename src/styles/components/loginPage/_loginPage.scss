@@ -1,6 +1,10 @@
 .login-wrapper {
   @include wrapper;
   height: 1024px;
+  .email-input__errors,
+  .password-input__errors {
+    color: #dd0000bd;
+  }
   .login-img-container {
     width: 643px;
     background-image: url('/src/assets/images/login_img.png');
