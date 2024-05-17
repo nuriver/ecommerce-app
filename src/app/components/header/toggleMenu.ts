@@ -14,9 +14,11 @@ function toggleMenu(event: Event): void {
     if (header?.classList.contains('header-hide')) {
       header?.classList.remove('header-hide');
       links.forEach((link) => link.addEventListener('click', hideMenu));
+      document.body.style.overflow = 'hidden';
     } else {
       hideMenu();
       links.forEach((link) => link.removeEventListener('click', hideMenu));
+      document.body.style.overflow = '';
     }
   }
 }
