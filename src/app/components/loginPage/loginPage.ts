@@ -1,54 +1,67 @@
-import { checkEmail, checkPassword } from '../../utilities/checkers';
 import createElement from '../../utilities/createElement';
-import printError from '../../utilities/printError';
+import createHeader from '../header/createHeader';
+import createBurger from '../header/createBurger';
+import { emailValidation, passwordValidation } from './loginValidation';
+import submitLoginForm from './submitLoginForm';
+import togglePasswordVisibility from './togglePasswordVisibility';
 
-export default function createLoginPage(parent: HTMLElement) {
-  const errors = { email: true, password: true };
+const { body } = document;
 
-  const loginWrapper = createElement('div', ['login-wrapper'], parent);
+export const loginWrapper = createElement('div', ['login-wrapper'], body);
 
-  createElement('div', ['login-img-container'], loginWrapper);
+createElement('div', ['login-img-container'], loginWrapper);
 
-  const loginContentContainer = createElement('div', ['login-content-container'], loginWrapper);
+const loginContentContainer = createElement('div', ['login-content-container'], loginWrapper);
 
-  const loginFormWrapper = createElement('div', ['login-form-wrapper'], loginContentContainer);
-  createElement('h1', ['login-heading'], loginFormWrapper, 'LOGIN');
+createHeader(loginContentContainer);
+createBurger(loginContentContainer);
 
-  const loginForm = createElement('form', ['login-form'], loginFormWrapper);
+const loginFormWrapper = createElement('div', ['login-form-wrapper'], loginContentContainer);
+createElement('h1', ['login-heading'], loginFormWrapper, 'LOGIN');
 
-  const emailLabel = createElement('label', ['label', 'email-label'], loginForm, 'email');
-  emailLabel.setAttribute('for', 'email');
-  const emailInput = createElement('input', ['input', 'email-input'], loginForm);
-  emailInput.id = 'email';
-  const emailInputErr = createElement('div', ['email-input__errors'], loginForm);
+const loginForm = createElement('form', ['login-form'], loginFormWrapper);
+loginForm.autocomplete = 'off';
 
-  const passwordLabel = createElement('label', ['label', 'password-label'], loginForm, 'password');
-  passwordLabel.setAttribute('for', 'password');
-  const passwordInput = createElement('input', ['input', 'password-input'], loginForm);
-  passwordInput.id = 'password';
-  const passwordInputErr = createElement('div', ['password-input__errors'], loginForm);
+export const emailError = createElement('p', ['error-indicator', 'email-error-indicator'], loginForm);
+export const passwordError = createElement('p', ['error-indicator', 'password-error-indicator'], loginForm);
 
-  createElement('button', ['button', 'login-button'], loginForm, 'LOGIN');
-  createElement('button', ['button', 'button-white', 'registration-button'], loginForm, 'TO THE REGISTRATION PAGE');
+const emailLabel = createElement('label', ['label', 'email-label'], loginForm, 'email');
+emailLabel.setAttribute('for', 'emailInLogin');
+const emailInput = createElement('input', ['input', 'email-input'], loginForm);
+emailInput.id = 'emailInLogin';
+emailInput.type = 'email';
+emailInput.addEventListener('input', (event) => {
+  emailValidation(event, loginForm);
+});
 
-  createElement('p', ['team-name'], loginContentContainer, 'FUNC CRAFTERS');
+const passwordLabel = createElement('label', ['label', 'password-label'], loginForm, 'password');
+passwordLabel.setAttribute('for', 'passwordInLogin');
+const passwordInput = createElement('input', ['input', 'password-input'], loginForm);
+passwordInput.id = 'passwordInLogin';
+passwordInput.type = 'password';
+passwordInput.addEventListener('input', (event) => {
+  passwordValidation(event, loginForm);
+});
 
-  emailInput.addEventListener('input', () => {
-    const check = checkEmail(emailInput.value);
-    if (check === false) {
-      errors.email = false;
-      printError(emailInputErr, '');
-    } else {
-      printError(emailInputErr, check);
-    }
-  });
-  passwordInput.addEventListener('input', () => {
-    const check = checkPassword(passwordInput.value);
-    if (check === false) {
-      errors.password = false;
-      printError(passwordInputErr, '');
-    } else {
-      printError(passwordInputErr, check);
-    }
-  });
-}
+const passwordVisibility = createElement('div', ['password-visibility'], loginForm);
+const passwordVisibilityCheckbox = createElement('input', ['password-visibility-checkbox'], passwordVisibility);
+passwordVisibilityCheckbox.id = 'passwordVisibilityCheckbox';
+passwordVisibilityCheckbox.type = 'checkbox';
+passwordVisibilityCheckbox.addEventListener('change', togglePasswordVisibility);
+const passwordVisibilityLabel = createElement(
+  'label',
+  ['password-visibility-label'],
+  passwordVisibility,
+  'show password'
+);
+passwordVisibilityLabel.setAttribute('for', 'passwordVisibilityCheckbox');
+
+export const loginBtn = createElement('button', ['button', 'login-button'], loginForm, 'LOGIN');
+loginBtn.disabled = true;
+loginBtn.addEventListener('click', (event) => {
+  submitLoginForm(loginForm, event);
+});
+
+createElement('button', ['button', 'button-white', 'registration-button'], loginForm, 'TO THE REGISTRATION PAGE');
+
+createElement('p', ['team-name'], loginContentContainer, 'FUNC CRAFTERS');

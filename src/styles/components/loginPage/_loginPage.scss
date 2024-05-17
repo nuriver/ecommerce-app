@@ -19,6 +19,7 @@
     padding: 50px;
     .header {
       margin: 0 auto;
+      z-index: 2;
     }
     .login-form-wrapper {
       width: 486px;
@@ -30,6 +31,7 @@
         font-weight: 650;
       }
       .login-form {
+        position: relative;
         display: flex;
         flex-direction: column;
         input {
@@ -42,7 +44,7 @@
           font-family: inherit;
           padding: 10px;
           &:nth-of-type(2) {
-            margin-bottom: 48px;
+            margin-bottom: 10px;
           }
         }
         label {
@@ -50,6 +52,24 @@
           margin-bottom: 15px;
           font-size: 18px;
           font-weight: 600;
+        }
+
+        .password-visibility {
+          display: flex;
+          gap: 5px;
+          margin-bottom: 48px;
+          .password-visibility-checkbox {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            padding: 0;
+          }
+          .password-visibility-label {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            font-weight: 450;
+          }
         }
         .button {
           margin: 0 auto;
@@ -73,6 +93,7 @@
         position: absolute;
         top: 35px;
         left: 30px;
+        z-index: 3;
       }
     }
   }
@@ -107,12 +128,55 @@
         }
         input {
           margin-bottom: 20px !important;
+          &:nth-of-type(2) {
+            margin-bottom: 10px !important;
+          }
         }
         label {
           margin-bottom: 10px !important;
           font-size: 13px !important;
         }
+        .error-indicator {
+          font-size: 13px;
+          top: 0px;
+          left: 65px;
+        }
+        .password-error-indicator {
+          top: 42px;
+          left: 95px;
+        }
+        .password-visibility {
+          margin-bottom: 50px;
+          &-checkbox {
+            width: 15px !important;
+          }
+          &-label {
+            margin-top: -7px !important;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+          }
+        }
       }
     }
   }
+}
+
+.error-indicator {
+  color: red;
+  position: absolute;
+  left: 80px;
+  top: 2px;
+  display: none;
+}
+.password-error-indicator {
+  top: 69px;
+  left: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 60px;
+}
+.header-hide {
+  display: flex;
 }
