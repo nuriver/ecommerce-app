@@ -1,0 +1,100 @@
+.register-page {
+  @include wrapper;
+  padding: 25px 121px;
+  flex-direction: column;
+  align-items: center;
+  .register-page__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1196px;
+  }
+  .register-page__user-data {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 466px;
+    margin: 20px 0 34px 0;
+  }
+  .user-data__input,
+  .address-block__input {
+    height: 40px;
+    padding: 5px;
+  }
+  .user-data__errors {
+    color: #dd0000bd;
+  }
+
+  .register-page__addresses-block {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1196px;
+    margin-bottom: 60px;
+    gap: 15px;
+  }
+
+  .address-block {
+    display: flex;
+    flex-direction: column;
+    max-width: 486px;
+    width: 100%;
+  }
+  .billing-address__label,
+  .shipping-address__label {
+    margin-bottom: 11px;
+  }
+  .checkbox-block {
+    margin-bottom: 25px;
+  }
+  .checkbox-block_default {
+    margin-top: 34px;
+  }
+
+  .register-page__register-button {
+    margin-bottom: 25px;
+  }
+  .register-page__to-login-button {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+  }
+
+  @media screen and (max-width: 900px) {
+    .register-page {
+      position: relative;
+    }
+
+    .register-page__wrapper {
+      margin-top: 56px;
+    }
+
+    .register-page__addresses-block {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .header-link {
+      @include header-link-mobile;
+    }
+    h1 {
+      font-size: 24px;
+    }
+
+    label {
+      font-size: 13px;
+    }
+    .checkbox-block__checkbox-label {
+      font-size: 11px;
+    }
+    checkbox-block_default {
+      margin-top: 10px;
+    }
+    checkbox-block {
+      margin-bottom: 5px;
+    }
+  }
+}

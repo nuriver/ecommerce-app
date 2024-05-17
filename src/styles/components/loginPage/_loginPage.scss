@@ -1,8 +1,10 @@
 .login-wrapper {
-  max-width: 1440px;
+  @include wrapper;
   height: 1024px;
-  margin: 0 auto;
-  display: flex;
+  .email-input__errors,
+  .password-input__errors {
+    color: #dd0000bd;
+  }
   .login-img-container {
     width: 643px;
     background-image: url('/src/assets/images/login_img.png');
@@ -79,11 +81,6 @@
       font-size: 14px;
     }
   }
-  @media screen and (min-width: 901px) {
-    .header {
-      display: flex !important;
-    }
-  }
   @media screen and (max-width: 900px) {
     .login-img-container {
       display: none;
@@ -92,19 +89,6 @@
       max-width: 100%;
       position: relative;
       justify-content: center !important;
-      .burger {
-        display: flex;
-        z-index: 3;
-      }
-      .header {
-        @include header-tablets;
-        .header-link {
-          @include header-link-tablets;
-        }
-      }
-      .header-hide {
-        display: none !important;
-      }
       .team-name {
         position: absolute;
         top: 35px;

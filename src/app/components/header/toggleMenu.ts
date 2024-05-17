@@ -1,23 +1,14 @@
 function toggleMenu(event: Event): void {
-  const target = event.target as HTMLElement;
-  const header = document.querySelector('.header');
-  const burger = target.closest('.burger');
-  if (burger) {
-    const parent = burger.parentElement;
-    const menu = parent?.querySelector('.header') as HTMLElement;
-    const links = Array.from(menu.children);
+  const target: HTMLElement = event.target as HTMLElement;
+  const header: HTMLElement = document.querySelector('.header-menu') as HTMLElement;
+  const { body } = document;
 
-    const hideMenu = (): void => {
-      header?.classList.add('header-hide');
-    };
-
-    if (header?.classList.contains('header-hide')) {
-      header?.classList.remove('header-hide');
-      links.forEach((link) => link.addEventListener('click', hideMenu));
-    } else {
-      hideMenu();
-      links.forEach((link) => link.removeEventListener('click', hideMenu));
-    }
+  if (target.nodeName === 'A' || header?.classList.contains('header-menu--show')) {
+    header?.classList.remove('header-menu--show');
+    body.classList.remove('body-locked');
+  } else {
+    header?.classList.add('header-menu--show');
+    body.classList.add('body-locked');
   }
 }
 
