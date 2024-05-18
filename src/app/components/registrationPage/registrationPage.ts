@@ -1,4 +1,12 @@
-import { checkCity, checkDate, checkEmail, checkName, checkPassword, checkPostCode, checkStreet } from '../../utilities/checkers';
+import {
+  checkCity,
+  checkDate,
+  checkEmail,
+  checkName,
+  checkPassword,
+  checkPostCode,
+  checkStreet,
+} from '../../utilities/checkers';
 import createElement from '../../utilities/createElement';
 import printError from '../../utilities/printError';
 
