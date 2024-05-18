@@ -43,6 +43,7 @@ const baseConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),
       filename: 'index.html',
+      favicon: './src/assets/images/bag-favicon.png',
     }),
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
@@ -57,15 +58,17 @@ const baseConfig = {
         },
       ],
     }),
-    new FaviconsWebpackPlugin({
-      logo: './src/assets/images/bag-favicon.png',
-    }),
     new Dotenv({
       path: './.env',
       safe: true,
       systemvars: true,
     }),
   ],
+  devServer: {
+    historyApiFallback: {
+      index: '/index.html',
+    },
+  },
 };
 
 module.exports = ({ mode }) => {
