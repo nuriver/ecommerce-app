@@ -12,7 +12,7 @@ const headerLinks = [
 function createHeaderMenu(container: HTMLElement): void {
   const header = createElement('div', ['header-menu'], container);
   headerLinks.forEach((link) => {
-    const headerLink = createElement('a', ['header-link'], header, `${link.name}`);
+    const headerLink = createElement('a', ['header-link', 'hoverline'], header, `${link.name}`);
     headerLink.addEventListener('click', toggleMenu);
 
     headerLink.href = `${link.href}`;
