@@ -1,13 +1,33 @@
 .header {
-  width: fit-content;
+  @include wrapper;
+}
+
+.header-menu {
+  width: 100%;
   height: 17px;
   display: flex;
   gap: 69px;
+  margin: 25px auto 39px;
+  justify-content: space-around;
+  z-index: 1;
+
   .header-link {
     text-decoration: none;
     color: black;
     font-size: 14px;
     white-space: nowrap;
+  }
+
+  @media screen and (max-width: 900px) {
+    display: none;
+    @include header-tablets;
+    .header-link {
+      @include header-link-tablets;
+    }
+  }
+
+  &--show {
+    display: flex;
   }
 }
 
@@ -21,10 +41,17 @@
   flex-direction: column;
   justify-content: center;
   gap: 4px;
+  z-index: 1;
+
   .burger-part {
     width: 100%;
     height: 3px;
     background-color: black;
   }
+  @media screen and (max-width: 900px) {
+    display: flex;
+  }
+
   cursor: pointer;
+
 }

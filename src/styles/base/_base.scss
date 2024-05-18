@@ -12,3 +12,19 @@ html * {
 body {
   font-family: 'Inter';
 }
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 11px;
+}
+label {
+  font-size: 18px;
+  margin: 10px auto 15px 17px;
+}
+.body-locked {
+  overflow-y: hidden;
+}

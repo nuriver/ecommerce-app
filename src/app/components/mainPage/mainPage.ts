@@ -1,12 +1,16 @@
 import createElement from '../../utilities/createElement';
-import createHeader from '../header/createHeader';
+// import createHeader from '../header/createHeader';
 import createBurger from '../header/createBurger';
 
 const { body } = document;
 
-export const mainPage = createElement('div', ['main-page'], body);
-createHeader(mainPage);
-createBurger(mainPage);
+// const mainPage = createElement('div', ['main-page'], body);
+// createHeader(mainPage);
+// createBurger(mainPage);
+
+export function createMain (): HTMLElement{
+
+const mainPage = createElement('div', ['main-page'], body);
 
 //  first
 const firstBlock = createElement('div', ['first-block'], mainPage);
@@ -77,7 +81,7 @@ const joinCont = createElement('div', ['join-cont'], joinBlock);
 createElement('div', ['join-title'], joinCont, 'Do you feel inspired?');
 createElement('div', ['join-text'], joinCont, 'Join us!');
 createElement('button', ['button', 'button-while-ins'], joinCont, 'REGISTER');
-export const loginBtn = createElement('button', ['button', 'button-white-out'], joinCont, 'LOGIN');
+ const loginBtn = createElement('button', ['button', 'button-white-out'], joinCont, 'LOGIN');
 createElement('div', ['join-img'], joinBlock);
 
 //  footer
@@ -86,3 +90,6 @@ const footerCont = createElement('div', ['footer-cont'], footerBlock);
 createElement('p', ['footer-text'], footerCont, 'Rolling Scopes School');
 createElement('p', ['footer-text'], footerCont, 'MADE WITH LOVE');
 createElement('p', ['footer-text'], footerCont, '2024');
+
+return mainPage;
+}

@@ -1,5 +1,5 @@
 import createElement from '../../utilities/createElement';
-import createHeader from '../header/createHeader';
+// import createHeader from '../header/createHeader';
 import createBurger from '../header/createBurger';
 import { emailValidation, passwordValidation } from './loginValidation';
 import submitLoginForm from './submitLoginForm';
@@ -13,7 +13,7 @@ createElement('div', ['login-img-container'], loginWrapper);
 
 const loginContentContainer = createElement('div', ['login-content-container'], loginWrapper);
 
-createHeader(loginContentContainer);
+// createHeader(loginContentContainer);
 createBurger(loginContentContainer);
 
 const loginFormWrapper = createElement('div', ['login-form-wrapper'], loginContentContainer);

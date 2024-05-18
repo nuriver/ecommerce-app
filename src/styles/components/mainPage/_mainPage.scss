@@ -136,7 +136,7 @@
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 4px;
+  height: 2px;
   bottom: 0;
   left: 0;
   background-color: #000000;
@@ -158,7 +158,7 @@
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 4px;
+  height: 2px;
   bottom: 0;
   left: 0;
   background-color: #ffffff;
@@ -499,18 +499,6 @@
     display: flex;
     z-index: 3;
   }
-  .header {
-    @include header-tablets;
-    .header-link {
-      @include header-link-tablets;
-    }
-  }
-  .header-hide {
-    display: none !important;
-    .burger .burger-part {
-      background-color: rgb(255, 255, 255);
-    }
-  }
 
   .main-page .header {
     width: 100%;
@@ -814,4 +802,12 @@
 .main-page .header {
   padding: 20px 120px;
   align-items: center;
+}
+
+.body-locked .header-menu{
+    margin: 0;
+}
+
+.main-page{
+    margin-top: -15px;
 }
