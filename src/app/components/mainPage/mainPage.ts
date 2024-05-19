@@ -1,9 +1,5 @@
 import createElement from '../../utilities/createElement';
 
-// const mainPage = createElement('div', ['main-page'], body);
-// createHeader(mainPage);
-// createBurger(mainPage);
-
 export default function createMain(): HTMLElement {
   const mainPage = createElement('div', ['main-page']);
 
