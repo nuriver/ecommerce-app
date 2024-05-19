@@ -2,9 +2,9 @@ import createElement from '../../utilities/createElement';
 import toggleMenu from './toggleMenu';
 
 const headerLinks = [
-  { name: 'CATALOG', href: '#' },
+  { name: 'CATALOG', href: '#/404' },
   { name: 'MAIN', href: '#/main' },
-  { name: 'ABOUT US', href: '#' },
+  { name: 'ABOUT US', href: '#/404' },
   { name: 'LOGIN', href: '#/login' },
   { name: 'REGISTRATION', href: '#/registration' },
 ];
