@@ -8,7 +8,6 @@ import {
 import CustomerCredentials from '../../types/interfaces';
 import { createCtpClientPasswordFlow, ctpClient } from './clientBuilder';
 import pageToggle from '../../utilities/pageToggle';
-import { mainPage } from '../../..';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
@@ -31,12 +30,11 @@ export function signInCustomer(credentials: CustomerCredentials): Promise<boolea
     .then((response) => {
       const customerId = response.body.customer.id;
       sessionStorage.setItem('customer', customerId);
+      const mainPage = document.querySelector('.main-page') as HTMLElement;
       pageToggle(mainPage, 'main');
       return true;
     })
-    .catch(() => {
-      return false;
-    });
+    .catch(() => false);
 }
 
 export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
