@@ -28,8 +28,12 @@ export function signInCustomer(credentials: CustomerCredentials): Promise<boolea
     .execute()
     .then((response) => {
       const customerId = response.body.customer.id;
+      const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+
       sessionStorage.setItem('customer', customerId);
+      loginLink.innerText = 'LOGOUT';
       window.location.href = '#/main';
+
       return true;
     })
     .catch(() => false);
