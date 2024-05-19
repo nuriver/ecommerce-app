@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 const baseConfig = {
@@ -43,6 +42,7 @@ const baseConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/index.html'),
       filename: 'index.html',
+      favicon: './src/assets/images/bag-favicon.png',
     }),
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
@@ -57,15 +57,17 @@ const baseConfig = {
         },
       ],
     }),
-    new FaviconsWebpackPlugin({
-      logo: './src/assets/images/bag-favicon.png',
-    }),
     new Dotenv({
       path: './.env',
       safe: true,
       systemvars: true,
     }),
   ],
+  devServer: {
+    historyApiFallback: {
+      index: '/index.html',
+    },
+  },
 };
 
 module.exports = ({ mode }) => {

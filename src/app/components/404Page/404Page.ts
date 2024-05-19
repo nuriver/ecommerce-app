@@ -7,7 +7,10 @@ export default function create404Page(): HTMLElement {
   createElement('div', ['ops-404'], textcont404, 'Oooops!');
   createElement('p', ['p-404'], textcont404, 'It seems you have gone too far and such a page does not exist...');
   createElement('p', ['p-404-small'], textcont404, "(cause we haven't done it yet)");
-  createElement('button', ['button', 'btn-cntr-404'], textcont404, 'RETURN TO MAIN');
+  const returnBtn = createElement('button', ['button', 'btn-cntr-404'], textcont404, 'RETURN TO MAIN');
+  returnBtn.addEventListener('click', () => {
+    window.location.href = '#/main';
+  });
   createElement('p', ['p-404'], textcont404, 'press button above to escape the judgmental gaze of Vincent van Gogh');
   createElement('div', ['img-404'], page404);
 

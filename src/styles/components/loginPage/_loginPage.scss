@@ -53,7 +53,6 @@
           font-size: 18px;
           font-weight: 600;
         }
-
         .password-visibility {
           display: flex;
           gap: 5px;
@@ -138,11 +137,11 @@
         }
         .error-indicator {
           font-size: 13px;
-          top: 0px;
+          top: 10px;
           left: 65px;
         }
         .password-error-indicator {
-          top: 42px;
+          top: 62px;
           left: 95px;
         }
         .password-visibility {
@@ -166,11 +165,11 @@
   color: red;
   position: absolute;
   left: 80px;
-  top: 2px;
+  top: 12px;
   display: none;
 }
 .password-error-indicator {
-  top: 69px;
+  top: 88px;
   left: 120px;
   display: flex;
   flex-direction: column;

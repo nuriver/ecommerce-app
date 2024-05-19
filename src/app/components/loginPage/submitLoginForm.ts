@@ -27,13 +27,8 @@ function submitLoginForm(form: HTMLFormElement, event: Event): void {
       password: passwordInput.value,
     };
 
-    signInCustomer(credentials)
-      .then(() => {
-        // TODO: logic to go to main page
-        emailInput.value = '';
-        passwordInput.value = '';
-      })
-      .catch(() =>
+    signInCustomer(credentials).then((isSignedIn) => {
+      if (!isSignedIn) {
         getCustomers().then((response) => {
           const { email } = credentials;
           const registeredCustomers = response.body.results;
@@ -47,9 +42,12 @@ function submitLoginForm(form: HTMLFormElement, event: Event): void {
             emailInput.value = '';
             passwordInput.value = '';
           }
-        })
-      );
+        });
+      }
+    });
   }
+  emailInput.value = '';
+  passwordInput.value = '';
 }
 
 export default submitLoginForm;

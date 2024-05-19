@@ -10,7 +10,7 @@ import {
 import createElement from '../../utilities/createElement';
 import printError from '../../utilities/printError';
 
-export default function createRegistrationPage(parent: HTMLElement) {
+export default function createRegistrationPage() {
   const errors = {
     email: true,
     password: true,
@@ -24,7 +24,7 @@ export default function createRegistrationPage(parent: HTMLElement) {
     billingCode: true,
     shippingCode: true,
   };
-  const registerPage: HTMLDivElement = createElement('div', ['register-page'], parent);
+  const registerPage: HTMLDivElement = createElement('div', ['register-page']);
 
   const registerWrapper: HTMLDivElement = createElement('div', ['register-page__wrapper'], registerPage);
   createElement('h1', ['register-page__title'], registerWrapper, 'REGISTRATION');
@@ -294,4 +294,5 @@ export default function createRegistrationPage(parent: HTMLElement) {
       printError(shippingPostalCodeErr, check);
     }
   });
+  return registerPage;
 }
