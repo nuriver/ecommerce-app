@@ -56,7 +56,16 @@ export default function createLoginPage(): HTMLElement {
     submitLoginForm(loginForm, event);
   });
 
-  createElement('button', ['button', 'button-white', 'registration-button'], loginForm, 'TO THE REGISTRATION PAGE');
+  const registrationPage = createElement(
+    'button',
+    ['button', 'button-white', 'registration-button'],
+    loginForm,
+    'TO THE REGISTRATION PAGE'
+  );
+  registrationPage.addEventListener('click', (event) => {
+    event.preventDefault();
+    window.location.href = '#/registration';
+  });
 
   createElement('p', ['team-name'], loginContentContainer, 'FUNC CRAFTERS');
   return loginWrapper;

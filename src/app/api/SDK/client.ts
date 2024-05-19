@@ -7,7 +7,6 @@ import {
 } from '@commercetools/platform-sdk';
 import CustomerCredentials from '../../types/interfaces';
 import { createCtpClientPasswordFlow, ctpClient } from './clientBuilder';
-import pageToggle from '../../utilities/pageToggle';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
@@ -30,8 +29,7 @@ export function signInCustomer(credentials: CustomerCredentials): Promise<boolea
     .then((response) => {
       const customerId = response.body.customer.id;
       sessionStorage.setItem('customer', customerId);
-      const mainPage = document.querySelector('.main-page') as HTMLElement;
-      pageToggle(mainPage, 'main');
+      window.location.href = '#/main';
       return true;
     })
     .catch(() => false);

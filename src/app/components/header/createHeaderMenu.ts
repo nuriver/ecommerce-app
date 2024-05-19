@@ -3,10 +3,10 @@ import toggleMenu from './toggleMenu';
 
 const headerLinks = [
   { name: 'CATALOG', href: '#' },
-  { name: 'MAIN', href: '#' },
+  { name: 'MAIN', href: '#/main' },
   { name: 'ABOUT US', href: '#' },
-  { name: 'LOGIN', href: '#' },
-  { name: 'REGISTRATION', href: '#' },
+  { name: 'LOGIN', href: '#/login' },
+  { name: 'REGISTRATION', href: '#/registration' },
 ];
 
 function createHeaderMenu(container: HTMLElement): void {
