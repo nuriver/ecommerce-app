@@ -20,12 +20,18 @@
 
   @media screen and (max-width: 900px) {
     display: none;
+    margin: 0;
     @include header-tablets;
     .header-link {
       @include header-link-tablets;
     }
   }
 
+  @media (max-width: 464px) {
+    .header-link {
+      @include header-link-mobile;
+    }
+  }
   &--show {
     display: flex;
   }

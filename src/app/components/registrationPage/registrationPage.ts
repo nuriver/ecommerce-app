@@ -1,3 +1,5 @@
+import { CustomerDraft } from '@commercetools/platform-sdk';
+import { createCustomer } from '../../api/SDK/client';
 import {
   checkCity,
   checkDate,
@@ -11,6 +13,9 @@ import createElement from '../../utilities/createElement';
 import printError from '../../utilities/printError';
 
 export default function createRegistrationPage() {
+  function isError(obj: Record<string, boolean>) {
+    return !Object.values(obj).every((value) => !value);
+  }
   const errors = {
     email: true,
     password: true,
@@ -60,15 +65,12 @@ export default function createRegistrationPage() {
   );
   createElement('h2', ['billing-address__label'], billingAddress, 'Billing address');
   createElement('label', ['user-data__label'], billingAddress, 'country');
-
   const billingCountry: HTMLSelectElement = createElement(
     'select',
     ['address-block__input', 'billing-address__input'],
     billingAddress
   );
-
   createElement('option', ['billing-address__input'], billingCountry, 'United States');
-
   billingCountry.id = 'billingCountry';
   createElement('label', ['user-data__label'], billingAddress, 'city');
   const billingCity: HTMLInputElement = createElement(
@@ -94,13 +96,11 @@ export default function createRegistrationPage() {
   );
   billingPostalCode.id = 'billingPostalCode';
   const billingPostalCodeErr = createElement('div', ['user-data__errors'], billingAddress);
-
   const checkboxBillingAdd: HTMLDivElement = createElement(
     'div',
     ['checkbox-block', 'checkbox-block_default'],
     billingAddress
   );
-
   const checkboxInputBillingAdd: HTMLInputElement = createElement(
     'input',
     ['checkbox-block__checkbox-input'],
@@ -109,9 +109,7 @@ export default function createRegistrationPage() {
   checkboxInputBillingAdd.id = 'address-billing-default';
   checkboxInputBillingAdd.setAttribute('type', 'checkbox');
   createElement('label', ['checkbox-block__checkbox-label'], checkboxBillingAdd, 'default');
-
   const checkboxSameAdd: HTMLDivElement = createElement('div', ['checkbox-block'], billingAddress);
-
   const checkboxInputSameAdd: HTMLInputElement = createElement(
     'input',
     ['checkbox-block__checkbox-input'],
@@ -132,13 +130,14 @@ export default function createRegistrationPage() {
     addressesBlock
   );
   createElement('h2', ['shipping-address__label'], shippingAddress, 'Shipping address');
-
   createElement('label', ['user-data__label'], shippingAddress, 'country');
-  const shippingCountry: HTMLInputElement = createElement(
-    'input',
+  const shippingCountry: HTMLSelectElement = createElement(
+    'select',
     ['address-block__input', 'billing-address__input'],
     shippingAddress
   );
+  createElement('option', ['billing-address__input'], shippingCountry, 'United States');
+
   shippingCountry.id = 'shippingCountry';
   createElement('label', ['user-data__label'], shippingAddress, 'city');
   const shippingCity: HTMLInputElement = createElement(
@@ -164,13 +163,11 @@ export default function createRegistrationPage() {
   );
   shippingPostalCode.id = 'shippingPostalCode';
   const shippingPostalCodeErr = createElement('div', ['user-data__errors'], shippingAddress);
-
   const checkboxShippingAdd: HTMLDivElement = createElement(
     'div',
     ['checkbox-block', 'checkbox-block_default'],
     shippingAddress
   );
-
   const checkboxInputShippingAdd: HTMLInputElement = createElement(
     'input',
     ['checkbox-block__checkbox-input'],
@@ -186,14 +183,13 @@ export default function createRegistrationPage() {
     registerWrapper,
     'REGISTER'
   );
-  console.log(registerButton);
   const toLoginPageButton: HTMLButtonElement = createElement(
     'button',
     ['button', 'register-page__to-login-button'],
     registerWrapper,
     'TO THE LOGIN PAGE'
   );
-  console.log(toLoginPageButton);
+  const accumulateErr = createElement('div', ['user-data__errors'], registerWrapper);
 
   firstName.addEventListener('input', () => {
     const check = checkName(firstName.value);
@@ -201,15 +197,17 @@ export default function createRegistrationPage() {
       errors.name = false;
       printError(firstNameErr, '');
     } else {
+      errors.name = true;
       printError(firstNameErr, check);
     }
   });
   lastName.addEventListener('input', () => {
-    const check = checkName(firstName.value);
+    const check = checkName(lastName.value);
     if (check === false) {
       errors.surname = false;
       printError(lastNameErr, '');
     } else {
+      errors.surname = true;
       printError(lastNameErr, check);
     }
   });
@@ -219,6 +217,7 @@ export default function createRegistrationPage() {
       errors.date = false;
       printError(birthDateErr, '');
     } else {
+      errors.date = true;
       printError(birthDateErr, check);
     }
   });
@@ -228,6 +227,7 @@ export default function createRegistrationPage() {
       errors.email = false;
       printError(emailErr, '');
     } else {
+      errors.email = true;
       printError(emailErr, check);
     }
   });
@@ -237,6 +237,7 @@ export default function createRegistrationPage() {
       errors.password = false;
       printError(passwordErr, '');
     } else {
+      errors.password = true;
       printError(passwordErr, check);
     }
   });
@@ -246,6 +247,7 @@ export default function createRegistrationPage() {
       errors.billingCity = false;
       printError(billingCityErr, '');
     } else {
+      errors.billingCity = true;
       printError(billingCityErr, check);
     }
   });
@@ -255,6 +257,7 @@ export default function createRegistrationPage() {
       errors.billingStreet = false;
       printError(billingStreetErr, '');
     } else {
+      errors.billingStreet = true;
       printError(billingStreetErr, check);
     }
   });
@@ -264,6 +267,7 @@ export default function createRegistrationPage() {
       errors.billingCode = false;
       printError(billingPostalCodeErr, '');
     } else {
+      errors.billingCode = true;
       printError(billingPostalCodeErr, check);
     }
   });
@@ -273,6 +277,7 @@ export default function createRegistrationPage() {
       errors.shippingCity = false;
       printError(shippingCityErr, '');
     } else {
+      errors.shippingCity = true;
       printError(shippingCityErr, check);
     }
   });
@@ -282,6 +287,7 @@ export default function createRegistrationPage() {
       errors.shippingStreet = false;
       printError(shippingStreetErr, '');
     } else {
+      errors.shippingStreet = true;
       printError(shippingStreetErr, check);
     }
   });
@@ -291,8 +297,75 @@ export default function createRegistrationPage() {
       errors.shippingCode = false;
       printError(shippingPostalCodeErr, '');
     } else {
+      errors.shippingCode = true;
       printError(shippingPostalCodeErr, check);
     }
   });
+
+  checkboxInputSameAdd.addEventListener('input', (event) => {
+    if ((event.target as HTMLInputElement).checked) {
+      errors.shippingCity = false;
+      errors.shippingStreet = false;
+      errors.shippingCode = false;
+    } else {
+      errors.shippingCity = true;
+      errors.shippingStreet = true;
+      errors.shippingCode = true;
+    }
+    console.log(errors, isError(errors));
+  });
+
+  registerButton.addEventListener('click', async () => {
+    if (!isError(errors)) {
+      try {
+        let defaultShippingAddress = checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked ? 0 : undefined;
+        if (checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked) {
+          defaultShippingAddress = 0;
+        } else if (!checkboxInputSameAdd.checked && checkboxInputShippingAdd.checked) {
+          defaultShippingAddress = 1;
+        }
+        const customerDraft: CustomerDraft = {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          dateOfBirth: birthDate.value,
+          email: email.value,
+          password: password.value,
+          addresses: [
+            {
+              country: 'US',
+              city: billingCity.value,
+              streetName: billingStreet.value,
+              postalCode: billingPostalCode.value,
+            },
+          ],
+          billingAddresses: [0],
+          shippingAddresses: checkboxInputSameAdd.checked ? [0] : [1],
+          defaultBillingAddress: checkboxInputBillingAdd.checked ? 0 : undefined,
+          defaultShippingAddress,
+        };
+        if (!checkboxInputSameAdd.checked) {
+          customerDraft.addresses?.push({
+            country: 'US',
+            city: shippingCity.value,
+            streetName: shippingStreet.value,
+            postalCode: shippingPostalCode.value,
+          });
+        }
+        console.log(await createCustomer(customerDraft));
+        accumulateErr.style.color = 'green';
+        accumulateErr.innerHTML = `Registration successful!`;
+        setTimeout(() => {
+          accumulateErr.innerHTML = '';
+        }, 3000);
+      } catch (error) {
+        accumulateErr.style.color = 'red';
+        accumulateErr.innerHTML = `Oops! ${(error as Error).message}`;
+      }
+    } else {
+      accumulateErr.style.color = 'red';
+      accumulateErr.innerHTML = 'Please fill in all required fields correctly and try again!';
+    }
+  });
+
   return registerPage;
 }
