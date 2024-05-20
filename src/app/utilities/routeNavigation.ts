@@ -5,6 +5,7 @@ export default function routeNavigation(
   main: HTMLElement,
   login: HTMLElement,
   registration: HTMLElement,
+  wrongRoute: HTMLElement,
   viaUrlBar: boolean
 ) {
   const currentRoute = window.location.hash;
@@ -13,12 +14,12 @@ export default function routeNavigation(
       pageToggle(main, 'main');
     } else if (currentRoute === '#/login') {
       pageToggle(login, 'login');
-    } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '/') {
+    } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '') {
       pageToggle(main, 'main');
     } else if (currentRoute === '#/registration') {
       pageToggle(registration, 'registration');
     } else {
-      pageToggle(main, 'main');
+      pageToggle(wrongRoute, '404');
     }
   } else if (customerInStorage()) {
     pageToggle(main, 'main');
@@ -29,6 +30,6 @@ export default function routeNavigation(
   } else if (currentRoute === '#/registration') {
     pageToggle(registration);
   } else {
-    pageToggle(main);
+    pageToggle(wrongRoute);
   }
 }

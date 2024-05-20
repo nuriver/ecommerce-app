@@ -1,4 +1,5 @@
 import createElement from '../../utilities/createElement';
+import simpleRedirect from '../../utilities/simpleRedirect';
 
 export default function createMain(): HTMLElement {
   const mainPage = createElement('div', ['main-page']);
@@ -71,8 +72,14 @@ export default function createMain(): HTMLElement {
   const joinCont = createElement('div', ['join-cont'], joinBlock);
   createElement('div', ['join-title'], joinCont, 'Do you feel inspired?');
   createElement('div', ['join-text'], joinCont, 'Join us!');
-  createElement('button', ['button', 'button-while-ins'], joinCont, 'REGISTER');
-  createElement('button', ['button', 'button-white-out'], joinCont, 'LOGIN');
+  const registerBtn = createElement('button', ['button', 'button-while-ins'], joinCont, 'REGISTER');
+  registerBtn.addEventListener('click', () => {
+    simpleRedirect('registration');
+  });
+  const loginBtn = createElement('button', ['button', 'button-white-out'], joinCont, 'LOGIN');
+  loginBtn.addEventListener('click', () => {
+    simpleRedirect('login');
+  });
   createElement('div', ['join-img'], joinBlock);
 
   return mainPage;
