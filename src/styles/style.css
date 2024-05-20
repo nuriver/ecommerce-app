@@ -530,9 +530,13 @@ label {
 .main-page .products-card__img {
   width: 300px;
   height: 300px;
+  background-size: 125%;
+  background-position: center;
+  transition: all 0.3s ease-in-out;
 }
 .main-page .products-card:hover .products-card__img {
   background-size: 150%;
+  transition: all 0.3s ease-in-out;
 }
 .main-page .products-card:hover .notebook-anim {
   background-size: 120%;
@@ -543,18 +547,13 @@ label {
 }
 .main-page .img-notebook {
   background-image: url('/src/assets/images/main-products-notebook.png');
-  background-size: cover;
-  background-position: center;
+  background-size: 100%;
 }
 .main-page .img-bottle {
   background-image: url('/src/assets/images/main-products-bottle.png');
-  background-size: cover;
-  background-position: center;
 }
 .main-page .img-bag {
   background-image: url('/src/assets/images/main-products-bag.png');
-  background-size: cover;
-  background-position: center;
 }
 .main-page .products-title,
 .main-page .products-see-all {
@@ -669,25 +668,20 @@ label {
 }
 .main-page .img-magritte {
   background-image: url('/src/assets/images/magritte.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 .main-page .img-mucha {
   background-image: url('/src/assets/images/mucha.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 .main-page .img-kahlo {
   background-image: url('/src/assets/images/kahlo.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 .main-page .artist-card__img {
   height: 390px;
   width: 315px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
 }
 .main-page .artist-card__desc {
   margin-top: 45px;
