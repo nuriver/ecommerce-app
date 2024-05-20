@@ -427,7 +427,7 @@ label {
   justify-content: space-between;
   width: 100%;
   max-width: 1196px;
-  margin-bottom: 60px;
+  margin-bottom: 25px;
   gap: 15px;
 }
 .register-page .address-block {
@@ -455,6 +455,9 @@ label {
   border: 2px solid #000000;
 }
 @media screen and (max-width: 900px) {
+  .register-page {
+    padding: 25px 25px;
+  }
   .register-page .register-page {
     position: relative;
   }

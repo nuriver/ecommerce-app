@@ -11,6 +11,7 @@ import {
 } from '../../utilities/checkers';
 import createElement from '../../utilities/createElement';
 import printError from '../../utilities/printError';
+import simpleRedirect from '../../utilities/simpleRedirect';
 
 export default function createRegistrationPage() {
   function isError(obj: Record<string, boolean>) {
@@ -312,12 +313,12 @@ export default function createRegistrationPage() {
       errors.shippingStreet = true;
       errors.shippingCode = true;
     }
-    console.log(errors, isError(errors));
   });
 
-  registerButton.addEventListener('click', async () => {
+  registerButton.addEventListener('click', async (event) => {
     if (!isError(errors)) {
       try {
+        (event.target as HTMLButtonElement).disabled = true;
         let defaultShippingAddress = checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked ? 0 : undefined;
         if (checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked) {
           defaultShippingAddress = 0;
@@ -360,12 +361,16 @@ export default function createRegistrationPage() {
       } catch (error) {
         accumulateErr.style.color = 'red';
         accumulateErr.innerHTML = `Oops! ${(error as Error).message}`;
+      } finally {
+        (event.target as HTMLButtonElement).disabled = false;
       }
     } else {
       accumulateErr.style.color = 'red';
       accumulateErr.innerHTML = 'Please fill in all required fields correctly and try again!';
     }
   });
+
+  toLoginPageButton.addEventListener('click', () => simpleRedirect('login'));
 
   return registerPage;
 }

@@ -6,6 +6,7 @@ import createMain from './app/components/mainPage/mainPage';
 import createRegistrationPage from './app/components/registrationPage/registrationPage';
 import routeNavigation from './app/utilities/routeNavigation';
 import create404Page from './app/components/404Page/404Page';
+import createFooter from './app/components/footer';
 
 const { body } = document;
 
