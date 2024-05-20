@@ -16,27 +16,27 @@ export function createCustomer(customerDraft: CustomerDraft): Promise<ClientResp
   return apiRoot.customers().post({ body: customerDraft }).execute();
 }
 
-export function signInCustomer(credentials: CustomerCredentials): Promise<boolean> {
+export async function signInCustomer(credentials: CustomerCredentials): Promise<boolean> {
   const ctpClientPasswordFlow = createCtpClientPasswordFlow(credentials);
   const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
     projectKey: process.env.CTP_PROJECT_KEY as string,
   });
 
-  return apiRootPasswordFlow
-    .login()
-    .post({ body: credentials })
-    .execute()
-    .then((response) => {
-      const customerId = response.body.customer.id;
-      const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+  try {
+        const response = await apiRootPasswordFlow
+            .login()
+            .post({ body: credentials })
+            .execute();
+        const customerId = response.body.customer.id;
+        const loginLink = document.querySelector('.header-link-login') as HTMLElement;
 
-      sessionStorage.setItem('customer', customerId);
-      loginLink.innerText = 'LOGOUT';
-      window.location.href = '#/main';
-
-      return true;
-    })
-    .catch(() => false);
+        sessionStorage.setItem('customer', customerId);
+        loginLink.innerText = 'LOGOUT';
+        window.location.href = '#/main';
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {

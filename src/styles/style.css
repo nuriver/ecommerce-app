@@ -10,6 +10,10 @@ html * {
 }
 body {
   font-family: "Inter";
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 
 h1 {
@@ -267,7 +271,7 @@ label {
   display: flex;
 }
 
-.header {
+.header__wrapper {
   max-width: 1440px;
   margin: 0 auto;
   display: flex;
@@ -293,6 +297,7 @@ label {
     display: none;
     margin: 0;
     position: absolute;
+    left: 0;
     height: 100%;
     width: 100%;
     flex-direction: column;
