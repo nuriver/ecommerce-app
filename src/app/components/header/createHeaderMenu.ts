@@ -29,6 +29,15 @@ function createHeaderMenu(container: HTMLElement): void {
       });
     }
   });
+
+  window.addEventListener('resize', () => {
+    const showBurgerScreenWidth = 900;
+    if (header.classList.contains('header-menu--show') && window.innerWidth > showBurgerScreenWidth) {
+      const { body } = document;
+      header.classList.remove('header-menu--show');
+      body.classList.remove('body-locked');
+    }
+  });
 }
 
 export default createHeaderMenu;

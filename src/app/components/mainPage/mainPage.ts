@@ -82,12 +82,5 @@ export default function createMain(): HTMLElement {
   });
   createElement('div', ['join-img'], joinBlock);
 
-  //  footer
-  const footerBlock = createElement('div', ['footer-block'], mainPage);
-  const footerCont = createElement('div', ['footer-cont'], footerBlock);
-  createElement('p', ['footer-text'], footerCont, 'Rolling Scopes School');
-  createElement('p', ['footer-text'], footerCont, 'MADE WITH LOVE');
-  createElement('p', ['footer-text'], footerCont, '2024');
-
   return mainPage;
 }

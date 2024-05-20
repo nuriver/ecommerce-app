@@ -24,6 +24,7 @@
   }
   .user-data__errors {
     color: #dd0000bd;
+    margin-top: 5px;
   }
 
   .register-page__addresses-block {
@@ -31,7 +32,7 @@
     justify-content: space-between;
     width: 100%;
     max-width: 1196px;
-    margin-bottom: 60px;
+    margin-bottom: 25px;
     gap: 15px;
   }
 
@@ -62,6 +63,8 @@
   }
 
   @media screen and (max-width: 900px) {
+    padding: 25px 25px;
+
     .register-page {
       position: relative;
     }
