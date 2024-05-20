@@ -23,20 +23,17 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
   });
 
   try {
-        const response = await apiRootPasswordFlow
-            .login()
-            .post({ body: credentials })
-            .execute();
-        const customerId = response.body.customer.id;
-        const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+    const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
+    const customerId = response.body.customer.id;
+    const loginLink = document.querySelector('.header-link-login') as HTMLElement;
 
-        sessionStorage.setItem('customer', customerId);
-        loginLink.innerText = 'LOGOUT';
-        window.location.href = '#/main';
-        return true;
-    } catch {
-        return false;
-    }
+    sessionStorage.setItem('customer', customerId);
+    loginLink.innerText = 'LOGOUT';
+    window.location.href = '#/main';
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {

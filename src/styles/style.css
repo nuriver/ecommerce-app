@@ -5,11 +5,11 @@ html * {
 }
 
 @font-face {
-  font-family: "Inter";
-  src: url("/src/assets/fonts/Inter-VariableFont_slnt,wght.ttf");
+  font-family: 'Inter';
+  src: url('/src/assets/fonts/Inter-VariableFont_slnt,wght.ttf');
 }
 body {
-  font-family: "Inter";
+  font-family: 'Inter';
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -40,7 +40,7 @@ label {
 }
 
 .hoverline:after {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -97,7 +97,7 @@ label {
 }
 .login-wrapper .login-img-container {
   width: 643px;
-  background-image: url("/src/assets/images/login_img.png");
+  background-image: url('/src/assets/images/login_img.png');
   background-position: center;
 }
 .login-wrapper .login-content-container {
@@ -151,13 +151,23 @@ label {
   gap: 5px;
   margin-bottom: 48px;
 }
-.login-wrapper .login-content-container .login-form-wrapper .login-form .password-visibility .password-visibility-checkbox {
+.login-wrapper
+  .login-content-container
+  .login-form-wrapper
+  .login-form
+  .password-visibility
+  .password-visibility-checkbox {
   width: 20px;
   height: 20px;
   margin: 0;
   padding: 0;
 }
-.login-wrapper .login-content-container .login-form-wrapper .login-form .password-visibility .password-visibility-label {
+.login-wrapper
+  .login-content-container
+  .login-form-wrapper
+  .login-form
+  .password-visibility
+  .password-visibility-label {
   display: inline;
   margin: 0;
   padding: 0;
@@ -499,7 +509,7 @@ label {
   margin-top: -15px;
 }
 .main-page .first-block {
-  background-image: url("/src/assets/images/dali_main.png");
+  background-image: url('/src/assets/images/dali_main.png');
   background-size: cover;
   background-position: center;
   height: 790px;
@@ -541,17 +551,17 @@ label {
   transition: font-size 0.3s ease-in-out;
 }
 .main-page .img-notebook {
-  background-image: url("/src/assets/images/main-products-notebook.png");
+  background-image: url('/src/assets/images/main-products-notebook.png');
   background-size: cover;
   background-position: center;
 }
 .main-page .img-bottle {
-  background-image: url("/src/assets/images/main-products-bottle.png");
+  background-image: url('/src/assets/images/main-products-bottle.png');
   background-size: cover;
   background-position: center;
 }
 .main-page .img-bag {
-  background-image: url("/src/assets/images/main-products-bag.png");
+  background-image: url('/src/assets/images/main-products-bag.png');
   background-size: cover;
   background-position: center;
 }
@@ -598,7 +608,7 @@ label {
   position: relative;
 }
 .main-page .hoverline-white:after {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -628,7 +638,7 @@ label {
   position: relative;
 }
 .main-page .hoverline-head:after {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -667,19 +677,19 @@ label {
   transition: font-size 0.3s ease-in-out;
 }
 .main-page .img-magritte {
-  background-image: url("/src/assets/images/magritte.png");
+  background-image: url('/src/assets/images/magritte.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 .main-page .img-mucha {
-  background-image: url("/src/assets/images/mucha.png");
+  background-image: url('/src/assets/images/mucha.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 .main-page .img-kahlo {
-  background-image: url("/src/assets/images/kahlo.png");
+  background-image: url('/src/assets/images/kahlo.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -693,7 +703,7 @@ label {
   font-size: 20px;
 }
 .main-page .goal-block {
-  background-image: url("/src/assets/images/goal.png");
+  background-image: url('/src/assets/images/goal.png');
   background-size: cover;
   background-position: center;
   height: 790px;
@@ -755,7 +765,7 @@ label {
   margin-bottom: 100px;
 }
 .main-page .join-img {
-  background-image: url("/src/assets/images/main-log-img.png");
+  background-image: url('/src/assets/images/main-log-img.png');
   background-size: cover;
   background-position: center;
   width: 50%;
@@ -803,7 +813,7 @@ label {
   .main-page .artstyle {
     font-size: 40px;
   }
-  .main-page [class*=block] {
+  .main-page [class*='block'] {
     height: 600px;
   }
   .main-page .products-block {
@@ -844,7 +854,7 @@ label {
   }
 }
 @media (max-width: 800px) {
-  .main-page [class*=title] {
+  .main-page [class*='title'] {
     font-size: 40px;
   }
   .main-page .artstyle {
@@ -862,7 +872,7 @@ label {
   }
 }
 @media (max-width: 751px) {
-  .main-page [class*=block] {
+  .main-page [class*='block'] {
     height: 500px;
   }
   .main-page .first-title {
@@ -907,7 +917,7 @@ label {
   .main-page .button-while-ins {
     margin: 20px 0;
   }
-  .main-page [class*=join] {
+  .main-page [class*='join'] {
     font-weight: 500;
   }
   .main-page .products-block {
@@ -933,7 +943,7 @@ label {
   }
 }
 @media (max-width: 675px) {
-  .main-page [class*=block] {
+  .main-page [class*='block'] {
     height: 400px;
   }
   .main-page .artstyle-block {
@@ -942,11 +952,11 @@ label {
   .main-page .categ-block {
     gap: 40px;
   }
-  .main-page [class*=join] {
+  .main-page [class*='join'] {
     font-weight: 400;
     font-size: 30px;
   }
-  .main-page [class*=button] {
+  .main-page [class*='button'] {
     width: 200px;
     height: 30px;
   }
@@ -970,7 +980,7 @@ label {
   }
 }
 @media (max-width: 541px) {
-  .main-page [class*=title] {
+  .main-page [class*='title'] {
     font-size: 24px;
   }
   .main-page .artstyle {
@@ -1105,7 +1115,7 @@ label {
 .img-404 {
   height: 600px;
   width: 500px;
-  background-image: url("/src/assets/images/404.png");
+  background-image: url('/src/assets/images/404.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1188,4 +1198,4 @@ label {
   .page-404 {
     margin-top: 70px;
   }
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */
