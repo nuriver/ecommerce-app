@@ -27,5 +27,4 @@ window.addEventListener('hashchange', () => {
 
 window.addEventListener('load', () => {
   sessionStorage.clear();
-  console.log('reload');
 });
