@@ -3,3 +3,56 @@ html * {
   margin: 0;
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/src/assets/fonts/Inter-VariableFont_slnt\,wght.ttf');
+}
+
+body {
+  font-family: 'Inter';
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 11px;
+}
+label {
+  font-size: 18px;
+  margin: 10px auto 15px 17px;
+}
+.body-locked {
+  overflow-y: hidden;
+}
+
+//artstyle
+
+.hoverline {
+  display: inline-block;
+  position: relative;
+}
+
+.hoverline:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom center;
+  transition: transform 0.5s ease-out;
+}
+
+.hoverline:hover:after {
+  transform: scaleX(1);
+}

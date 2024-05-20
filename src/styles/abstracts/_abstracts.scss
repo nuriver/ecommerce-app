@@ -1,0 +1,39 @@
+@mixin header-tablets {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  background-color: white;
+}
+
+@mixin header-link-tablets {
+  font-size: 48px;
+  font-weight: 650;
+}
+
+@mixin header-link-mobile {
+  font-size: 24px !important;
+}
+
+@mixin wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+}
+
+@mixin category-img {
+  background-size: 125%;
+  background-position: center;
+  transition: all 0.3s ease-in-out;
+}
+
+@mixin artist-img {
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+}

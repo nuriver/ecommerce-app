@@ -1,39 +1,41 @@
-import { createApiBuilderFromCtpClient, CustomerDraft, CustomerSignInResult } from '@commercetools/platform-sdk';
+import {
+  createApiBuilderFromCtpClient,
+  CustomerDraft,
+  CustomerSignInResult,
+  ClientResponse,
+  CustomerPagedQueryResponse,
+} from '@commercetools/platform-sdk';
 import CustomerCredentials from '../../types/interfaces';
-import ctpClient from './clientBuilder';
+import { createCtpClientPasswordFlow, ctpClient } from './clientBuilder';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
 });
 
-export function createCustomer(customerDraft: CustomerDraft): Promise<CustomerSignInResult> {
-  return apiRoot
-    .customers()
-    .post({ body: customerDraft })
-    .execute()
-    .then(
-      (response): CustomerSignInResult =>
-        // Here will be code for response handling
-        response.body as CustomerSignInResult
-    )
-    .catch((err: Error) => {
-      // Here will be code for error handling
-      throw err;
-    });
+export function createCustomer(customerDraft: CustomerDraft): Promise<ClientResponse<CustomerSignInResult>> {
+  return apiRoot.customers().post({ body: customerDraft }).execute();
 }
 
-export function signInCustomer(credentials: CustomerCredentials): Promise<CustomerSignInResult> {
-  return apiRoot
-    .login()
-    .post({ body: credentials })
-    .execute()
-    .then(
-      (response): CustomerSignInResult =>
-        // Here will be code for response handling
-        response.body as CustomerSignInResult
-    )
-    .catch((err: Error) => {
-      // Here will be code for error handling
-      throw err;
-    });
+export async function signInCustomer(credentials: CustomerCredentials): Promise<boolean> {
+  const ctpClientPasswordFlow = createCtpClientPasswordFlow(credentials);
+  const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+
+  try {
+    const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
+    const customerId = response.body.customer.id;
+    const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+
+    sessionStorage.setItem('customer', customerId);
+    loginLink.innerText = 'LOGOUT';
+    window.location.href = '#/main';
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
+  return apiRoot.customers().get().execute();
 }

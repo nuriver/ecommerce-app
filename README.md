@@ -50,7 +50,18 @@ If you want to run tests using **jest**, execute:
 
 npm run test
 
-## 7. Linting and Formatting (Optional)
+## 7. Environment Setup
+
+Before running the application, you need to set up the environment variables. Create a `.env` file in the root directory of the project and add the following variables:
+
+CTP_PROJECT_KEY
+CTP_CLIENT_SECRET
+CTP_CLIENT_ID
+CTP_AUTH_URL
+CTP_API_URL
+CTP_SCOPES
+
+## 8. Linting and Formatting (Optional)
 
 To ensure your code follows the coding standards, you can run **eslint** and **prettier**:
 
