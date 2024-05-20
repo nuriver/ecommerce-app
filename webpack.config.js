@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const baseConfig = {
   entry: path.resolve(__dirname, './src/index.ts'),
@@ -61,6 +62,13 @@ const baseConfig = {
       path: './.env',
       safe: true,
       systemvars: true,
+    }),
+    new TerserPlugin({
+      terserOptions: {
+        compress: {
+          drop_console: true,
+        },
+      },
     }),
   ],
   devServer: {

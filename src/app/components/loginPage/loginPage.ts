@@ -67,6 +67,5 @@ export default function createLoginPage(): HTMLElement {
     window.location.href = '#/registration';
   });
 
-  createElement('p', ['team-name'], loginContentContainer, 'FUNC CRAFTERS');
   return loginWrapper;
 }

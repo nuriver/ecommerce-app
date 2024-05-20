@@ -7,6 +7,7 @@ import createRegistrationPage from './app/components/registrationPage/registrati
 import routeNavigation from './app/utilities/routeNavigation';
 import create404Page from './app/components/404Page/404Page';
 import createFooter from './app/components/footer';
+import redirectTo404 from './app/utilities/redirectTo404';
 
 const { body } = document;
 
@@ -16,6 +17,7 @@ createFooter(body);
 
 const loginPage = createLoginPage();
 const mainPage = createMain();
+redirectTo404(mainPage);
 const registerPage = createRegistrationPage();
 const page404 = create404Page();
 
@@ -27,5 +29,4 @@ window.addEventListener('hashchange', () => {
 
 window.addEventListener('load', () => {
   sessionStorage.clear();
-  console.log('reload');
 });

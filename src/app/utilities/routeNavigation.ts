@@ -1,6 +1,8 @@
 import customerInStorage from './customerInStorage';
 import pageToggle from './pageToggle';
 
+const workingRoutes = ['#/login', '#/main', '#/registration'];
+
 export default function routeNavigation(
   main: HTMLElement,
   login: HTMLElement,
@@ -9,10 +11,27 @@ export default function routeNavigation(
   viaUrlBar: boolean
 ) {
   const currentRoute = window.location.hash;
-  if (!viaUrlBar) {
-    if (customerInStorage()) {
+  const signInRouting = () => {
+    if (workingRoutes.includes(currentRoute)) {
       pageToggle(main, 'main');
-    } else if (currentRoute === '#/login') {
+    } else {
+      pageToggle(wrongRoute, '404');
+    }
+  };
+  const signOutRoutingManually = () => {
+    if (currentRoute === '#/login') {
+      pageToggle(login);
+    } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '/') {
+      pageToggle(main);
+    } else if (currentRoute === '#/registration') {
+      pageToggle(registration);
+    } else {
+      pageToggle(wrongRoute);
+    }
+  };
+
+  const signOutRoutingAuto = () => {
+    if (currentRoute === '#/login') {
       pageToggle(login, 'login');
     } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '') {
       pageToggle(main, 'main');
@@ -21,15 +40,21 @@ export default function routeNavigation(
     } else {
       pageToggle(wrongRoute, '404');
     }
-  } else if (customerInStorage()) {
-    pageToggle(main, 'main');
-  } else if (currentRoute === '#/login') {
-    pageToggle(login);
-  } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '/') {
-    pageToggle(main);
-  } else if (currentRoute === '#/registration') {
-    pageToggle(registration);
-  } else {
-    pageToggle(wrongRoute);
+  };
+
+  if (!viaUrlBar) {
+    if (customerInStorage()) {
+      signInRouting();
+    } else {
+      signOutRoutingAuto();
+    }
+  }
+
+  if (viaUrlBar) {
+    if (customerInStorage()) {
+      signInRouting();
+    } else {
+      signOutRoutingManually();
+    }
   }
 }
