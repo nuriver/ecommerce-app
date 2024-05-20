@@ -1,5 +1,5 @@
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import { createCustomer } from '../../api/SDK/client';
+import { createCustomer, signInCustomer } from '../../api/SDK/client';
 import {
   checkCity,
   checkDate,
@@ -13,11 +13,11 @@ import createElement from '../../utilities/createElement';
 import printError from '../../utilities/printError';
 import simpleRedirect from '../../utilities/simpleRedirect';
 
-export default function createRegistrationPage() {
-  function isError(obj: Record<string, boolean>) {
+export default function createRegistrationPage(): HTMLDivElement {
+  function isError(obj: Record<string, boolean>): boolean {
     return !Object.values(obj).every((value) => !value);
   }
-  const errors = {
+  const errors: { [key: string]: boolean } = {
     email: true,
     password: true,
     name: true,
@@ -38,24 +38,24 @@ export default function createRegistrationPage() {
   createElement('label', ['user-data__label'], userData, 'first name');
   const firstName: HTMLInputElement = createElement('input', ['user-data__input', 'user-data__first-name'], userData);
   firstName.id = 'firstName';
-  const firstNameErr = createElement('div', ['user-data__errors'], userData);
+  const firstNameErr: HTMLDivElement = createElement('div', ['user-data__errors'], userData);
   createElement('label', ['user-data__label'], userData, 'last name');
   const lastName: HTMLInputElement = createElement('input', ['user-data__input', 'user-data__last-name'], userData);
   lastName.id = 'lastName';
-  const lastNameErr = createElement('div', ['user-data__errors'], userData);
+  const lastNameErr: HTMLDivElement = createElement('div', ['user-data__errors'], userData);
   createElement('label', ['user-data__label'], userData, 'birth date');
   const birthDate: HTMLInputElement = createElement('input', ['user-data__input', 'user-data__birth-date'], userData);
   birthDate.setAttribute('type', 'date');
   birthDate.id = 'birthDate';
-  const birthDateErr = createElement('div', ['user-data__errors'], userData);
+  const birthDateErr: HTMLDivElement = createElement('div', ['user-data__errors'], userData);
   createElement('label', ['user-data__label'], userData, 'email');
   const email: HTMLInputElement = createElement('input', ['user-data__input', 'user-data__email'], userData);
   email.id = 'email';
-  const emailErr = createElement('div', ['user-data__errors'], userData);
+  const emailErr: HTMLDivElement = createElement('div', ['user-data__errors'], userData);
   createElement('label', ['user-data__label'], userData, 'password');
   const password: HTMLInputElement = createElement('input', ['user-data__input', 'user-data__password'], userData);
   password.id = 'password';
-  const passwordErr = createElement('div', ['user-data__errors'], userData);
+  const passwordErr: HTMLDivElement = createElement('div', ['user-data__errors'], userData);
 
   const addressesBlock: HTMLDivElement = createElement('div', ['register-page__addresses-block'], registerWrapper);
 
@@ -80,7 +80,7 @@ export default function createRegistrationPage() {
     billingAddress
   );
   billingCity.id = 'billingCity';
-  const billingCityErr = createElement('div', ['user-data__errors'], billingAddress);
+  const billingCityErr: HTMLDivElement = createElement('div', ['user-data__errors'], billingAddress);
   createElement('label', ['user-data__label'], billingAddress, 'street');
   const billingStreet: HTMLInputElement = createElement(
     'input',
@@ -88,7 +88,7 @@ export default function createRegistrationPage() {
     billingAddress
   );
   billingStreet.id = 'billingStreet';
-  const billingStreetErr = createElement('div', ['user-data__errors'], billingAddress);
+  const billingStreetErr: HTMLDivElement = createElement('div', ['user-data__errors'], billingAddress);
   createElement('label', ['user-data__label'], billingAddress, 'postal code');
   const billingPostalCode: HTMLInputElement = createElement(
     'input',
@@ -96,7 +96,7 @@ export default function createRegistrationPage() {
     billingAddress
   );
   billingPostalCode.id = 'billingPostalCode';
-  const billingPostalCodeErr = createElement('div', ['user-data__errors'], billingAddress);
+  const billingPostalCodeErr: HTMLDivElement = createElement('div', ['user-data__errors'], billingAddress);
   const checkboxBillingAdd: HTMLDivElement = createElement(
     'div',
     ['checkbox-block', 'checkbox-block_default'],
@@ -147,7 +147,7 @@ export default function createRegistrationPage() {
     shippingAddress
   );
   shippingCity.id = 'shippingCity';
-  const shippingCityErr = createElement('div', ['user-data__errors'], shippingAddress);
+  const shippingCityErr: HTMLDivElement = createElement('div', ['user-data__errors'], shippingAddress);
   createElement('label', ['user-data__label'], shippingAddress, 'street');
   const shippingStreet: HTMLInputElement = createElement(
     'input',
@@ -155,7 +155,7 @@ export default function createRegistrationPage() {
     shippingAddress
   );
   shippingStreet.id = 'shippingStreet';
-  const shippingStreetErr = createElement('div', ['user-data__errors'], shippingAddress);
+  const shippingStreetErr: HTMLDivElement = createElement('div', ['user-data__errors'], shippingAddress);
   createElement('label', ['user-data__label'], shippingAddress, 'postal code');
   const shippingPostalCode: HTMLInputElement = createElement(
     'input',
@@ -163,7 +163,7 @@ export default function createRegistrationPage() {
     shippingAddress
   );
   shippingPostalCode.id = 'shippingPostalCode';
-  const shippingPostalCodeErr = createElement('div', ['user-data__errors'], shippingAddress);
+  const shippingPostalCodeErr: HTMLDivElement = createElement('div', ['user-data__errors'], shippingAddress);
   const checkboxShippingAdd: HTMLDivElement = createElement(
     'div',
     ['checkbox-block', 'checkbox-block_default'],
@@ -190,10 +190,10 @@ export default function createRegistrationPage() {
     registerWrapper,
     'TO THE LOGIN PAGE'
   );
-  const accumulateErr = createElement('div', ['user-data__errors'], registerWrapper);
+  const accumulateErr: HTMLDivElement = createElement('div', ['user-data__errors'], registerWrapper);
 
   firstName.addEventListener('input', () => {
-    const check = checkName(firstName.value);
+    const check: string | false = checkName(firstName.value);
     if (check === false) {
       errors.name = false;
       printError(firstNameErr, '');
@@ -203,7 +203,7 @@ export default function createRegistrationPage() {
     }
   });
   lastName.addEventListener('input', () => {
-    const check = checkName(lastName.value);
+    const check: string | false = checkName(lastName.value);
     if (check === false) {
       errors.surname = false;
       printError(lastNameErr, '');
@@ -213,7 +213,7 @@ export default function createRegistrationPage() {
     }
   });
   birthDate.addEventListener('input', () => {
-    const check = checkDate(birthDate.value);
+    const check: string | false = checkDate(birthDate.value);
     if (check === false) {
       errors.date = false;
       printError(birthDateErr, '');
@@ -223,7 +223,7 @@ export default function createRegistrationPage() {
     }
   });
   email.addEventListener('input', () => {
-    const check = checkEmail(email.value);
+    const check: string | false = checkEmail(email.value);
     if (check === false) {
       errors.email = false;
       printError(emailErr, '');
@@ -233,7 +233,7 @@ export default function createRegistrationPage() {
     }
   });
   password.addEventListener('input', () => {
-    const check = checkPassword(password.value);
+    const check: string | false = checkPassword(password.value);
     if (check === false) {
       errors.password = false;
       printError(passwordErr, '');
@@ -243,7 +243,7 @@ export default function createRegistrationPage() {
     }
   });
   billingCity.addEventListener('input', () => {
-    const check = checkCity(billingCity.value);
+    const check: string | false = checkCity(billingCity.value);
     if (check === false) {
       errors.billingCity = false;
       printError(billingCityErr, '');
@@ -253,7 +253,7 @@ export default function createRegistrationPage() {
     }
   });
   billingStreet.addEventListener('input', () => {
-    const check = checkStreet(billingStreet.value);
+    const check: string | false = checkStreet(billingStreet.value);
     if (check === false) {
       errors.billingStreet = false;
       printError(billingStreetErr, '');
@@ -263,7 +263,7 @@ export default function createRegistrationPage() {
     }
   });
   billingPostalCode.addEventListener('input', () => {
-    const check = checkPostCode(billingPostalCode.value);
+    const check: string | false = checkPostCode(billingPostalCode.value);
     if (check === false) {
       errors.billingCode = false;
       printError(billingPostalCodeErr, '');
@@ -273,7 +273,7 @@ export default function createRegistrationPage() {
     }
   });
   shippingCity.addEventListener('input', () => {
-    const check = checkCity(shippingCity.value);
+    const check: string | false = checkCity(shippingCity.value);
     if (check === false) {
       errors.shippingCity = false;
       printError(shippingCityErr, '');
@@ -283,7 +283,7 @@ export default function createRegistrationPage() {
     }
   });
   shippingStreet.addEventListener('input', () => {
-    const check = checkStreet(shippingStreet.value);
+    const check: string | false = checkStreet(shippingStreet.value);
     if (check === false) {
       errors.shippingStreet = false;
       printError(shippingStreetErr, '');
@@ -293,7 +293,7 @@ export default function createRegistrationPage() {
     }
   });
   shippingPostalCode.addEventListener('input', () => {
-    const check = checkPostCode(shippingPostalCode.value);
+    const check: string | false = checkPostCode(shippingPostalCode.value);
     if (check === false) {
       errors.shippingCode = false;
       printError(shippingPostalCodeErr, '');
@@ -319,7 +319,8 @@ export default function createRegistrationPage() {
     if (!isError(errors)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
-        let defaultShippingAddress = checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked ? 0 : undefined;
+        let defaultShippingAddress: number | undefined =
+          checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked ? 0 : undefined;
         if (checkboxInputSameAdd.checked && checkboxInputBillingAdd.checked) {
           defaultShippingAddress = 0;
         } else if (!checkboxInputSameAdd.checked && checkboxInputShippingAdd.checked) {
@@ -352,12 +353,13 @@ export default function createRegistrationPage() {
             postalCode: shippingPostalCode.value,
           });
         }
-        console.log(await createCustomer(customerDraft));
+        await createCustomer(customerDraft);
         accumulateErr.style.color = 'green';
         accumulateErr.innerHTML = `Registration successful!`;
-        setTimeout(() => {
+        setTimeout(async () => {
           accumulateErr.innerHTML = '';
-        }, 3000);
+          await signInCustomer({ email: customerDraft.email, password: customerDraft.password as string });
+        }, 1500);
       } catch (error) {
         accumulateErr.style.color = 'red';
         accumulateErr.innerHTML = `Oops! ${(error as Error).message}`;
