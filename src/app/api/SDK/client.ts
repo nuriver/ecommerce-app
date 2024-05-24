@@ -5,8 +5,9 @@ import {
   ClientResponse,
   CustomerPagedQueryResponse,
 } from '@commercetools/platform-sdk';
-import CustomerCredentials from '../../types/interfaces';
-import { createCtpClientPasswordFlow, ctpClient } from './clientBuilder';
+import { TokenCache } from '@commercetools/sdk-client-v2';
+import { CustomerCredentials } from '../../types/interfaces';
+import { createCtpClientPasswordFlow, ctpClient, tokenCacheObject } from './clientBuilder';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
@@ -25,9 +26,16 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
   try {
     const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
     const customerId = response.body.customer.id;
+    const tokenCache = tokenCacheObject.tokenCache as TokenCache;
+    const customerToken = tokenCache.get().token;
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
 
-    sessionStorage.setItem('customer', customerId);
+    const customer = {
+      id: customerId,
+      token: customerToken,
+    };
+
+    localStorage.setItem('customer', JSON.stringify(customer));
     loginLink.innerText = 'LOGOUT';
     window.location.href = '#/main';
     return true;

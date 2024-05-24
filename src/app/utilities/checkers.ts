@@ -11,21 +11,14 @@ export function checkEmail(email: string): false | string {
 }
 
 export function checkPassword(password: string): false | string {
-  const lowerLetters: RegExp = /[a-z]/g;
-  const upperLetters: RegExp = /[A-Z]/g;
-  const numbers: RegExp = /[0-9]/g;
+  const regex: RegExp = /^[A-Za-z0-9]+$/;
+  const regex2: RegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
   const minLength: number = 8;
 
   if (password.slice(0, 1) === ' ' || password.slice(-1) === ' ') {
     return 'Password must not contain trailing or leading whitespace.';
   }
-  if (
-    password.match(lowerLetters) &&
-    password.match(upperLetters) &&
-    password.match(numbers) &&
-    password.length >= minLength &&
-    !password.includes(' ')
-  ) {
+  if (password.match(regex) && password.match(regex2) && password.length >= minLength) {
     return false;
   }
   return 'Password: Minimum 8 characters, 1 number 1 lowercase letter, and at least 1 uppercase letter!';
@@ -73,7 +66,7 @@ export function checkStreet(text: string): false | string {
 
 export function checkPostCode(text: string): false | string {
   const postCodeLength: number = 5;
-  const numbers: RegExp = /[0-9]/g;
+  const numbers: RegExp = /^\d+$/;
 
   if (text.slice(0, 1) === ' ' || text.slice(-1) === ' ') {
     return 'Post code must not contain leading or trailing whitespace.';

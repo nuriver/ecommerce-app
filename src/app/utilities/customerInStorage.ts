@@ -1,5 +1,5 @@
 export default function customerInStorage(): boolean {
-  const customer = sessionStorage.getItem('customer');
+  const customer = localStorage.getItem('customer');
   if (customer) return true;
   return false;
 }
