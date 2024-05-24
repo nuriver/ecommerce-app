@@ -2,10 +2,12 @@ import {
   Client,
   ClientBuilder,
   PasswordAuthMiddlewareOptions,
+  TokenCache,
+  TokenStore,
   type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
-import CustomerCredentials from '../../types/interfaces';
+import { CustomerCredentials, TokenCacheObject } from '../../types/interfaces';
 
 const projectKey = process.env.CTP_PROJECT_KEY as string;
 const scopes = [process.env.CTP_SCOPES as string];
@@ -32,7 +34,29 @@ export const ctpClient = new ClientBuilder()
   .withLoggerMiddleware()
   .build();
 
+// Token cache
+class PasswordFlowTokenCache implements TokenCache {
+  tokenStorage: TokenStore = {
+    token: '',
+    expirationTime: 0,
+    refreshToken: undefined,
+  };
+
+  set(newCache: TokenStore) {
+    this.tokenStorage = newCache;
+  }
+
+  get() {
+    return this.tokenStorage;
+  }
+}
+
+export const tokenCacheObject: TokenCacheObject = {
+  tokenCache: null,
+};
+
 function createPasswordAuthMiddlewareOptions(credentials: CustomerCredentials): PasswordAuthMiddlewareOptions {
+  const passwordFlowTokenCache = new PasswordFlowTokenCache();
   const options: PasswordAuthMiddlewareOptions = {
     host: 'https://auth.europe-west1.gcp.commercetools.com',
     projectKey,
@@ -45,8 +69,11 @@ function createPasswordAuthMiddlewareOptions(credentials: CustomerCredentials): 
       },
     },
     scopes,
+    tokenCache: passwordFlowTokenCache,
     fetch,
   };
+
+  tokenCacheObject.tokenCache = passwordFlowTokenCache;
   return options;
 }
 
