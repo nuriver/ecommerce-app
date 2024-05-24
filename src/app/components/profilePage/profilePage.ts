@@ -9,9 +9,124 @@
 //   checkPostCode,
 //   checkStreet,
 // } from '../../utilities/checkers';
+import { getCustomers } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 // import printError from '../../utilities/printError';
 // import simpleRedirect from '../../utilities/simpleRedirect';
+function addAddress(block: HTMLDivElement) {
+    const newAddress: HTMLDivElement = createElement('div', ['profile-page__new-address'], block)
+    createElement('h2', ['new-address__title'], newAddress, 'Address')
+    const newCountry: HTMLDivElement = createElement(
+        'div',
+        ['data-block__line', 'new-address__country'],
+        newAddress
+      );
+      createElement('label', ['data-block__label'], newCountry, 'country');
+      const newCountryValue: HTMLInputElement = createElement(
+        'input',
+        ['data-block__input', 'new-address__country-input'],
+        newCountry
+      );
+      newCountryValue.disabled = true;
+      //   newCountryValue.value =
+    
+      const newCity: HTMLDivElement = createElement(
+        'div',
+        ['data-block__line', 'new-address__city'],
+        newAddress
+      );
+      createElement('label', ['data-block__label'], newCity, 'city');
+      const newCityValue: HTMLInputElement = createElement(
+        'input',
+        ['data-block__input', 'new-address__city-input'],
+        newCity
+      );
+      newCityValue.disabled = true;
+      //   newCityValue.value =
+    
+      const newStreet: HTMLDivElement = createElement(
+        'div',
+        ['data-block__line', 'new-address__street'],
+        newAddress
+      );
+      createElement('label', ['data-block__label'], newStreet, 'street');
+      const newStreetValue: HTMLInputElement = createElement(
+        'input',
+        ['data-block__input', 'new-address__street-input'],
+        newStreet
+      );
+      newStreetValue.disabled = true;
+      //   newStreetValue.value =
+    
+      const newPostalCode: HTMLDivElement = createElement(
+        'div',
+        ['data-block__line', 'new-address__postal-code'],
+        newAddress
+      );
+      createElement('label', ['data-block__label'], newPostalCode, 'postal code');
+      const newPostalCodeValue: HTMLInputElement = createElement(
+        'input',
+        ['data-block__input', 'new-address__postal-code-input'],
+        newPostalCode
+      );
+      newPostalCodeValue.disabled = true;
+      //   newPostalCodeValue.value =
+    
+      const checkboxNewAdd: HTMLDivElement = createElement(
+        'div',
+        ['checkbox-block', 'checkbox-block__default'],
+        newAddress
+      );
+      const checkboxInputNewAdd: HTMLInputElement = createElement(
+        'input',
+        ['checkbox-block__checkbox-input'],
+        checkboxNewAdd
+      );
+      checkboxInputNewAdd.id = 'profile-address-billing-default';
+      checkboxInputNewAdd.setAttribute('type', 'checkbox');
+      createElement('label', ['checkbox-block__checkbox-label'], checkboxNewAdd, 'Billing');
+
+      
+
+
+      const checkboxNewAddShip: HTMLDivElement = createElement(
+        'div',
+        ['checkbox-block', 'checkbox-block__default'],
+        newAddress
+      );
+      const checkboxInputNewAddShip: HTMLInputElement = createElement(
+        'input',
+        ['checkbox-block__checkbox-input'],
+        checkboxNewAddShip
+      );
+      checkboxInputNewAddShip.id = 'profile-address-shipping-default';
+      checkboxInputNewAddShip.setAttribute('type', 'checkbox');
+      createElement('label', ['checkbox-block__checkbox-label'], checkboxNewAddShip, 'Shipping');
+
+
+
+
+      const checkboxNewAddDef: HTMLDivElement = createElement(
+        'div',
+        ['checkbox-block', 'checkbox-block__default'],
+        newAddress
+      );
+      const checkboxInputNewAddDef: HTMLInputElement = createElement(
+        'input',
+        ['checkbox-block__checkbox-input'],
+        checkboxNewAddDef
+      );
+      checkboxInputNewAddDef.id = 'profile-address-default';
+      checkboxInputNewAddDef.setAttribute('type', 'checkbox');
+      createElement('label', ['checkbox-block__checkbox-label'], checkboxNewAddDef, 'Default');
+
+      const newAddressAllBtn: HTMLDivElement = createElement('div', ['new-address__all-btn'], newAddress)
+    const editNewAddressBtn: HTMLButtonElement = createElement('button', ['button', 'button-new-address', 'new-address__edit'], newAddressAllBtn, 'Edit');
+    const saveNewAddressBtn: HTMLButtonElement = createElement('button', ['button', 'button-new-address', 'new-address__save'], newAddressAllBtn, 'Save');
+    const deleteNewAddressBtn: HTMLButtonElement = createElement('button', ['button', 'button-new-address', 'new-address__delete'], newAddressAllBtn, 'Delete');
+
+
+}
 
 export default function createProfilePage(): HTMLDivElement {
   const profilePage: HTMLDivElement = createElement('div', ['profile-page']);
@@ -36,10 +151,9 @@ export default function createProfilePage(): HTMLDivElement {
   const firstName: HTMLDivElement = createElement(
     'div',
     ['data-block__line', 'personal-info-email__first-name'],
-    personalInfoEmail,
-    'first name'
+    personalInfoEmail
   );
-  createElement('label', ['data-block__label'], firstName);
+  createElement('label', ['data-block__label'], firstName, 'first name');
   const firstNameValue: HTMLInputElement = createElement(
     'input',
     ['data-block__input', 'first-name__input'],
@@ -60,15 +174,16 @@ export default function createProfilePage(): HTMLDivElement {
   const birthDate: HTMLDivElement = createElement(
     'div',
     ['data-block__line', 'personal-info-email__birth-date'],
-    personalInfoEmail,
-    'date of birth'
+    personalInfoEmail
   );
-  createElement('label', ['data-block__label'], birthDate);
+  createElement('label', ['data-block__label'], birthDate, 'date of birth');
+
   const birthDateValue: HTMLInputElement = createElement(
     'input',
     ['data-block__input', 'birth-date__input'],
-    birthDate
+    birthDate    
   );
+
   birthDateValue.disabled = true;
   birthDateValue.setAttribute('type', 'date');
   //   birthDateValue.value =
@@ -94,7 +209,7 @@ export default function createProfilePage(): HTMLDivElement {
   );
 
   const addressesTitleBlock: HTMLDivElement = createElement('div', ['data-block__title-block'], addressesWrapper);
-  createElement('h2', ['data-block__title'], addressesTitleBlock, 'Personal information & Email');
+  createElement('h2', ['data-block__title'], addressesTitleBlock, 'Addresses');
   const editAddressesButton: HTMLButtonElement = createElement(
     'button',
     ['button-white', 'title-block__edit-button', 'addresses__edit-btn'],
@@ -102,10 +217,12 @@ export default function createProfilePage(): HTMLDivElement {
     'EDIT'
   );
 
+  const myAddresses: HTMLDivElement = createElement('div', ['data-block__addresses-wrapper'], addressesWrapper);
+
   const billingAddressBlock: HTMLDivElement = createElement(
     'div',
     ['address-wrapper__address', 'address-wrapper__billing'],
-    addressesWrapper
+    myAddresses
   );
   createElement('h2', ['data-block__title'], billingAddressBlock, 'Billing address');
 
@@ -178,25 +295,31 @@ export default function createProfilePage(): HTMLDivElement {
   checkboxInputBillingAdd.id = 'profile-address-billing-default';
   checkboxInputBillingAdd.setAttribute('type', 'checkbox');
   createElement('label', ['checkbox-block__checkbox-label'], checkboxBillingAdd, 'default');
+  ///////////
+  const checkboxBillingSameAdd: HTMLDivElement = createElement(
+    'div',
+    ['checkbox-block', 'checkbox-block__default'],
+    billingAddressBlock
+  );
 
   const checkboxInputSameAdd: HTMLInputElement = createElement(
     'input',
     ['checkbox-block__checkbox-input'],
-    checkboxBillingAdd
+    checkboxBillingSameAdd
   );
   checkboxInputSameAdd.id = 'profile-same-addresses';
   checkboxInputSameAdd.setAttribute('type', 'checkbox');
   createElement(
     'label',
     ['checkbox-block__checkbox-label'],
-    checkboxBillingAdd,
+    checkboxBillingSameAdd,
     'used as the same address for both billing and shipping'
   );
 
   const shippingAddressBlock: HTMLDivElement = createElement(
     'div',
     ['address-wrapper__address', 'address-wrapper__shipping'],
-    addressesWrapper
+    myAddresses
   );
   createElement('h2', ['data-block__title'], shippingAddressBlock, 'Shipping address');
 
@@ -276,12 +399,14 @@ export default function createProfilePage(): HTMLDivElement {
     ['profile-page__data-block', 'profile-page__password-wrapper'],
     profileWrapper
   );
-  createElement('h2', ['data-block__title'], passwordBlock, 'Password');
+  const passwordTitleBlock: HTMLDivElement = createElement('div', ['data-block__title-block'], passwordBlock);
+
+  createElement('h2', ['data-block__title'], passwordTitleBlock, 'Password');
 
   const editPasswordButton: HTMLButtonElement = createElement(
     'button',
     ['button-white', 'title-block__edit-button', 'password__edit-btn'],
-    passwordBlock,
+    passwordTitleBlock,
     'EDIT'
   );
   const currentPassword: HTMLDivElement = createElement(
@@ -312,5 +437,12 @@ export default function createProfilePage(): HTMLDivElement {
   newPasswordInput.disabled = true;
   //   newPasswordInput.value =
 
+  /* START ADD ADDRESS */
+
+const addAddressButton: HTMLButtonElement = createElement('button', ['button', 'profile-page__add-address-button'], profileWrapper, 'Add new address');
+addAddressButton.addEventListener('click', () => {
+    addAddress(profileWrapper)
+})
   return profilePage;
 }
+

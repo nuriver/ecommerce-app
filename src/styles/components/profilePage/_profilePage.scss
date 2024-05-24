@@ -9,8 +9,57 @@
     align-items: center;
     width: 100%;
     max-width: 1196px;
+    gap: 50px;
+  }
+  .title-block__edit-button {
+    padding: 10px 25px;
   }
   .data-block__title-block {
     display: flex;
+    gap: 25px;
+  }
+  .data-block__addresses-wrapper {
+    display: flex;
+    gap: 25px;
+  }
+  .data-block__label {
+    margin: 5px 0;
+  }
+  .profile-page__data-block,
+  .address-wrapper__address {
+    // width: 100%;
+    // min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    display: flex;
+    gap: 15px;
+  }
+  .profile-page__personal-info-email {
+    max-width: 500px;
+  }
+  .address-wrapper__shipping,
+  .address-wrapper__billing {
+    max-width: 500px;
+  }
+  .data-block__line {
+    display: flex;
+    gap: 25px;
+  }
+  .profile-page__new-address {
+    border: 1px solid #e6dada;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .new-address__all-btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .button-new-address {
+    width: auto;
+    padding: 10px 20px;
   }
 }

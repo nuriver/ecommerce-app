@@ -1188,7 +1188,54 @@ label {
   align-items: center;
   width: 100%;
   max-width: 1196px;
+  gap: 50px;
+}
+.profile-page .title-block__edit-button {
+  padding: 10px 25px;
 }
 .profile-page .data-block__title-block {
   display: flex;
+  gap: 25px;
+}
+.profile-page .data-block__addresses-wrapper {
+  display: flex;
+  gap: 25px;
+}
+.profile-page .data-block__label {
+  margin: 5px 0;
+}
+.profile-page .profile-page__data-block,
+.profile-page .address-wrapper__address {
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+  display: flex;
+  gap: 15px;
+}
+.profile-page .profile-page__personal-info-email {
+  max-width: 500px;
+}
+.profile-page .address-wrapper__shipping,
+.profile-page .address-wrapper__billing {
+  max-width: 500px;
+}
+.profile-page .data-block__line {
+  display: flex;
+  gap: 25px;
+}
+.profile-page .profile-page__new-address {
+  border: 1px solid #e6dada;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.profile-page .new-address__all-btn {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.profile-page .button-new-address {
+  width: auto;
+  padding: 10px 20px;
 }/*# sourceMappingURL=style.css.map */
