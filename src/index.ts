@@ -8,6 +8,7 @@ import routeNavigation from './app/utilities/routeNavigation';
 import create404Page from './app/components/404Page/404Page';
 import createFooter from './app/components/footer';
 import redirectTo404 from './app/utilities/redirectTo404';
+import customerInStorage from './app/utilities/customerInStorage';
 
 const { body } = document;
 
@@ -28,5 +29,8 @@ window.addEventListener('hashchange', () => {
 });
 
 window.addEventListener('load', () => {
-  sessionStorage.clear();
+  if (customerInStorage()) {
+    const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+    loginLink.innerText = 'LOGOUT';
+  }
 });

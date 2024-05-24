@@ -35,7 +35,7 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
       token: customerToken,
     };
 
-    sessionStorage.setItem('customer', JSON.stringify(customer));
+    localStorage.setItem('customer', JSON.stringify(customer));
     loginLink.innerText = 'LOGOUT';
     window.location.href = '#/main';
     return true;

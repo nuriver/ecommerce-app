@@ -22,7 +22,7 @@ function createHeaderMenu(container: HTMLElement): void {
       headerLink.classList.add('header-link-login');
       headerLink.addEventListener('click', () => {
         if (customerInStorage()) {
-          sessionStorage.clear();
+          localStorage.clear();
           window.location.href = '#/login';
           headerLink.innerText = 'LOGIN';
         }
