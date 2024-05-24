@@ -8,6 +8,7 @@ import routeNavigation from './app/utilities/routeNavigation';
 import create404Page from './app/components/404Page/404Page';
 import createFooter from './app/components/footer';
 import redirectTo404 from './app/utilities/redirectTo404';
+import createProfilePage from './app/components/profilePage/profilePage';
 
 const { body } = document;
 
@@ -19,12 +20,13 @@ const loginPage = createLoginPage();
 const mainPage = createMain();
 redirectTo404(mainPage);
 const registerPage = createRegistrationPage();
+const profilePage = createProfilePage();
 const page404 = create404Page();
 
-routeNavigation(mainPage, loginPage, registerPage, page404, false);
+routeNavigation(mainPage, loginPage, registerPage, profilePage, page404, false);
 
 window.addEventListener('hashchange', () => {
-  routeNavigation(mainPage, loginPage, registerPage, page404, true);
+  routeNavigation(mainPage, loginPage, registerPage, profilePage, page404, true);
 });
 
 window.addEventListener('load', () => {

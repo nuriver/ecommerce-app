@@ -7,6 +7,7 @@ const headerLinks = [
   { name: 'MAIN', href: '#/main' },
   { name: 'ABOUT US', href: '#/404' },
   { name: 'LOGIN', href: '#/login' },
+  { name: 'PROFILE', href: '#/profile' },
   { name: 'REGISTRATION', href: '#/registration' },
 ];
 

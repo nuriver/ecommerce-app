@@ -1,0 +1,13 @@
+.profile-page {
+  @include wrapper;
+  padding: 25px 121px;
+  flex-direction: column;
+  align-items: center;
+  .profile-page__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1196px;
+  }
+}
