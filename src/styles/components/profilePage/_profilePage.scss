@@ -11,9 +11,9 @@
     max-width: 1196px;
     gap: 50px;
   }
-  .title-block__edit-button {
-    padding: 10px 25px;
-  }
+  //   .title-block__edit-button {
+  //     padding: 10px 25px;
+  //   }
   .data-block__title-block {
     display: flex;
     gap: 25px;
@@ -24,6 +24,9 @@
   }
   .data-block__label {
     margin: 5px 0;
+  }
+  .data-block__input {
+    padding: 5px;
   }
   .profile-page__data-block,
   .address-wrapper__address {
@@ -36,7 +39,7 @@
     gap: 15px;
   }
   .profile-page__personal-info-email {
-    max-width: 500px;
+    max-width: 800px;
   }
   .address-wrapper__shipping,
   .address-wrapper__billing {
@@ -61,5 +64,25 @@
   .button-new-address {
     width: auto;
     padding: 10px 20px;
+  }
+  .button-white {
+    padding: 10px 25px;
+    background-color: white;
+    color: #000000;
+    font-size: 15px;
+    border: 2px solid #000000;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .button-white:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+  .button-white:disabled {
+    background-color: #bcbcbc;
+    pointer-events: none;
+    border: 1px solid gray;
+    color: gray;
+    cursor: default;
   }
 }

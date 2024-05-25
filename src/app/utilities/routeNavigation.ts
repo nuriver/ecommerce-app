@@ -15,6 +15,8 @@ export default function routeNavigation(
   const signInRouting = () => {
     if (workingRoutes.includes(currentRoute)) {
       pageToggle(main, 'main');
+    } else if (currentRoute === '#/profile') {
+      pageToggle(profile, 'profile');
     } else {
       pageToggle(wrongRoute, '404');
     }

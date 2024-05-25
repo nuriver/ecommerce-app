@@ -17,7 +17,6 @@ export default function createRegistrationPage(): HTMLDivElement {
   function isError(obj: Record<string, boolean>): boolean {
     return !Object.values(obj).every((value) => !value);
   }
-  console.log(7)
   const errors: { [key: string]: boolean } = {
     email: true,
     password: true,
