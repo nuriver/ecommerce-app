@@ -39,7 +39,7 @@
     gap: 15px;
   }
   .profile-page__personal-info-email {
-    max-width: 800px;
+    flex-wrap: wrap;
   }
   .address-wrapper__shipping,
   .address-wrapper__billing {
@@ -71,6 +71,9 @@
     color: #000000;
     font-size: 15px;
     border: 2px solid #000000;
+  }
+  .user-data__errors {
+    color: red;
   }
   @media (hover: hover) and (pointer: fine) {
     .button-white:hover {

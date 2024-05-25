@@ -1,25 +1,45 @@
+import { ClientResponse, Customer } from '@commercetools/platform-sdk';
 // import { CustomerDraft } from '@commercetools/platform-sdk';
 // import { createCustomer, signInCustomer } from '../../api/SDK/client';
-// import {
-//   checkCity,
-//   checkDate,
-//   checkEmail,
-//   checkName,
-//   checkPassword,
-//   checkPostCode,
-//   checkStreet,
-// } from '../../utilities/checkers';
-import { ClientResponse, Customer } from '@commercetools/platform-sdk';
+import {
+  checkCity,
+  checkDate,
+  checkEmail,
+  checkName,
+  checkPassword,
+  checkPostCode,
+  checkStreet,
+} from '../../utilities/checkers';
+
 // import { getCustomers } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 // import { ctpClient } from '../../api/SDK/clientBuilder';
 import getCustomerById from './getCustomerBuId';
 import addAddress from './addAddress';
+import printError from '../../utilities/printError';
+import updateCustomerById from './updateCustomer';
 // import printError from '../../utilities/printError';
 // import simpleRedirect from '../../utilities/simpleRedirect';
 
-
 export default function createProfilePage(): HTMLDivElement {
+  function isError(obj: Record<string, boolean>): boolean {
+    return !Object.values(obj).every((value) => !value);
+  }
+ let idCustomer: string | undefined;
+ let versionCustomer: number | undefined;
+  const errors: { [key: string]: boolean } = {
+    email: true,
+    password: true,
+    name: true,
+    surname: true,
+    billingCity: true,
+    shippingCity: true,
+    date: true,
+    billingStreet: true,
+    shippingStreet: true,
+    billingCode: true,
+    shippingCode: true,
+  };
   const profilePage: HTMLDivElement = createElement('div', ['profile-page']);
   const profileWrapper: HTMLDivElement = createElement('div', ['profile-page__wrapper'], profilePage);
   createElement('h1', ['profile-page__title'], profileWrapper, 'MY ACCOUNT');
@@ -60,6 +80,8 @@ export default function createProfilePage(): HTMLDivElement {
   );
   firstNameValue.disabled = true;
   //   firstNameValue.value =
+  const firstNameErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
+
   const lastName: HTMLDivElement = createElement(
     'div',
     ['data-block__line', 'personal-info-email__last-name'],
@@ -69,6 +91,7 @@ export default function createProfilePage(): HTMLDivElement {
   const lastNameValue: HTMLInputElement = createElement('input', ['data-block__input', 'last-name__input'], lastName);
   lastNameValue.disabled = true;
   // lastNameValue.value =
+  const lastNameErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
 
   const birthDate: HTMLDivElement = createElement(
     'div',
@@ -86,6 +109,7 @@ export default function createProfilePage(): HTMLDivElement {
   birthDateValue.disabled = true;
   birthDateValue.setAttribute('type', 'date');
   //   birthDateValue.value =
+  const birthDateErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
 
   const email: HTMLDivElement = createElement(
     'div',
@@ -96,6 +120,7 @@ export default function createProfilePage(): HTMLDivElement {
   const emailValue: HTMLInputElement = createElement('input', ['data-block__input', 'email__input'], email);
   emailValue.disabled = true;
   //   emailValue.value =
+  const emailErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
 
   /* END personal info */
 
@@ -319,6 +344,14 @@ export default function createProfilePage(): HTMLDivElement {
     passwordTitleBlock,
     'EDIT'
   );
+  const savePasswordButton: HTMLButtonElement = createElement(
+    'button',
+    ['button-white', 'title-block__save-button', 'password__save-btn'],
+    passwordTitleBlock,
+    'SAVE'
+  );
+  savePasswordButton.disabled = true;
+
   const currentPassword: HTMLDivElement = createElement(
     'div',
     ['data-block__line', 'password-block__current-password'],
@@ -359,6 +392,60 @@ export default function createProfilePage(): HTMLDivElement {
 
   const infoEmailInputElements: NodeListOf<HTMLInputElement> = personalInfoEmail.querySelectorAll('.data-block__input');
 
+  firstName.addEventListener('input', () => {
+    const check: string | false = checkName(firstNameValue.value);
+    if (check === false) {
+      errors.name = false;
+      printError(firstNameErr, '');
+      saveInfoEmailButton.disabled = false;
+    } else {
+      errors.name = true;
+      printError(firstNameErr, check);
+      saveInfoEmailButton.disabled = true;
+    }
+  });
+  lastName.addEventListener('input', () => {
+    const check: string | false = checkName(lastNameValue.value);
+    if (check === false) {
+      errors.surname = false;
+      printError(lastNameErr, '');
+      saveInfoEmailButton.disabled = false;
+
+    } else {
+      errors.surname = true;
+      printError(lastNameErr, check);
+      saveInfoEmailButton.disabled = true;
+    }
+  });
+  birthDate.addEventListener('input', () => {
+    const check: string | false = checkDate(birthDateValue.value);
+    if (check === false) {
+      errors.date = false;
+      printError(birthDateErr, '');
+      saveInfoEmailButton.disabled = false;
+
+    } else {
+      errors.date = true;
+      printError(birthDateErr, check);
+      saveInfoEmailButton.disabled = true;
+    }
+  });
+  email.addEventListener('input', () => {
+    const check: string | false = checkEmail(emailValue.value);
+    if (check === false) {
+      errors.email = false;
+      printError(emailErr, '');
+      saveInfoEmailButton.disabled = false;
+
+    } else {
+      errors.email = true;
+      printError(emailErr, check);
+      saveInfoEmailButton.disabled = true;
+    }
+  });
+
+
+
   editInfoEmailButton.addEventListener('click', () => {
     infoEmailInputElements.forEach((input) => {
       input.disabled = false;
@@ -366,9 +453,22 @@ export default function createProfilePage(): HTMLDivElement {
     editInfoEmailButton.disabled = true;
     saveInfoEmailButton.disabled = false;
   });
-  saveInfoEmailButton.addEventListener('click', () => {
-    saveInfoEmailButton.disabled = true;
-    editInfoEmailButton.disabled = false;
+  
+  saveInfoEmailButton.addEventListener('click', async (event) => {
+    if (!isError(errors)) {
+        try {
+            (event.target as HTMLButtonElement).disabled = true;
+            console.log(123)
+            if (idCustomer && versionCustomer) {
+                updateCustomerById(idCustomer, versionCustomer, [{ action: 'setFirstName', firstName: 'newNameOooooooo' }])
+                console.log(789)
+            }
+        } catch{
+            console.log(666)
+        }
+    }
+    // saveInfoEmailButton.disabled = true;
+    // editInfoEmailButton.disabled = false;
     infoEmailInputElements.forEach((input) => {
       input.disabled = true;
     });
@@ -378,6 +478,7 @@ export default function createProfilePage(): HTMLDivElement {
   const addressesCheckboxesElements: NodeListOf<HTMLInputElement> = myAddresses.querySelectorAll(
     '.checkbox-block__checkbox-input'
   );
+
   editAddressesButton.addEventListener('click', () => {
     addressesInputElements.forEach((input) => {
       input.disabled = false;
@@ -400,6 +501,25 @@ export default function createProfilePage(): HTMLDivElement {
     });
   });
 
+  const passwordInputElements: NodeListOf<HTMLInputElement> = passwordBlock.querySelectorAll('.data-block__input');
+
+  editPasswordButton.addEventListener('click', () => {
+    passwordInputElements.forEach((input) => {
+      input.disabled = false;
+    });
+    editPasswordButton.disabled = true;
+    savePasswordButton.disabled = false;
+  });
+
+  savePasswordButton.addEventListener('click', () => {
+    savePasswordButton.disabled = true;
+    editPasswordButton.disabled = false;
+    passwordInputElements.forEach((input) => {
+      input.disabled = true;
+    });
+  });
+
+
   let previousSessionStorage = JSON.stringify(sessionStorage);
   setInterval(async () => {
     const currentSessionStorage = JSON.stringify(sessionStorage);
@@ -407,6 +527,8 @@ export default function createProfilePage(): HTMLDivElement {
       if (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer) {
         if (JSON.parse(currentSessionStorage).customer) {
           const customer: ClientResponse<Customer> = await getCustomerById(JSON.parse(currentSessionStorage).customer);
+          idCustomer = customer.body.id;
+          versionCustomer = customer.body.version;
           firstNameValue.value = customer.body.firstName as string;
           lastNameValue.value = customer.body.lastName as string;
           birthDateValue.value = customer.body.dateOfBirth as string;
@@ -425,6 +547,10 @@ export default function createProfilePage(): HTMLDivElement {
 
               billingPostalCodeValue.value = customer.body.addresses[0].postalCode as string;
               shippingPostalCodeValue.value = customer.body.addresses[0].postalCode as string;
+
+              if (customer.body.defaultBillingAddressId) {
+                checkboxInputBillingAdd.checked = true;
+              }
             } else {
               billingCountryValue.value = customer.body.addresses[0].country;
               shippingCountryValue.value = customer.body.addresses[1].country;
@@ -437,6 +563,12 @@ export default function createProfilePage(): HTMLDivElement {
 
               billingPostalCodeValue.value = customer.body.addresses[0].postalCode as string;
               shippingPostalCodeValue.value = customer.body.addresses[1].postalCode as string;
+              if (customer.body.defaultBillingAddressId) {
+                checkboxInputBillingAdd.checked = true;
+              }
+              if (customer.body.defaultShippingAddressId) {
+                checkboxInputShippingAdd.checked = true;
+              }
             }
           }
         } else {

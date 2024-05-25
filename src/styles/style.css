@@ -1213,7 +1213,7 @@ label {
   gap: 15px;
 }
 .profile-page .profile-page__personal-info-email {
-  max-width: 800px;
+  flex-wrap: wrap;
 }
 .profile-page .address-wrapper__shipping,
 .profile-page .address-wrapper__billing {
@@ -1245,6 +1245,9 @@ label {
   color: #000000;
   font-size: 15px;
   border: 2px solid #000000;
+}
+.profile-page .user-data__errors {
+  color: red;
 }
 @media (hover: hover) and (pointer: fine) {
   .profile-page .button-white:hover {
