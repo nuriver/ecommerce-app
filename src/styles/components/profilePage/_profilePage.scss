@@ -6,9 +6,8 @@
   .profile-page__wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     width: 100%;
-    max-width: 1196px;
     gap: 50px;
   }
   //   .title-block__edit-button {
@@ -20,7 +19,8 @@
   }
   .data-block__addresses-wrapper {
     display: flex;
-    gap: 25px;
+    justify-content: space-between;
+    width: -webkit-fill-available;
   }
   .data-block__label {
     margin: 5px 0;
@@ -30,8 +30,6 @@
   }
   .profile-page__data-block,
   .address-wrapper__address {
-    // width: 100%;
-    // min-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: self-start;
@@ -40,10 +38,6 @@
   }
   .profile-page__personal-info-email {
     flex-wrap: wrap;
-  }
-  .address-wrapper__shipping,
-  .address-wrapper__billing {
-    max-width: 500px;
   }
   .data-block__line {
     display: flex;
@@ -56,6 +50,7 @@
     flex-direction: column;
     gap: 20px;
   }
+
   .new-address__all-btn {
     display: flex;
     justify-content: space-between;
@@ -75,6 +70,14 @@
   .user-data__errors {
     color: red;
   }
+  .data-block__country {
+    width: auto;
+    min-width: 200px;
+    border: 1px solid #80808063;
+    padding: 5px;
+    background-color: #f8f8f8;
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .button-white:hover {
       transform: scale(1.05);
@@ -87,5 +90,11 @@
     border: 1px solid gray;
     color: gray;
     cursor: default;
+  }
+  @media screen and (max-width: 875px) {
+    .data-block__addresses-wrapper {
+      flex-direction: column;
+      gap: 50px;
+    }
   }
 }
