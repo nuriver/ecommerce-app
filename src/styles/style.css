@@ -1192,10 +1192,18 @@ label {
   display: flex;
   gap: 25px;
 }
-.profile-page .data-block__addresses-wrapper {
+.profile-page .addresses-wrapper__addresses-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+.profile-page .data-block__address-wrapper {
+  border: 1px solid #e6dada;
+  padding: 25px;
   display: flex;
   justify-content: space-between;
-  width: -webkit-fill-available;
+  flex-direction: column;
+  gap: 20px;
 }
 .profile-page .data-block__label {
   margin: 5px 0;
@@ -1218,16 +1226,6 @@ label {
   display: flex;
   gap: 25px;
 }
-.profile-page .profile-page__new-address {
-  border: 1px solid #e6dada;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.profile-page .address-wrapper__address {
-  width: 500px;
-}
 .profile-page .new-address__all-btn {
   display: flex;
   justify-content: space-between;
@@ -1247,7 +1245,7 @@ label {
 .profile-page .user-data__errors {
   color: red;
 }
-.profile-page .data-block__country {
+.profile-page .new-address__country-input {
   width: auto;
   min-width: 200px;
   border: 1px solid rgba(128, 128, 128, 0.3882352941);
