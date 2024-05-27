@@ -6,7 +6,7 @@ import {
 } from '@commercetools/platform-sdk';
 import { ctpClient } from '../../api/SDK/clientBuilder';
 
-export default async function updateCustomerById(
+export async function updateCustomerById(
   ID: string,
   version: number,
   actions: CustomerUpdateAction[]
@@ -25,4 +25,27 @@ export default async function updateCustomerById(
     })
     .execute();
 }
-// [{ action: 'setFirstName', firstName: 'newNameOooooooo' }];
+
+export async function updateCustomerPasswordById(
+  id: string,
+  version: number,
+  currentPassword: string,
+  newPassword: string
+) {
+  const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+  const costumer = await apiRoot
+    .customers()
+    .password()
+    .post({
+      body: {
+        id,
+        version,
+        currentPassword,
+        newPassword,
+      },
+    })
+    .execute();
+  return costumer;
+}

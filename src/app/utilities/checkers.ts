@@ -11,19 +11,15 @@ export function checkEmail(email: string): false | string {
 }
 
 export function checkPassword(password: string): false | string {
-  const lowerLetters: RegExp = /[a-z]/g;
-  const upperLetters: RegExp = /[A-Z]/g;
-  const numbers: RegExp = /[0-9]/g;
-  const minLength: number = 8;
+  const expression: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+
 
   if (password.slice(0, 1) === ' ' || password.slice(-1) === ' ') {
     return 'Password must not contain trailing or leading whitespace.';
   }
   if (
-    password.match(lowerLetters) &&
-    password.match(upperLetters) &&
-    password.match(numbers) &&
-    password.length >= minLength &&
+    password.match(expression) &&
+
     !password.includes(' ')
   ) {
     return false;

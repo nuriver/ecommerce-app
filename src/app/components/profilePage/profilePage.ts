@@ -6,8 +6,10 @@ import createElement from '../../utilities/createElement';
 // import { ctpClient } from '../../api/SDK/clientBuilder';
 import getCustomerById from './getCustomerBuId';
 import addAddress from './addAddress';
-import updateCustomerById from './updateCustomer';
-import { checkPersonalInfo, checkBillingInputs, checkShippingInputs } from './checks';
+import { updateCustomerById, updateCustomerPasswordById } from './updateCustomer';
+import { checkPersonalInfo, checkBillingInputs, checkShippingInputs, checkPasswordsForChange } from './checks';
+import { checkPassword } from '../../utilities/checkers';
+import printError from '../../utilities/printError';
 // import simpleRedirect from '../../utilities/simpleRedirect';
 
 export default function createProfilePage(): HTMLDivElement {
@@ -136,6 +138,14 @@ export default function createProfilePage(): HTMLDivElement {
   );
   savePasswordButton.disabled = true;
 
+  const delayPasswordButton: HTMLButtonElement = createElement(
+    'button',
+    ['button-white', 'title-block__delay-button', 'password__delay-btn'],
+    passwordTitleBlock,
+    'Not now'
+  );
+  delayPasswordButton.disabled = true;
+
   const currentPassword: HTMLDivElement = createElement(
     'div',
     ['data-block__line', 'password-block__current-password'],
@@ -149,6 +159,7 @@ export default function createProfilePage(): HTMLDivElement {
   );
   currentPasswordInput.disabled = true;
   //   currentPasswordInput.value =
+  const currentPasswordErr: HTMLDivElement = createElement('div', ['user-data__errors'], passwordBlock);
 
   const newPassword: HTMLDivElement = createElement(
     'div',
@@ -163,6 +174,7 @@ export default function createProfilePage(): HTMLDivElement {
   );
   newPasswordInput.disabled = true;
   //   newPasswordInput.value =
+  const newPasswordErr: HTMLDivElement = createElement('div', ['user-data__errors'], passwordBlock);
 
   const addressesWrapper: HTMLDivElement = createElement(
     'div',
@@ -201,6 +213,24 @@ export default function createProfilePage(): HTMLDivElement {
     birthDateErr,
     emailErr
   );
+  const resultCheckPasswords: { [key: string]: boolean } = checkPasswordsForChange(
+    currentPassword,
+    newPassword,
+    currentPasswordInput,
+    newPasswordInput,
+    currentPasswordErr,
+    newPasswordErr,
+    savePasswordButton,
+    delayPasswordButton
+  );
+  delayPasswordButton.addEventListener('click', () => {
+    editPasswordButton.disabled = false;
+    delayPasswordButton.disabled = true;
+    savePasswordButton.disabled = true;
+    currentPasswordInput.innerText = '';
+    newPasswordInput.innerText = '';
+  });
+
   editInfoEmailButton.addEventListener('click', () => {
     infoEmailInputElements.forEach((input) => {
       input.disabled = false;
@@ -233,17 +263,32 @@ export default function createProfilePage(): HTMLDivElement {
 
   const passwordInputElements: NodeListOf<HTMLInputElement> = passwordBlock.querySelectorAll('.data-block__input');
 
-  editPasswordButton.addEventListener('click', () => {
+  editPasswordButton.addEventListener('click', async () => {
     passwordInputElements.forEach((input) => {
       input.disabled = false;
     });
     editPasswordButton.disabled = true;
     savePasswordButton.disabled = false;
+    delayPasswordButton.disabled = false;
   });
 
-  savePasswordButton.addEventListener('click', () => {
+  savePasswordButton.addEventListener('click', (event) => {
+    if (!isError(resultCheckPasswords)) {
+        try {
+            (event.target as HTMLButtonElement).disabled = true;
+            if (  idCustomer && versionCustomer) {
+                updateCustomerPasswordById(idCustomer, versionCustomer, currentPasswordInput.value, newPasswordInput.value)
+            } 
+                
+             
+        } catch (err) {
+            console.log('OOOOOOOps')
+        }
+    }
     savePasswordButton.disabled = true;
     editPasswordButton.disabled = false;
+    delayPasswordButton.disabled = true;
+
     passwordInputElements.forEach((input) => {
       input.disabled = true;
     });

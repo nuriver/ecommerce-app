@@ -1,4 +1,12 @@
-import { checkName, checkDate, checkEmail, checkCity, checkStreet, checkPostCode } from '../../utilities/checkers';
+import {
+  checkName,
+  checkDate,
+  checkEmail,
+  checkCity,
+  checkStreet,
+  checkPostCode,
+  checkPassword,
+} from '../../utilities/checkers';
 import printError from '../../utilities/printError';
 
 export function checkPersonalInfo(
@@ -15,7 +23,7 @@ export function checkPersonalInfo(
   lastNameErr: HTMLDivElement,
   birthDateErr: HTMLDivElement,
   emailErr: HTMLDivElement
-): { [key: string]: boolean }  {
+): { [key: string]: boolean } {
   const errors: { [key: string]: boolean } = {
     email: false,
     password: false,
@@ -71,7 +79,59 @@ export function checkPersonalInfo(
     }
   });
   return errors;
+}
 
+export function checkPasswordsForChange(
+  currentPassword: HTMLDivElement,
+  newPassword: HTMLDivElement,
+  currentPasswordInput: HTMLInputElement,
+  newPasswordInput: HTMLInputElement,
+  currentPasswordErr: HTMLDivElement,
+  newPasswordErr: HTMLDivElement,
+  savePasswordButton: HTMLButtonElement,
+  delayPasswordButton: HTMLButtonElement
+): { [key: string]: boolean } {
+  const errors: { [key: string]: boolean } = {
+    currentPassword: true,
+    password: true,
+  };
+
+  currentPasswordInput.addEventListener('input', () => {
+    delayPasswordButton.disabled = false;
+    const check: string | false = checkPassword(currentPasswordInput.value);
+    if (check === false) {
+      errors.currentPassword = false;
+      printError(currentPasswordErr, '');
+    } else {
+      errors.currentPassword = true;
+      printError(currentPasswordErr, check);
+      savePasswordButton.disabled = true;
+    }
+  });
+
+  newPasswordInput.addEventListener('input', () => {
+    delayPasswordButton.disabled = false;
+    const check: string | false = checkPassword(newPasswordInput.value);
+    if (check === false) {
+      errors.password = false;
+      savePasswordButton.disabled = false;
+      printError(newPasswordErr, '');
+    } else {
+        errors.password = true;
+      printError(newPasswordErr, check);
+      savePasswordButton.disabled = true;
+    }
+  });
+  if (
+    currentPasswordInput.value &&
+    newPasswordInput.value &&
+    !currentPassword.innerText &&
+    !newPassword.innerText
+  ) {
+    savePasswordButton.disabled = false;
+  }
+
+  return errors;
 }
 
 export function checkBillingInputs(
@@ -142,14 +202,12 @@ export function checkBillingInputs(
       saveAddressesButton.disabled = false;
       checkboxInputSameAdd.disabled = false;
       checkboxInputBillingAdd.disabled = false;
-
     } else {
       errors.billingCode = true;
       printError(billingPostalCodeErr, check);
       saveAddressesButton.disabled = true;
       checkboxInputSameAdd.disabled = true;
       checkboxInputBillingAdd.disabled = true;
-
     }
   });
 
@@ -177,7 +235,7 @@ export function checkShippingInputs(
   shippingStreetErr: HTMLDivElement,
   shippingPostalCodeErr: HTMLDivElement,
   checkboxInputShippingAdd: HTMLInputElement,
-  saveAddressesButton: HTMLButtonElement,
+  saveAddressesButton: HTMLButtonElement
 ) {
   const errors: { [key: string]: boolean } = {
     shippingCity: true,

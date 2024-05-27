@@ -1191,6 +1191,7 @@ label {
 .profile-page .data-block__title-block {
   display: flex;
   gap: 25px;
+  flex-wrap: wrap;
 }
 .profile-page .addresses-wrapper__addresses-block {
   display: flex;
