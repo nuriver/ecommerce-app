@@ -123,10 +123,10 @@ export function checkPasswordsForChange(
     }
   });
   if (
-    currentPasswordInput.value &&
-    newPasswordInput.value &&
-    !currentPassword.innerText &&
-    !newPassword.innerText
+    currentPasswordInput.innerText.length &&
+    newPasswordInput.innerText.length &&
+    !currentPasswordErr.innerText &&
+    !newPasswordErr.innerText
   ) {
     savePasswordButton.disabled = false;
   }

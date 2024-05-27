@@ -35,7 +35,7 @@ export async function updateCustomerPasswordById(
   const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: process.env.CTP_PROJECT_KEY as string,
   });
-  const costumer = await apiRoot
+  const customer = await apiRoot
     .customers()
     .password()
     .post({
@@ -47,5 +47,5 @@ export async function updateCustomerPasswordById(
       },
     })
     .execute();
-  return costumer;
+  return customer;
 }

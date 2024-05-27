@@ -8,9 +8,6 @@ import getCustomerById from './getCustomerBuId';
 import addAddress from './addAddress';
 import { updateCustomerById, updateCustomerPasswordById } from './updateCustomer';
 import { checkPersonalInfo, checkBillingInputs, checkShippingInputs, checkPasswordsForChange } from './checks';
-import { checkPassword } from '../../utilities/checkers';
-import printError from '../../utilities/printError';
-// import simpleRedirect from '../../utilities/simpleRedirect';
 
 export default function createProfilePage(): HTMLDivElement {
   function isError(obj: Record<string, boolean>): boolean {
@@ -18,19 +15,6 @@ export default function createProfilePage(): HTMLDivElement {
   }
   let idCustomer: string | undefined;
   let versionCustomer: number | undefined;
-  const errors: { [key: string]: boolean } = {
-    email: true,
-    password: true,
-    name: true,
-    surname: true,
-    billingCity: true,
-    shippingCity: true,
-    date: true,
-    billingStreet: true,
-    shippingStreet: true,
-    billingCode: true,
-    shippingCode: true,
-  };
   const profilePage: HTMLDivElement = createElement('div', ['profile-page']);
   const profileWrapper: HTMLDivElement = createElement('div', ['profile-page__wrapper'], profilePage);
   createElement('h1', ['profile-page__title'], profileWrapper, 'MY ACCOUNT');
@@ -175,6 +159,11 @@ export default function createProfilePage(): HTMLDivElement {
   newPasswordInput.disabled = true;
   //   newPasswordInput.value =
   const newPasswordErr: HTMLDivElement = createElement('div', ['user-data__errors'], passwordBlock);
+  const accumulatePassErr: HTMLDivElement = createElement(
+    'div',
+    ['user-data__errors', 'user__password-changed'],
+    passwordBlock
+  );
 
   const addressesWrapper: HTMLDivElement = createElement(
     'div',
@@ -227,8 +216,8 @@ export default function createProfilePage(): HTMLDivElement {
     editPasswordButton.disabled = false;
     delayPasswordButton.disabled = true;
     savePasswordButton.disabled = true;
-    currentPasswordInput.innerText = '';
-    newPasswordInput.innerText = '';
+    currentPasswordInput.value = '';
+    newPasswordInput.value = '';
   });
 
   editInfoEmailButton.addEventListener('click', () => {
@@ -268,30 +257,48 @@ export default function createProfilePage(): HTMLDivElement {
       input.disabled = false;
     });
     editPasswordButton.disabled = true;
-    savePasswordButton.disabled = false;
+    savePasswordButton.disabled = true;
     delayPasswordButton.disabled = false;
   });
 
-  savePasswordButton.addEventListener('click', (event) => {
+  savePasswordButton.addEventListener('click', async (event) => {
     if (!isError(resultCheckPasswords)) {
-        try {
-            (event.target as HTMLButtonElement).disabled = true;
-            if (  idCustomer && versionCustomer) {
-                updateCustomerPasswordById(idCustomer, versionCustomer, currentPasswordInput.value, newPasswordInput.value)
-            } 
-                
-             
-        } catch (err) {
-            console.log('OOOOOOOps')
+      try {
+        (event.target as HTMLButtonElement).disabled = true;
+        if (idCustomer && versionCustomer) {
+          await updateCustomerPasswordById(
+            idCustomer,
+            versionCustomer,
+            currentPasswordInput.value,
+            newPasswordInput.value
+          );
+          accumulatePassErr.style.color = 'green';
+          accumulatePassErr.innerHTML = 'Your password has been changed successfully!';
+          setTimeout(async () => {
+            accumulatePassErr.innerHTML = '';
+            passwordInputElements.forEach((input) => {
+              input.disabled = true;
+            });
+          }, 1500);
         }
-    }
-    savePasswordButton.disabled = true;
-    editPasswordButton.disabled = false;
-    delayPasswordButton.disabled = true;
+      } catch (error) {
+        accumulatePassErr.style.color = 'red';
+        accumulatePassErr.innerHTML = `Oops! ${(error as Error).message}`;
+        setTimeout(async () => {
+            accumulatePassErr.innerHTML = '';
+          }, 1500);
+      } finally {
+        (event.target as HTMLButtonElement).disabled = true;
+        passwordInputElements.forEach((input) => {
+            input.value = '';
+            editPasswordButton.disabled = false;
+          });
 
-    passwordInputElements.forEach((input) => {
-      input.disabled = true;
-    });
+      }
+    }
+    // savePasswordButton.disabled = true;
+    // editPasswordButton.disabled = false;
+    // delayPasswordButton.disabled = true;
   });
 
   let previousSessionStorage = JSON.stringify(sessionStorage);
