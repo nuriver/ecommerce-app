@@ -15,12 +15,12 @@ export function checkPersonalInfo(
   lastNameErr: HTMLDivElement,
   birthDateErr: HTMLDivElement,
   emailErr: HTMLDivElement
-): void {
+): { [key: string]: boolean }  {
   const errors: { [key: string]: boolean } = {
-    email: true,
-    password: true,
-    name: true,
-    surname: true,
+    email: false,
+    password: false,
+    name: false,
+    surname: false,
   };
   firstName.addEventListener('input', () => {
     const check: string | false = checkName(firstNameValue.value);
@@ -70,6 +70,8 @@ export function checkPersonalInfo(
       saveInfoEmailButton.disabled = true;
     }
   });
+  return errors;
+
 }
 
 export function checkBillingInputs(

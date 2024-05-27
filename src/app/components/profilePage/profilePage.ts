@@ -186,7 +186,7 @@ export default function createProfilePage(): HTMLDivElement {
 
   const infoEmailInputElements: NodeListOf<HTMLInputElement> = personalInfoEmail.querySelectorAll('.data-block__input');
 
-  checkPersonalInfo(
+  const resultCheckPersonalInfo: { [key: string]: boolean } = checkPersonalInfo(
     firstName,
     lastName,
     birthDate,
@@ -210,13 +210,16 @@ export default function createProfilePage(): HTMLDivElement {
   });
 
   saveInfoEmailButton.addEventListener('click', async (event) => {
-    if (!isError(errors)) {
+    if (!isError(resultCheckPersonalInfo)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
-        console.log(123);
         if (idCustomer && versionCustomer) {
-          updateCustomerById(idCustomer, versionCustomer, [{ action: 'setFirstName', firstName: 'newNameOooooooo' }]);
-          console.log(789);
+          updateCustomerById(idCustomer, versionCustomer, [
+            { action: 'setFirstName', firstName: firstNameValue.value },
+            { action: 'setLastName', lastName: lastNameValue.value },
+            { action: 'setDateOfBirth', dateOfBirth: birthDateValue.value },
+            { action: 'changeEmail', email: emailValue.value },
+          ]);
         }
       } catch {
         console.log(666);
@@ -225,6 +228,7 @@ export default function createProfilePage(): HTMLDivElement {
     infoEmailInputElements.forEach((input) => {
       input.disabled = true;
     });
+    editInfoEmailButton.disabled = false;
   });
 
   const passwordInputElements: NodeListOf<HTMLInputElement> = passwordBlock.querySelectorAll('.data-block__input');
