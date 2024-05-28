@@ -258,9 +258,9 @@ export default function createProfilePage(): HTMLDivElement {
           });
           editInfoEmailButton.disabled = false;
         }, 1500);
-      } catch (err) {
+      } catch {
         accumulatePersonalInfoErr.style.color = 'red';
-        accumulatePersonalInfoErr.innerHTML = `Oops! ${(err as Error).message}`;
+        accumulatePersonalInfoErr.innerHTML = `Oops! Something wrong. Try again...`;
         setTimeout(async () => {
           accumulatePersonalInfoErr.innerHTML = '';
         }, 1500);
@@ -286,12 +286,13 @@ export default function createProfilePage(): HTMLDivElement {
         delayPasswordButton.disabled = true;
 
         if (idCustomer && versionCustomer) {
-          await updateCustomerPasswordById(
+          const customer = await updateCustomerPasswordById(
             idCustomer,
             versionCustomer,
             currentPasswordInput.value,
             newPasswordInput.value
           );
+          versionCustomer = customer.body.version;
           accumulatePassErr.style.color = 'green';
           accumulatePassErr.innerHTML = 'Your password has been changed successfully!';
           setTimeout(async () => {
@@ -307,7 +308,7 @@ export default function createProfilePage(): HTMLDivElement {
         accumulatePassErr.innerHTML = `Oops! ${(error as Error).message}`;
         setTimeout(async () => {
           accumulatePassErr.innerHTML = '';
-        }, 1500);
+        }, 5000);
         editPasswordButton.disabled = false;
       } finally {
         (event.target as HTMLButtonElement).disabled = true;
