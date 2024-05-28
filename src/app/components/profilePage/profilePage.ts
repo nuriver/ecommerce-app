@@ -327,10 +327,21 @@ export default function createProfilePage(): HTMLDivElement {
 
   setInterval(async () => {
     const currentSessionStorage = JSON.stringify(sessionStorage);
+
     if (currentSessionStorage !== previousSessionStorage) {
       if (addressesBlock.querySelectorAll('*')) {
         addressesBlock.innerHTML = '';
       }
+      const allInputs: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
+      allInputs.forEach((input) => {
+        input.value = '';
+        input.disabled = true;
+      });
+      const allErrorMessages: NodeListOf<HTMLDivElement> = profileWrapper.querySelectorAll('.user-data__errors');
+      allErrorMessages.forEach((message) => {
+        message.innerHTML = '';
+      });
+
       if (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer) {
         if (JSON.parse(currentSessionStorage).customer) {
           const customer: ClientResponse<Customer> = await getCustomerById(JSON.parse(currentSessionStorage).customer);
@@ -390,14 +401,14 @@ export default function createProfilePage(): HTMLDivElement {
             }
           }
         } else {
-          const allInputs: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
-          const allCheckboxes: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll(
+          const allInputsSecond: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
+          const allCheckboxesSecond: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll(
             '.checkbox-block__checkbox-input'
           );
-          allInputs.forEach((input) => {
+          allInputsSecond.forEach((input) => {
             input.innerHTML = '';
           });
-          allCheckboxes.forEach((checkbox) => {
+          allCheckboxesSecond.forEach((checkbox) => {
             checkbox.innerHTML = '';
           });
         }
