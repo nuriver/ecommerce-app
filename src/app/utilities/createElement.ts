@@ -1,4 +1,4 @@
-import ElementMap from '../types/types';
+import { ElementMap } from '../types/types';
 
 function createElement<K extends keyof ElementMap>(
   tag: K,

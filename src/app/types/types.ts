@@ -1,4 +1,4 @@
-type ElementMap = {
+export type ElementMap = {
   button: HTMLButtonElement;
   input: HTMLInputElement;
   div: HTMLDivElement;
@@ -13,4 +13,9 @@ type ElementMap = {
   option: HTMLOptionElement;
 };
 
-export default ElementMap;
+export type ProductData = {
+  name: string;
+  description: string;
+  image: string;
+  price: number | string;
+};

@@ -1,0 +1,32 @@
+import createElement from '../../utilities/createElement';
+import createSortOptions from './createSortOptions';
+
+export default function createCatalog(): HTMLElement {
+  const catalogWrapper = createElement('div', ['catalog-wrapper']);
+
+  const sortBlock = createElement('div', ['catalog-sort-block'], catalogWrapper);
+  createElement('p', ['sort-block-header'], sortBlock, 'SORT BY');
+  const sortOptionsContainer = createElement('div', ['sort-options-container'], sortBlock);
+  createSortOptions(sortOptionsContainer, 'name');
+  createSortOptions(sortOptionsContainer, 'price');
+
+  const filterButtonInnerText = '<span class="filter-icon"></span> SHOW FILTERS';
+  createElement('button', ['button', 'filter-button'], sortBlock, filterButtonInnerText);
+
+  const searchBlock = createElement('div', ['search-block'], catalogWrapper);
+  const searchLabel = createElement('label', ['search-label'], searchBlock, 'SEARCH');
+  searchLabel.setAttribute('for', 'searchInput');
+  const searchInput = createElement('input', ['search-input'], searchBlock);
+  searchInput.id = 'searchInput';
+
+  createElement('div', ['bread-crumbs'], catalogWrapper);
+
+  createElement('div', ['catalog'], catalogWrapper);
+
+  const paginationContainer = createElement('div', ['pagination-container'], catalogWrapper);
+  createElement('p', ['pagination-left', 'pagination-disabled'], paginationContainer, '<');
+  createElement('p', ['page-number'], paginationContainer, '1');
+  createElement('p', ['pagination-right'], paginationContainer, '>');
+
+  return catalogWrapper;
+}
