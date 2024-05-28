@@ -160,7 +160,7 @@ export default function addAddress(
     addressAllBtn,
     'EDIT'
   );
-
+  editAddressesButton.disabled = false;
   const saveAddressesButton: HTMLButtonElement = createElement(
     'button',
     ['button-white', 'title-block__save-button', 'addresses__save-btn'],

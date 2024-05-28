@@ -96,6 +96,11 @@ export default function createProfilePage(): HTMLDivElement {
   emailValue.disabled = true;
   //   emailValue.value =
   const emailErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
+  const accumulatePersonalInfoErr: HTMLDivElement = createElement(
+    'div',
+    ['user-data__errors', 'user__password-changed'],
+    personalInfoEmail
+  );
 
   /* END personal info */
 
@@ -218,6 +223,10 @@ export default function createProfilePage(): HTMLDivElement {
     savePasswordButton.disabled = true;
     currentPasswordInput.value = '';
     newPasswordInput.value = '';
+    currentPasswordInput.disabled = true;
+    newPasswordInput.disabled = true;
+    currentPasswordErr.innerHTML = '';
+    newPasswordErr.innerHTML = '';
   });
 
   editInfoEmailButton.addEventListener('click', () => {
@@ -240,14 +249,23 @@ export default function createProfilePage(): HTMLDivElement {
             { action: 'changeEmail', email: emailValue.value },
           ]);
         }
-      } catch {
-        console.log(666);
+        accumulatePersonalInfoErr.style.color = 'green';
+        accumulatePersonalInfoErr.innerHTML = 'Account has been updated!';
+        setTimeout(async () => {
+          accumulatePersonalInfoErr.innerHTML = '';
+          infoEmailInputElements.forEach((input) => {
+            input.disabled = true;
+          });
+          editInfoEmailButton.disabled = false;
+        }, 1500);
+      } catch (err) {
+        accumulatePersonalInfoErr.style.color = 'red';
+        accumulatePersonalInfoErr.innerHTML = `Oops! ${(err as Error).message}`;
+        setTimeout(async () => {
+          accumulatePersonalInfoErr.innerHTML = '';
+        }, 1500);
       }
     }
-    infoEmailInputElements.forEach((input) => {
-      input.disabled = true;
-    });
-    editInfoEmailButton.disabled = false;
   });
 
   const passwordInputElements: NodeListOf<HTMLInputElement> = passwordBlock.querySelectorAll('.data-block__input');
@@ -265,6 +283,8 @@ export default function createProfilePage(): HTMLDivElement {
     if (!isError(resultCheckPasswords)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
+        delayPasswordButton.disabled = true;
+
         if (idCustomer && versionCustomer) {
           await updateCustomerPasswordById(
             idCustomer,
@@ -279,32 +299,37 @@ export default function createProfilePage(): HTMLDivElement {
             passwordInputElements.forEach((input) => {
               input.disabled = true;
             });
+            editPasswordButton.disabled = false;
           }, 1500);
         }
       } catch (error) {
         accumulatePassErr.style.color = 'red';
         accumulatePassErr.innerHTML = `Oops! ${(error as Error).message}`;
         setTimeout(async () => {
-            accumulatePassErr.innerHTML = '';
-          }, 1500);
+          accumulatePassErr.innerHTML = '';
+        }, 1500);
+        editPasswordButton.disabled = false;
       } finally {
         (event.target as HTMLButtonElement).disabled = true;
         passwordInputElements.forEach((input) => {
-            input.value = '';
-            editPasswordButton.disabled = false;
-          });
-
+          input.value = '';
+        });
       }
     }
     // savePasswordButton.disabled = true;
     // editPasswordButton.disabled = false;
     // delayPasswordButton.disabled = true;
   });
-
+  const allEditBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__edit-button');
+  const allSaveBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__save-button');
   let previousSessionStorage = JSON.stringify(sessionStorage);
+
   setInterval(async () => {
     const currentSessionStorage = JSON.stringify(sessionStorage);
     if (currentSessionStorage !== previousSessionStorage) {
+      if (addressesBlock.querySelectorAll('*')) {
+        addressesBlock.innerHTML = '';
+      }
       if (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer) {
         if (JSON.parse(currentSessionStorage).customer) {
           const customer: ClientResponse<Customer> = await getCustomerById(JSON.parse(currentSessionStorage).customer);
@@ -314,6 +339,7 @@ export default function createProfilePage(): HTMLDivElement {
           lastNameValue.value = customer.body.lastName as string;
           birthDateValue.value = customer.body.dateOfBirth as string;
           emailValue.value = customer.body.email;
+
           if (customer.body.billingAddressIds && customer.body.shippingAddressIds) {
             console.log(customer.body.billingAddressIds, customer.body.shippingAddressIds);
             if (customer.body.billingAddressIds[0] === customer.body.shippingAddressIds[0]) {
@@ -326,6 +352,13 @@ export default function createProfilePage(): HTMLDivElement {
                 true,
                 !!customer.body.defaultBillingAddressId
               );
+              allEditBtns.forEach((btn) => {
+                btn.disabled = false;
+              });
+              allSaveBtns.forEach((btn) => {
+                btn.disabled = true;
+              });
+              delayPasswordButton.disabled = true;
             } else {
               addAddress(
                 addressesBlock,
@@ -346,6 +379,13 @@ export default function createProfilePage(): HTMLDivElement {
                 true,
                 !!customer.body.defaultShippingAddressId
               );
+              allEditBtns.forEach((btn) => {
+                btn.disabled = false;
+              });
+              allSaveBtns.forEach((btn) => {
+                btn.disabled = true;
+              });
+              delayPasswordButton.disabled = true;
             }
           }
         } else {
