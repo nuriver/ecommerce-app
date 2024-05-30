@@ -21,7 +21,12 @@ function submitLoginForm(form: HTMLFormElement, event: Event): void {
     passwordError.innerText = 'please fill out this field';
   }
 
-  if (emailInput.value.length > 0 && passwordInput.value.length > 0) {
+  if (
+    emailInput.value.length > 0 &&
+    passwordInput.value.length > 0 &&
+    emailError.style.display !== 'block' &&
+    passwordError.style.display !== 'block'
+  ) {
     const credentials = {
       email: emailInput.value,
       password: passwordInput.value,
@@ -46,8 +51,6 @@ function submitLoginForm(form: HTMLFormElement, event: Event): void {
       }
     });
   }
-  emailInput.value = '';
-  passwordInput.value = '';
 }
 
 export default submitLoginForm;

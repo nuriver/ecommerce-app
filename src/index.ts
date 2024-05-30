@@ -10,6 +10,7 @@ import createFooter from './app/components/footer';
 import redirectTo404 from './app/utilities/redirectTo404';
 import createProfilePage from './app/components/profilePage/profilePage';
 
+
 const { body } = document;
 
 createHeader(body);
@@ -30,5 +31,8 @@ window.addEventListener('hashchange', () => {
 });
 
 window.addEventListener('load', () => {
-  sessionStorage.clear();
+  if (customerInStorage()) {
+    const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+    loginLink.innerText = 'LOGOUT';
+  }
 });

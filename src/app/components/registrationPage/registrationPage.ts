@@ -12,6 +12,7 @@ import {
 import createElement from '../../utilities/createElement';
 import printError from '../../utilities/printError';
 import simpleRedirect from '../../utilities/simpleRedirect';
+import inputReset from '../../utilities/inputReseter';
 
 export default function createRegistrationPage(): HTMLDivElement {
   function isError(obj: Record<string, boolean>): boolean {
@@ -356,6 +357,7 @@ export default function createRegistrationPage(): HTMLDivElement {
         await createCustomer(customerDraft);
         accumulateErr.style.color = 'green';
         accumulateErr.innerHTML = `Registration successful!`;
+        inputReset(registerPage);
         setTimeout(async () => {
           accumulateErr.innerHTML = '';
           await signInCustomer({ email: customerDraft.email, password: customerDraft.password as string });
