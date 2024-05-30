@@ -1,15 +1,12 @@
 import createElement from '../../utilities/createElement';
+import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
 
 export default function createCatalog(): HTMLElement {
   const catalogWrapper = createElement('div', ['catalog-wrapper']);
 
   const categoriesBlock = createElement('div', ['categories-block'], catalogWrapper);
-  createElement('div', ['bags-category', 'category'], categoriesBlock, 'BAGS');
-  createElement('div', ['bags-category', 'category'], categoriesBlock, 'NOTEBOOKS');
-  createElement('div', ['bags-category', 'category'], categoriesBlock, 'MUGS');
-  createElement('div', ['bags-category', 'category'], categoriesBlock, 'BOTTLES');
-  createElement('div', ['all-category', 'category'], categoriesBlock, 'ALL');
+  createCategoriesMenu(categoriesBlock);
 
   const sortBlock = createElement('div', ['catalog-sort-block'], catalogWrapper);
   createElement('p', ['sort-block-header'], sortBlock, 'SORT BY');

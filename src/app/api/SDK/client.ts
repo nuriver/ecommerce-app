@@ -4,6 +4,7 @@ import {
   CustomerSignInResult,
   ClientResponse,
   CustomerPagedQueryResponse,
+  CategoryPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { TokenCache } from '@commercetools/sdk-client-v2';
 import { CustomerCredentials } from '../../types/interfaces';
@@ -46,4 +47,15 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
 
 export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
   return apiRoot.customers().get().execute();
+}
+
+export function getSubcategoriesByParentId(parentId: string): Promise<ClientResponse<CategoryPagedQueryResponse>> {
+  return apiRoot
+    .categories()
+    .get({
+      queryArgs: {
+        where: `parent(id="${parentId}")`,
+      },
+    })
+    .execute();
 }
