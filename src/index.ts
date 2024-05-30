@@ -8,9 +8,7 @@ import routeNavigation from './app/utilities/routeNavigation';
 import create404Page from './app/components/404Page/404Page'; */
 import createFooter from './app/components/footer';
 import redirectTo404 from './app/utilities/redirectTo404';
-// import customerInStorage from './app/utilities/customerInStorage';
-import createCatalog from './app/components/catalog/catalog';
-import pageToggle from './app/utilities/pageToggle';
+import customerInStorage from './app/utilities/customerInStorage';
 
 const { body } = document;
 
@@ -21,16 +19,13 @@ createFooter(body);
 // const loginPage = createLoginPage();
 const mainPage = createMain();
 redirectTo404(mainPage);
-/* const registerPage = createRegistrationPage();
-const page404 = create404Page(); */
-const catalog = createCatalog();
-pageToggle(catalog);
+const registerPage = createRegistrationPage();
+const page404 = create404Page();
 
-/*
 routeNavigation(mainPage, loginPage, registerPage, page404, false);
 
 window.addEventListener('hashchange', () => {
-  routeNavigation(mainPage, loginPage, registerPage, page404, true);
+  routeNavigation(mainPage, loginPage, registerPage, profilePage, page404, true);
 });
 
 window.addEventListener('load', () => {
