@@ -7,6 +7,7 @@ export default function routeNavigation(
   main: HTMLElement,
   login: HTMLElement,
   registration: HTMLElement,
+  profile: HTMLElement,
   wrongRoute: HTMLElement,
   viaUrlBar: boolean
 ) {
@@ -14,6 +15,8 @@ export default function routeNavigation(
   const signInRouting = () => {
     if (workingRoutes.includes(currentRoute)) {
       pageToggle(main, 'main');
+    } else if (currentRoute === '#/profile') {
+      pageToggle(profile, 'profile');
     } else {
       pageToggle(wrongRoute, '404');
     }
@@ -25,6 +28,8 @@ export default function routeNavigation(
       pageToggle(main);
     } else if (currentRoute === '#/registration') {
       pageToggle(registration);
+    } else if (currentRoute === '#/profile') {
+      pageToggle(profile);
     } else {
       pageToggle(wrongRoute);
     }
@@ -37,6 +42,8 @@ export default function routeNavigation(
       pageToggle(main, 'main');
     } else if (currentRoute === '#/registration') {
       pageToggle(registration, 'registration');
+    } else if (currentRoute === '#/profile') {
+      pageToggle(profile, 'profile');
     } else {
       pageToggle(wrongRoute, '404');
     }
