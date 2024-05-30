@@ -1199,6 +1199,7 @@ label {
   gap: 25px;
 }
 .profile-page .data-block__address-wrapper {
+  max-width: 365px;
   border: 1px solid #e6dada;
   padding: 25px;
   display: flex;
@@ -1252,6 +1253,14 @@ label {
   border: 1px solid rgba(128, 128, 128, 0.3882352941);
   padding: 5px;
   background-color: #f8f8f8;
+}
+.profile-page .user-data__checkbox-wrapper {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 5px;
+}
+.profile-page .checkbox-block {
+  min-width: 40%;
 }
 @media (hover: hover) and (pointer: fine) {
   .profile-page .button-white:hover {

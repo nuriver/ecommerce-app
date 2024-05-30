@@ -11,17 +11,12 @@ export function checkEmail(email: string): false | string {
 }
 
 export function checkPassword(password: string): false | string {
-  const expression: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-
+  const expression: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
   if (password.slice(0, 1) === ' ' || password.slice(-1) === ' ') {
     return 'Password must not contain trailing or leading whitespace.';
   }
-  if (
-    password.match(expression) &&
-
-    !password.includes(' ')
-  ) {
+  if (password.match(expression) && !password.includes(' ')) {
     return false;
   }
   return 'Password: Minimum 8 characters, 1 number 1 lowercase letter, and at least 1 uppercase letter!';
@@ -92,4 +87,8 @@ export function checkDate(date: string): false | string {
     return false;
   }
   return 'Sorry, your age is under thirteen';
+}
+
+export function isError(obj: Record<string, boolean>): boolean {
+  return !Object.values(obj).every((value) => !value);
 }

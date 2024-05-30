@@ -1,20 +1,13 @@
 import { ClientResponse, Customer } from '@commercetools/platform-sdk';
-// import { createCustomer, signInCustomer } from '../../api/SDK/client';
-
-// import { getCustomers } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
-// import { ctpClient } from '../../api/SDK/clientBuilder';
 import getCustomerById from './getCustomerBuId';
 import addAddress from './addAddress';
 import { updateCustomerById, updateCustomerPasswordById } from './updateCustomer';
-import { checkPersonalInfo, checkBillingInputs, checkShippingInputs, checkPasswordsForChange } from './checks';
+import { checkPersonalInfo, checkPasswordsForChange } from './checks';
+import { isError } from '../../utilities/checkers';
 
 export default function createProfilePage(): HTMLDivElement {
-  function isError(obj: Record<string, boolean>): boolean {
-    return !Object.values(obj).every((value) => !value);
-  }
-  let idCustomer: string | undefined;
-  let versionCustomer: number | undefined;
+  let customerId: string | undefined;
   const profilePage: HTMLDivElement = createElement('div', ['profile-page']);
   const profileWrapper: HTMLDivElement = createElement('div', ['profile-page__wrapper'], profilePage);
   createElement('h1', ['profile-page__title'], profileWrapper, 'MY ACCOUNT');
@@ -54,7 +47,6 @@ export default function createProfilePage(): HTMLDivElement {
     firstName
   );
   firstNameValue.disabled = true;
-  //   firstNameValue.value =
   const firstNameErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
 
   const lastName: HTMLDivElement = createElement(
@@ -65,7 +57,6 @@ export default function createProfilePage(): HTMLDivElement {
   createElement('label', ['data-block__label'], lastName, 'last name');
   const lastNameValue: HTMLInputElement = createElement('input', ['data-block__input', 'last-name__input'], lastName);
   lastNameValue.disabled = true;
-  // lastNameValue.value =
   const lastNameErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
 
   const birthDate: HTMLDivElement = createElement(
@@ -83,7 +74,6 @@ export default function createProfilePage(): HTMLDivElement {
 
   birthDateValue.disabled = true;
   birthDateValue.setAttribute('type', 'date');
-  //   birthDateValue.value =
   const birthDateErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
 
   const email: HTMLDivElement = createElement(
@@ -94,7 +84,6 @@ export default function createProfilePage(): HTMLDivElement {
   createElement('label', ['data-block__label'], email, 'email');
   const emailValue: HTMLInputElement = createElement('input', ['data-block__input', 'email__input'], email);
   emailValue.disabled = true;
-  //   emailValue.value =
   const emailErr: HTMLDivElement = createElement('div', ['user-data__errors'], personalInfoEmail);
   const accumulatePersonalInfoErr: HTMLDivElement = createElement(
     'div',
@@ -147,7 +136,6 @@ export default function createProfilePage(): HTMLDivElement {
     currentPassword
   );
   currentPasswordInput.disabled = true;
-  //   currentPasswordInput.value =
   const currentPasswordErr: HTMLDivElement = createElement('div', ['user-data__errors'], passwordBlock);
 
   const newPassword: HTMLDivElement = createElement(
@@ -162,7 +150,6 @@ export default function createProfilePage(): HTMLDivElement {
     newPassword
   );
   newPasswordInput.disabled = true;
-  //   newPasswordInput.value =
   const newPasswordErr: HTMLDivElement = createElement('div', ['user-data__errors'], passwordBlock);
   const accumulatePassErr: HTMLDivElement = createElement(
     'div',
@@ -187,7 +174,7 @@ export default function createProfilePage(): HTMLDivElement {
     'Add new address'
   );
   addAddressButton.addEventListener('click', () => {
-    addAddress(addressesBlock, '', '', '', false, false, false);
+    addAddress(addressesBlock, true, '', '', '', '', false, false, false);
   });
 
   const infoEmailInputElements: NodeListOf<HTMLInputElement> = personalInfoEmail.querySelectorAll('.data-block__input');
@@ -208,8 +195,6 @@ export default function createProfilePage(): HTMLDivElement {
     emailErr
   );
   const resultCheckPasswords: { [key: string]: boolean } = checkPasswordsForChange(
-    currentPassword,
-    newPassword,
     currentPasswordInput,
     newPasswordInput,
     currentPasswordErr,
@@ -241,13 +226,18 @@ export default function createProfilePage(): HTMLDivElement {
     if (!isError(resultCheckPersonalInfo)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
-        if (idCustomer && versionCustomer) {
-          updateCustomerById(idCustomer, versionCustomer, [
-            { action: 'setFirstName', firstName: firstNameValue.value },
-            { action: 'setLastName', lastName: lastNameValue.value },
-            { action: 'setDateOfBirth', dateOfBirth: birthDateValue.value },
-            { action: 'changeEmail', email: emailValue.value },
-          ]);
+        if (customerId && sessionStorage.getItem('customerVersion')) {
+          const customer = await updateCustomerById(
+            customerId,
+            +(sessionStorage.getItem('customerVersion') as string),
+            [
+              { action: 'setFirstName', firstName: firstNameValue.value },
+              { action: 'setLastName', lastName: lastNameValue.value },
+              { action: 'setDateOfBirth', dateOfBirth: birthDateValue.value },
+              { action: 'changeEmail', email: emailValue.value },
+            ]
+          );
+          sessionStorage.setItem('customerVersion', `${customer.body.version}`);
         }
         accumulatePersonalInfoErr.style.color = 'green';
         accumulatePersonalInfoErr.innerHTML = 'Account has been updated!';
@@ -285,14 +275,14 @@ export default function createProfilePage(): HTMLDivElement {
         (event.target as HTMLButtonElement).disabled = true;
         delayPasswordButton.disabled = true;
 
-        if (idCustomer && versionCustomer) {
+        if (customerId && sessionStorage.getItem('customerVersion')) {
           const customer = await updateCustomerPasswordById(
-            idCustomer,
-            versionCustomer,
+            customerId,
+            +(sessionStorage.getItem('customerVersion') as string),
             currentPasswordInput.value,
             newPasswordInput.value
           );
-          versionCustomer = customer.body.version;
+          sessionStorage.setItem('customerVersion', `${customer.body.version}`);
           accumulatePassErr.style.color = 'green';
           accumulatePassErr.innerHTML = 'Your password has been changed successfully!';
           setTimeout(async () => {
@@ -317,104 +307,64 @@ export default function createProfilePage(): HTMLDivElement {
         });
       }
     }
-    // savePasswordButton.disabled = true;
-    // editPasswordButton.disabled = false;
-    // delayPasswordButton.disabled = true;
   });
-  const allEditBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__edit-button');
-  const allSaveBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__save-button');
+
   let previousSessionStorage = JSON.stringify(sessionStorage);
 
   setInterval(async () => {
     const currentSessionStorage = JSON.stringify(sessionStorage);
 
-    if (currentSessionStorage !== previousSessionStorage) {
-      if (addressesBlock.querySelectorAll('*')) {
-        addressesBlock.innerHTML = '';
-      }
+    if (
+      currentSessionStorage !== previousSessionStorage &&
+      JSON.parse(currentSessionStorage).customer &&
+      (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer ||
+        JSON.parse(currentSessionStorage).customerVersion !== JSON.parse(previousSessionStorage).customerVersion)
+    ) {
+      const allEditBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__edit-button');
+      const allSaveBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__save-button');
       const allInputs: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
+      const allErrorMessages: NodeListOf<HTMLDivElement> = profileWrapper.querySelectorAll('.user-data__errors');
+
+      addressesBlock.innerHTML = '';
+      allEditBtns.forEach((btn) => {
+        btn.disabled = false;
+      });
+      allSaveBtns.forEach((btn) => {
+        btn.disabled = true;
+      });
       allInputs.forEach((input) => {
         input.value = '';
         input.disabled = true;
       });
-      const allErrorMessages: NodeListOf<HTMLDivElement> = profileWrapper.querySelectorAll('.user-data__errors');
       allErrorMessages.forEach((message) => {
         message.innerHTML = '';
       });
 
-      if (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer) {
-        if (JSON.parse(currentSessionStorage).customer) {
-          const customer: ClientResponse<Customer> = await getCustomerById(JSON.parse(currentSessionStorage).customer);
-          idCustomer = customer.body.id;
-          versionCustomer = customer.body.version;
-          firstNameValue.value = customer.body.firstName as string;
-          lastNameValue.value = customer.body.lastName as string;
-          birthDateValue.value = customer.body.dateOfBirth as string;
-          emailValue.value = customer.body.email;
+      const customer: ClientResponse<Customer> = await getCustomerById(JSON.parse(currentSessionStorage).customer);
+      customerId = customer.body.id;
+      sessionStorage.setItem('customerVersion', `${customer.body.version}`);
+      firstNameValue.value = customer.body.firstName as string;
+      lastNameValue.value = customer.body.lastName as string;
+      birthDateValue.value = customer.body.dateOfBirth as string;
+      emailValue.value = customer.body.email;
 
-          if (customer.body.billingAddressIds && customer.body.shippingAddressIds) {
-            console.log(customer.body.billingAddressIds, customer.body.shippingAddressIds);
-            if (customer.body.billingAddressIds[0] === customer.body.shippingAddressIds[0]) {
-              addAddress(
-                addressesBlock,
-                customer.body.addresses[0].city as string,
-                customer.body.addresses[0].streetName as string,
-                customer.body.addresses[0].postalCode as string,
-                true,
-                true,
-                !!customer.body.defaultBillingAddressId
-              );
-              allEditBtns.forEach((btn) => {
-                btn.disabled = false;
-              });
-              allSaveBtns.forEach((btn) => {
-                btn.disabled = true;
-              });
-              delayPasswordButton.disabled = true;
-            } else {
-              addAddress(
-                addressesBlock,
-                customer.body.addresses[0].city as string,
-                customer.body.addresses[0].streetName as string,
-                customer.body.addresses[0].postalCode as string,
-                true,
-                false,
-                !!customer.body.defaultBillingAddressId
-              );
-
-              addAddress(
-                addressesBlock,
-                customer.body.addresses[1].city as string,
-                customer.body.addresses[1].streetName as string,
-                customer.body.addresses[1].postalCode as string,
-                false,
-                true,
-                !!customer.body.defaultShippingAddressId
-              );
-              allEditBtns.forEach((btn) => {
-                btn.disabled = false;
-              });
-              allSaveBtns.forEach((btn) => {
-                btn.disabled = true;
-              });
-              delayPasswordButton.disabled = true;
-            }
-          }
-        } else {
-          const allInputsSecond: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
-          const allCheckboxesSecond: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll(
-            '.checkbox-block__checkbox-input'
-          );
-          allInputsSecond.forEach((input) => {
-            input.innerHTML = '';
-          });
-          allCheckboxesSecond.forEach((checkbox) => {
-            checkbox.innerHTML = '';
-          });
-        }
-        previousSessionStorage = currentSessionStorage;
-      }
+      customer.body.addresses.forEach((address) => {
+        addAddress(
+          addressesBlock,
+          false,
+          address.id,
+          address.city as string,
+          address.streetName as string,
+          address.postalCode as string,
+          customer.body.billingAddressIds?.some((id) => id === address.id),
+          customer.body.shippingAddressIds?.some((id) => id === address.id),
+          customer.body.defaultBillingAddressId === address.id,
+          customer.body.defaultShippingAddressId === address.id
+        );
+      });
     }
-  }, 1000);
+
+    previousSessionStorage = currentSessionStorage;
+  }, 500);
   return profilePage;
 }

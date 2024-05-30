@@ -6,29 +6,21 @@
   .profile-page__wrapper {
     display: flex;
     flex-direction: column;
-    // align-items: center;
     width: 100%;
     gap: 50px;
   }
-  //   .title-block__edit-button {
-  //     padding: 10px 25px;
-  //   }
   .data-block__title-block {
     display: flex;
     gap: 25px;
     flex-wrap: wrap;
   }
-  // .data-block__addresses-wrapper {
-  //   display: flex;
-  //   justify-content: space-between;
-  //   width: -webkit-fill-available;
-  // }
   .addresses-wrapper__addresses-block {
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
   }
   .data-block__address-wrapper {
+    max-width: 365px;
     border: 1px solid #e6dada;
     padding: 25px;
     display: flex;
@@ -57,13 +49,6 @@
     display: flex;
     gap: 25px;
   }
-  // .profile-page__new-address {
-  //   border: 1px solid #e6dada;
-  //   padding: 25px;
-  //   display: flex;
-  //   flex-direction: column;
-  //   gap: 20px;
-  // }
 
   .new-address__all-btn {
     display: flex;
@@ -90,6 +75,14 @@
     border: 1px solid #80808063;
     padding: 5px;
     background-color: #f8f8f8;
+  }
+  .user-data__checkbox-wrapper {
+    flex-wrap: wrap;
+    display: flex;
+    gap: 5px;
+  }
+  .checkbox-block {
+    min-width: 40%;
   }
 
   @media (hover: hover) and (pointer: fine) {

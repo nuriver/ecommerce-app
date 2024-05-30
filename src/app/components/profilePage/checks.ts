@@ -6,6 +6,7 @@ import {
   checkStreet,
   checkPostCode,
   checkPassword,
+  isError,
 } from '../../utilities/checkers';
 import printError from '../../utilities/printError';
 
@@ -82,8 +83,6 @@ export function checkPersonalInfo(
 }
 
 export function checkPasswordsForChange(
-  currentPassword: HTMLDivElement,
-  newPassword: HTMLDivElement,
   currentPasswordInput: HTMLInputElement,
   newPasswordInput: HTMLInputElement,
   currentPasswordErr: HTMLDivElement,
@@ -117,7 +116,7 @@ export function checkPasswordsForChange(
       savePasswordButton.disabled = false;
       printError(newPasswordErr, '');
     } else {
-        errors.password = true;
+      errors.password = true;
       printError(newPasswordErr, check);
       savePasswordButton.disabled = true;
     }
@@ -134,154 +133,57 @@ export function checkPasswordsForChange(
   return errors;
 }
 
-export function checkBillingInputs(
-  billingCity: HTMLDivElement,
-  billingStreet: HTMLDivElement,
-  billingPostalCode: HTMLDivElement,
-  billingCityValue: HTMLInputElement,
-  billingStreetValue: HTMLInputElement,
-  billingPostalCodeValue: HTMLInputElement,
-  billingCityErr: HTMLDivElement,
-  billingStreetErr: HTMLDivElement,
-  billingPostalCodeErr: HTMLDivElement,
-  checkboxInputSameAdd: HTMLInputElement,
+export function checkAddressInputs(
+  city: HTMLDivElement,
+  street: HTMLDivElement,
+  postalCode: HTMLDivElement,
+  cityValue: HTMLInputElement,
+  streetValue: HTMLInputElement,
+  postalCodeValue: HTMLInputElement,
+  cityErr: HTMLDivElement,
+  streetErr: HTMLDivElement,
+  postalCodeErr: HTMLDivElement,
   saveAddressesButton: HTMLButtonElement,
-  shippingCityValue: HTMLInputElement,
-  shippingStreetValue: HTMLInputElement,
-  shippingPostalCodeValue: HTMLInputElement,
-  checkboxInputBillingAdd: HTMLInputElement
-): void {
+  newAddress: boolean
+): { [key: string]: boolean } {
   const errors: { [key: string]: boolean } = {
-    billingCity: true,
-    billingStreet: true,
-    billingCode: true,
+    city: newAddress,
+    street: newAddress,
+    billingCode: newAddress,
   };
-  billingCity.addEventListener('input', () => {
-    const check: string | false = checkCity(billingCityValue.value);
+  city.addEventListener('input', () => {
+    const check: string | false = checkCity(cityValue.value);
     if (check === false) {
-      errors.billingCity = false;
-      printError(billingCityErr, '');
-      saveAddressesButton.disabled = false;
-      checkboxInputSameAdd.disabled = false;
-      checkboxInputBillingAdd.disabled = false;
-
-      if (checkboxInputSameAdd.checked) {
-        shippingCityValue.value = billingCityValue.value;
-        shippingStreetValue.value = billingStreetValue.value;
-        shippingPostalCodeValue.value = billingPostalCodeValue.value;
-      }
+      errors.city = false;
+      printError(cityErr, '');
     } else {
-      errors.billingCity = true;
-      printError(billingCityErr, check);
-      saveAddressesButton.disabled = true;
-      checkboxInputSameAdd.disabled = true;
-      checkboxInputBillingAdd.disabled = true;
+      errors.city = true;
+      printError(cityErr, check);
     }
+    saveAddressesButton.disabled = isError(errors);
   });
-  billingStreet.addEventListener('input', () => {
-    const check: string | false = checkStreet(billingStreetValue.value);
+  street.addEventListener('input', () => {
+    const check: string | false = checkStreet(streetValue.value);
     if (check === false) {
-      errors.billingStreet = false;
-      printError(billingStreetErr, '');
-      saveAddressesButton.disabled = false;
-      checkboxInputSameAdd.disabled = false;
-      checkboxInputBillingAdd.disabled = false;
+      errors.street = false;
+      printError(streetErr, '');
     } else {
-      errors.billingStreet = true;
-      printError(billingStreetErr, check);
-      saveAddressesButton.disabled = true;
-      checkboxInputSameAdd.disabled = true;
-      checkboxInputBillingAdd.disabled = true;
+      errors.street = true;
+      printError(streetErr, check);
     }
+    saveAddressesButton.disabled = isError(errors);
   });
-  billingPostalCode.addEventListener('input', () => {
-    const check: string | false = checkPostCode(billingPostalCodeValue.value);
+  postalCode.addEventListener('input', () => {
+    const check: string | false = checkPostCode(postalCodeValue.value);
     if (check === false) {
       errors.billingCode = false;
-      printError(billingPostalCodeErr, '');
-      saveAddressesButton.disabled = false;
-      checkboxInputSameAdd.disabled = false;
-      checkboxInputBillingAdd.disabled = false;
+      printError(postalCodeErr, '');
     } else {
       errors.billingCode = true;
-      printError(billingPostalCodeErr, check);
-      saveAddressesButton.disabled = true;
-      checkboxInputSameAdd.disabled = true;
-      checkboxInputBillingAdd.disabled = true;
+      printError(postalCodeErr, check);
     }
+    saveAddressesButton.disabled = isError(errors);
   });
 
-  checkboxInputSameAdd.addEventListener('input', (event: Event) => {
-    if ((event.target as HTMLInputElement).checked) {
-      errors.shippingCity = false;
-      errors.shippingStreet = false;
-      errors.shippingCode = false;
-    } else {
-      errors.shippingCity = true;
-      errors.shippingStreet = true;
-      errors.shippingCode = true;
-    }
-  });
-}
-
-export function checkShippingInputs(
-  shippingCity: HTMLDivElement,
-  shippingStreet: HTMLDivElement,
-  shippingPostalCode: HTMLDivElement,
-  shippingCityValue: HTMLInputElement,
-  shippingStreetValue: HTMLInputElement,
-  shippingPostalCodeValue: HTMLInputElement,
-  shippingCityErr: HTMLDivElement,
-  shippingStreetErr: HTMLDivElement,
-  shippingPostalCodeErr: HTMLDivElement,
-  checkboxInputShippingAdd: HTMLInputElement,
-  saveAddressesButton: HTMLButtonElement
-) {
-  const errors: { [key: string]: boolean } = {
-    shippingCity: true,
-    shippingStreet: true,
-    shippingCode: true,
-  };
-  shippingCity.addEventListener('input', () => {
-    const check: string | false = checkCity(shippingCityValue.value);
-    if (check === false) {
-      errors.shippingCity = false;
-      printError(shippingCityErr, '');
-      checkboxInputShippingAdd.disabled = false;
-      saveAddressesButton.disabled = false;
-    } else {
-      errors.shippingCity = true;
-      printError(shippingCityErr, check);
-      checkboxInputShippingAdd.disabled = true;
-      saveAddressesButton.disabled = true;
-    }
-  });
-  shippingStreet.addEventListener('input', () => {
-    const check: string | false = checkStreet(shippingStreetValue.value);
-    if (check === false) {
-      errors.shippingStreet = false;
-      printError(shippingStreetErr, '');
-      checkboxInputShippingAdd.disabled = false;
-      saveAddressesButton.disabled = false;
-    } else {
-      errors.shippingStreet = true;
-      printError(shippingStreetErr, check);
-      checkboxInputShippingAdd.disabled = true;
-      saveAddressesButton.disabled = true;
-    }
-  });
-  shippingPostalCode.addEventListener('input', () => {
-    const check: string | false = checkPostCode(shippingPostalCodeValue.value);
-    if (check === false) {
-      errors.shippingCode = false;
-      printError(shippingPostalCodeErr, '');
-      checkboxInputShippingAdd.disabled = false;
-      saveAddressesButton.disabled = false;
-    } else {
-      errors.shippingCode = true;
-      printError(shippingPostalCodeErr, check);
-      checkboxInputShippingAdd.disabled = true;
-      saveAddressesButton.disabled = true;
-    }
-  });
+  return errors;
 }
