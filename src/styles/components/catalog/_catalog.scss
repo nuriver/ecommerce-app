@@ -7,6 +7,28 @@
   gap: 35px;
 }
 
+.categories-block {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 50px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  padding: 10px;
+  .category {
+    font-size: 32px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    &:hover,
+    .category-active {
+      color: rgb(133, 131, 131);
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
+}
+
 .catalog-sort-block {
   display: flex;
   align-items: center;

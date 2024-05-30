@@ -1,7 +1,7 @@
 import { ProductData } from '../../types/types';
 import createElement from '../../utilities/createElement';
 
-export default function createProductCard(product: ProductData, parent: HTMLElement) {
+export default function createProductCard(product: ProductData, parent: HTMLElement): void {
   const productCard = createElement('div', ['product-card'], parent);
   const productImg = createElement('div', ['product-image'], productCard);
   productImg.style.backgroundImage = `url(${product.image})`;
