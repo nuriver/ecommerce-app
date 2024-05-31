@@ -77,19 +77,22 @@ export function getProductsByCategory(
     .execute();
 }
 
-export function getProducts(): Promise<ClientResponse<ProductPagedQueryResponse>> {
+export function getProducts(limit: number, offset: number): Promise<ClientResponse<ProductPagedQueryResponse>> {
   return apiRoot
     .products()
     .get({
       queryArgs: {
-        limit: 100,
+        limit,
+        offset,
       },
     })
     .execute();
 }
 
 export function getProductsByMainCategory(
-  categoryId: string
+  categoryId: string,
+  limit: number,
+  offset: number
 ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
   return apiRoot
     .productProjections()
@@ -97,7 +100,8 @@ export function getProductsByMainCategory(
     .get({
       queryArgs: {
         filter: [`categories.id:subtree("${categoryId}")`],
-        // Add additional query parameters as needed
+        limit,
+        offset,
       },
     })
     .execute();

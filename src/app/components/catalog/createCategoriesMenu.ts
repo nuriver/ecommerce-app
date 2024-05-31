@@ -2,6 +2,7 @@ import createElement from '../../utilities/createElement';
 import categoryButtonToggle from './categoryButtonToggle';
 import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesMenu';
 import displayProducts from './displayProducts';
+import { updatePage } from './pagination';
 
 export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategoriesContainer = createElement('div', ['subcategories-container']);
@@ -17,6 +18,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategories = subcategoriesContainer.querySelectorAll('.subcategory');
   subcategories.forEach((subcategory) => {
     subcategory.addEventListener('click', () => {
+      updatePage(1);
       const parentCategoryButton = currentParent.value;
       if (parentCategoryButton) categoryButtonToggle(parentCategoryButton);
       displayProducts(subcategory.id);
@@ -55,6 +57,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   const allCategory = createElement('div', ['all-category', 'category'], parent, 'ALL');
   allCategory.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+    updatePage(1);
     categoryButtonToggle(target);
     displayProducts();
   });

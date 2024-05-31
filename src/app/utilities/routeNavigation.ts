@@ -33,6 +33,8 @@ export default function routeNavigation(
       pageToggle(profile);
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog);
+      const allCategory = document.querySelector('.all-category') as HTMLElement;
+      allCategory.click();
     } else {
       pageToggle(wrongRoute);
     }
@@ -49,6 +51,8 @@ export default function routeNavigation(
       pageToggle(profile, 'profile');
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog, 'catalog');
+      const allCategory = document.querySelector('.all-category') as HTMLElement;
+      allCategory.click();
     } else {
       pageToggle(wrongRoute, '404');
     }

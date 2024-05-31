@@ -4,7 +4,11 @@ export const currentParent: { value: null | HTMLElement } = {
   value: null,
 };
 
-export async function displaySubcategoriesMenu(parent: HTMLElement, parentId: string, container: HTMLElement) {
+export async function displaySubcategoriesMenu(
+  parent: HTMLElement,
+  parentId: string,
+  container: HTMLElement
+): Promise<void> {
   const subcategoryButtons = container.querySelectorAll('.subcategory');
   subcategoryButtons.forEach((subcategory) => {
     subcategory.innerHTML = '';

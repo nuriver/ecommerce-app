@@ -1,6 +1,7 @@
 import createElement from '../../utilities/createElement';
 import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
+import { createPagination } from './pagination';
 
 export default function createCatalog(): HTMLElement {
   const catalogWrapper = createElement('div', ['catalog-wrapper']);
@@ -28,9 +29,7 @@ export default function createCatalog(): HTMLElement {
   createElement('div', ['catalog'], catalogWrapper);
 
   const paginationContainer = createElement('div', ['pagination-container'], catalogWrapper);
-  createElement('p', ['pagination-left', 'pagination-disabled'], paginationContainer, '<');
-  createElement('p', ['page-number'], paginationContainer, '1');
-  createElement('p', ['pagination-right'], paginationContainer, '>');
+  createPagination(paginationContainer);
 
   return catalogWrapper;
 }
