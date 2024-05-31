@@ -5,8 +5,13 @@ export const currentParent: { value: null | HTMLElement } = {
 };
 
 export async function displaySubcategoriesMenu(parent: HTMLElement, parentId: string, container: HTMLElement) {
-  const response = await getSubcategoriesByParentId(parentId);
   const subcategoryButtons = container.querySelectorAll('.subcategory');
+  subcategoryButtons.forEach((subcategory) => {
+    subcategory.innerHTML = '';
+  });
+  parent.after(container);
+
+  const response = await getSubcategoriesByParentId(parentId);
   const subcategories = response.body.results;
 
   currentParent.value = parent;
@@ -19,5 +24,4 @@ export async function displaySubcategoriesMenu(parent: HTMLElement, parentId: st
     subcategoryButton.innerHTML = `${name}`;
     subcategoryButton.id = id;
   });
-  parent.after(container);
 }
