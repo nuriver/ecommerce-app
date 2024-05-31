@@ -8,6 +8,7 @@ export default function routeNavigation(
   login: HTMLElement,
   registration: HTMLElement,
   profile: HTMLElement,
+  catalog: HTMLElement,
   wrongRoute: HTMLElement,
   viaUrlBar: boolean
 ) {
@@ -30,6 +31,8 @@ export default function routeNavigation(
       pageToggle(registration);
     } else if (currentRoute === '#/profile') {
       pageToggle(profile);
+    } else if (currentRoute === '#/catalog') {
+      pageToggle(catalog);
     } else {
       pageToggle(wrongRoute);
     }
@@ -44,6 +47,8 @@ export default function routeNavigation(
       pageToggle(registration, 'registration');
     } else if (currentRoute === '#/profile') {
       pageToggle(profile, 'profile');
+    } else if (currentRoute === '#/catalog') {
+      pageToggle(catalog, 'catalog');
     } else {
       pageToggle(wrongRoute, '404');
     }
