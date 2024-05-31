@@ -5,6 +5,9 @@ import {
   ClientResponse,
   CustomerPagedQueryResponse,
   CategoryPagedQueryResponse,
+  ProductProjectionPagedQueryResponse,
+  ProductPagedQueryResponse,
+  ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import { TokenCache } from '@commercetools/sdk-client-v2';
 import { CustomerCredentials } from '../../types/interfaces';
@@ -55,6 +58,46 @@ export function getSubcategoriesByParentId(parentId: string): Promise<ClientResp
     .get({
       queryArgs: {
         where: `parent(id="${parentId}")`,
+      },
+    })
+    .execute();
+}
+
+export function getProductsByCategory(
+  categoryId: string
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        filter: [`categories.id:"${categoryId}"`],
+      },
+    })
+    .execute();
+}
+
+export function getProducts(): Promise<ClientResponse<ProductPagedQueryResponse>> {
+  return apiRoot
+    .products()
+    .get({
+      queryArgs: {
+        limit: 100,
+      },
+    })
+    .execute();
+}
+
+export function getProductsByMainCategory(
+  categoryId: string
+): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        filter: [`categories.id:subtree("${categoryId}")`],
+        // Add additional query parameters as needed
       },
     })
     .execute();

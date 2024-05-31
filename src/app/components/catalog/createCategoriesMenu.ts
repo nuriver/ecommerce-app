@@ -1,38 +1,61 @@
 import createElement from '../../utilities/createElement';
-import createSubcategoriesMenu from './createSubcategoriesMenu';
+import categoryButtonToggle from './categoryButtonToggle';
+import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesMenu';
+import displayProducts from './displayProducts';
 
 export default function createCategoriesMenu(parent: HTMLElement) {
-  const subcategoriesContainer = createElement('div', ['dropdown-container']);
+  const subcategoriesContainer = createElement('div', ['subcategories-container']);
   createElement('div', ['subcategory'], subcategoriesContainer);
   createElement('div', ['subcategory'], subcategoriesContainer);
   createElement('div', ['subcategory'], subcategoriesContainer);
-  createElement('div', ['default-subcategory'], subcategoriesContainer, 'View all');
+
+  const closeButton = createElement('button', ['close-button'], subcategoriesContainer, 'X');
+  closeButton.addEventListener('click', () => {
+    subcategoriesContainer.remove();
+  });
+
+  const subcategories = subcategoriesContainer.querySelectorAll('.subcategory');
+  subcategories.forEach((subcategory) => {
+    subcategory.addEventListener('click', () => {
+      const parentCategoryButton = currentParent.value;
+      if (parentCategoryButton) categoryButtonToggle(parentCategoryButton);
+      displayProducts(subcategory.id);
+      closeButton.click();
+    });
+  });
+
+  const viewAll = createElement('div', ['view-all-subcategory'], subcategoriesContainer, 'View all');
+  viewAll.addEventListener('click', () => {
+    const parentCategoryButton = currentParent.value;
+    closeButton.click();
+    if (parentCategoryButton) displayProducts(parentCategoryButton.id);
+  });
 
   function categoryHandler(event: Event): void {
     const parentElement = event.target as HTMLElement;
-    createSubcategoriesMenu(parentElement, parent.id, subcategoriesContainer);
+    displaySubcategoriesMenu(parentElement, parentElement.id, subcategoriesContainer);
   }
 
   const bagsCategory = createElement('div', ['bags-category', 'category'], parent, 'BAGS');
   bagsCategory.id = 'd7d1554a-78bb-412a-9789-d185d4d523cf';
   bagsCategory.addEventListener('click', categoryHandler);
 
-  const notebooksCategory = createElement('div', ['bags-category', 'category'], parent, 'NOTEBOOKS');
+  const notebooksCategory = createElement('div', ['notebooks-category', 'category'], parent, 'NOTEBOOKS');
   notebooksCategory.id = '2edd9856-004c-40f9-91b7-6edcf567dd75';
   notebooksCategory.addEventListener('click', categoryHandler);
 
-  const mugsCategory = createElement('div', ['bags-category', 'category'], parent, 'MUGS');
+  const mugsCategory = createElement('div', ['mugs-category', 'category'], parent, 'MUGS');
   mugsCategory.id = 'f899db6d-d133-4548-b7ec-010cec468274';
   mugsCategory.addEventListener('click', categoryHandler);
 
-  const bottlesCategory = createElement('div', ['bags-category', 'category'], parent, 'BOTTLES');
+  const bottlesCategory = createElement('div', ['bottles-category', 'category'], parent, 'BOTTLES');
   bottlesCategory.id = '86c6c2bc-9117-4ad3-9324-252fd03434d2';
   bottlesCategory.addEventListener('click', categoryHandler);
 
-  createElement('div', ['all-category', 'category'], parent, 'ALL');
-
-  const closeButton = createElement('button', ['close-button'], subcategoriesContainer, 'X');
-  closeButton.addEventListener('click', () => {
-    subcategoriesContainer.remove();
+  const allCategory = createElement('div', ['all-category', 'category'], parent, 'ALL');
+  allCategory.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    categoryButtonToggle(target);
+    displayProducts();
   });
 }

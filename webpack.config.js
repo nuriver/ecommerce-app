@@ -63,13 +63,13 @@ const baseConfig = {
       safe: true,
       systemvars: true,
     }),
-    new TerserPlugin({
+    /* new TerserPlugin({
       terserOptions: {
         compress: {
           drop_console: true,
         },
       },
-    }),
+    }),*/
   ],
   devServer: {
     historyApiFallback: {

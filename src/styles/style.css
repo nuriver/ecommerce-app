@@ -1230,13 +1230,13 @@ label {
 }
 .categories-block .category:hover,
 .categories-block .subcategory:hover,
-.categories-block .default-subcategory:hover,
+.categories-block .view-all-subcategory:hover,
 .categories-block .category-active {
   color: rgb(133, 131, 131);
   cursor: pointer;
   transform: scale(1.1);
 }
-.categories-block .dropdown-container {
+.categories-block .subcategories-container {
   z-index: 10;
   position: absolute;
   display: flex;
@@ -1250,7 +1250,7 @@ label {
   font-size: 20px;
   font-weight: 500;
 }
-.categories-block .dropdown-container div {
+.categories-block .subcategories-container div {
   transition: all 0.2s ease-in-out;
 }
 .categories-block .close-button {
