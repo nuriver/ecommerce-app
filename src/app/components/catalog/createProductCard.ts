@@ -3,6 +3,7 @@ import createElement from '../../utilities/createElement';
 
 export default function createProductCard(product: ProductData, parent: HTMLElement): void {
   const productCard = createElement('div', ['product-card'], parent);
+  productCard.id = product.id;
   const productImg = createElement('div', ['product-image'], productCard);
   productImg.style.backgroundImage = `url(${product.image})`;
   createElement('p', ['product-name'], productCard, product.name);

@@ -18,4 +18,5 @@ export type ProductData = {
   description: string;
   image: string;
   price: number | string;
+  id: string;
 };

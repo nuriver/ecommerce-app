@@ -2,6 +2,7 @@ import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { ProductData } from '../../types/types';
 
 export function getProductDataFromProductProjection(apiProduct: ProductProjection): ProductData {
+  const productId = apiProduct.id;
   const productName = apiProduct.name.en;
   const productImages = apiProduct.masterVariant.images;
   if (!productImages) throw new Error('No images for this product');
@@ -17,12 +18,14 @@ export function getProductDataFromProductProjection(apiProduct: ProductProjectio
     description: productDescription,
     image: smallImageUrl,
     price: productPrice,
+    id: productId,
   };
   return productData;
 }
 
 export default function getProductDataFromProduct(apiProduct: Product): ProductData {
   const product = apiProduct.masterData.current;
+  const productId = apiProduct.id;
   const productName = product.name.en;
   const productImages = product.masterVariant.images;
   if (!productImages) throw new Error('No images for this product');
@@ -38,6 +41,7 @@ export default function getProductDataFromProduct(apiProduct: Product): ProductD
     description: productDescription,
     image: smallImageUrl,
     price: productPrice,
+    id: productId,
   };
   return productData;
 }
