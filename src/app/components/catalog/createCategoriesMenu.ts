@@ -28,6 +28,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
 
   const viewAll = createElement('div', ['view-all-subcategory'], subcategoriesContainer, 'View all');
   viewAll.addEventListener('click', () => {
+    updatePage(1);
     const parentCategoryButton = currentParent.value;
     closeButton.click();
     if (parentCategoryButton) displayProducts(parentCategoryButton.id);
