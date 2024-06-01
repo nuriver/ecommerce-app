@@ -29,6 +29,7 @@ export default async function displayProducts(id?: string): Promise<void> {
     if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
 
     products.forEach((product) => {
+      console.log(product);
       const productCardData = getProductDataFromProductProjection(product);
       createProductCard(productCardData, catalog);
     });

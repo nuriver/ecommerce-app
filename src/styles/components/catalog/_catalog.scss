@@ -151,6 +151,7 @@
   row-gap: 50px;
   margin-bottom: 57px;
   .product-card {
+    position: relative;
     width: 308px;
     height: 488px;
     padding: 10px;
@@ -189,6 +190,16 @@
       font-size: 24px;
       font-weight: 500;
       margin-top: auto;
+      &-discount {
+        color: rgb(197, 43, 43);
+      }
+      &-old {
+        position: absolute;
+        bottom: 10px;
+        left: 100px;
+        font-size: 18px;
+        text-decoration: line-through;
+      }
     }
     &:hover {
       box-shadow: 2px 2px 20px 1px rgb(174, 174, 174);

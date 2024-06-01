@@ -31,7 +31,10 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     updatePage(1);
     const parentCategoryButton = currentParent.value;
     closeButton.click();
-    if (parentCategoryButton) displayProducts(parentCategoryButton.id);
+    if (parentCategoryButton) {
+      displayProducts(parentCategoryButton.id);
+      categoryButtonToggle(parentCategoryButton);
+    }
   });
 
   function categoryHandler(event: Event): void {

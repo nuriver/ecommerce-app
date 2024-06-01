@@ -13,13 +13,20 @@ export function getProductDataFromProductProjection(apiProduct: ProductProjectio
   const productPrices = apiProduct.masterVariant.prices;
   if (!productPrices) throw new Error('No prices for this product');
   const productPrice = (productPrices[0].value.centAmount / 100).toFixed(2);
-  const productData = {
+  const discountPrice = productPrices[0].discounted?.value.centAmount;
+
+  const productData: ProductData = {
     name: productName,
     description: productDescription,
     image: smallImageUrl,
     price: productPrice,
     id: productId,
   };
+
+  if (discountPrice) {
+    productData.discountPrice = (discountPrice / 100).toFixed(2);
+  }
+
   return productData;
 }
 
@@ -36,12 +43,19 @@ export default function getProductDataFromProduct(apiProduct: Product): ProductD
   const productPrices = product.masterVariant.prices;
   if (!productPrices) throw new Error('No prices for this product');
   const productPrice = (productPrices[0].value.centAmount / 100).toFixed(2);
-  const productData = {
+  const discountPrice = productPrices[0].discounted?.value.centAmount;
+
+  const productData: ProductData = {
     name: productName,
     description: productDescription,
     image: smallImageUrl,
     price: productPrice,
     id: productId,
   };
+
+  if (discountPrice) {
+    productData.discountPrice = (discountPrice / 100).toFixed(2);
+  }
+
   return productData;
 }
