@@ -3,7 +3,7 @@ import customerInStorage from '../../utilities/customerInStorage';
 import toggleMenu from './toggleMenu';
 
 const headerLinks = [
-  { name: 'CATALOG', href: '#/404' },
+  { name: 'CATALOG', href: '#/catalog' },
   { name: 'MAIN', href: '#/main' },
   { name: 'ABOUT US', href: '#/404' },
   { name: 'LOGIN', href: '#/login' },

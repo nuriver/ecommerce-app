@@ -4,6 +4,10 @@ import {
   CustomerSignInResult,
   ClientResponse,
   CustomerPagedQueryResponse,
+  CategoryPagedQueryResponse,
+  ProductProjectionPagedQueryResponse,
+  ProductPagedQueryResponse,
+  ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import { TokenCache } from '@commercetools/sdk-client-v2';
 import { CustomerCredentials } from '../../types/interfaces';
@@ -46,4 +50,59 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
 
 export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
   return apiRoot.customers().get().execute();
+}
+
+export function getSubcategoriesByParentId(parentId: string): Promise<ClientResponse<CategoryPagedQueryResponse>> {
+  return apiRoot
+    .categories()
+    .get({
+      queryArgs: {
+        where: `parent(id="${parentId}")`,
+      },
+    })
+    .execute();
+}
+
+export function getProductsByCategory(
+  categoryId: string
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        filter: [`categories.id:"${categoryId}"`],
+      },
+    })
+    .execute();
+}
+
+export function getProducts(limit: number, offset: number): Promise<ClientResponse<ProductPagedQueryResponse>> {
+  return apiRoot
+    .products()
+    .get({
+      queryArgs: {
+        limit,
+        offset,
+      },
+    })
+    .execute();
+}
+
+export function getProductsByMainCategory(
+  categoryId: string,
+  limit: number,
+  offset: number
+): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        filter: [`categories.id:subtree("${categoryId}")`],
+        limit,
+        offset,
+      },
+    })
+    .execute();
 }
