@@ -13,7 +13,7 @@ let prodName: string;
 let prodDesc: string | undefined;
 
 let price: string;
-let disc: string;
+let disc: string | undefined;
 
 export default function detailedProductPage(productId: string): HTMLElement {
   const testcont = document.querySelector('.page-wrapper') as HTMLElement;
@@ -176,7 +176,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
 
     const textCont = createElement('div', ['dpp-text-cont'], dppCont);
 
-    const backToCat = createElement('div', ['dpp-back-to-cat', 'hoverline'], textCont, 'go back to the catalog');
+    const backToCat = createElement('div', ['dpp-back-to-cat'], textCont, 'go back to the catalog');
 
     backToCat.addEventListener('click', () => {
       while (dpp.firstChild) {
@@ -284,6 +284,8 @@ export default function detailedProductPage(productId: string): HTMLElement {
       const discRaw = productPrice?.discounted?.value.centAmount;
       if (discRaw) {
         disc = (discRaw / 100).toFixed(2);
+      } else {
+        disc = undefined;
       }
 
       const priceRaw = productPrice?.value.centAmount;
