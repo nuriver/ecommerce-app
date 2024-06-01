@@ -1,4 +1,5 @@
 import createElement from '../../utilities/createElement';
+/* eslint-disable-next-line */
 import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
 import { createPagination } from './pagination';

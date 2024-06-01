@@ -1,6 +1,8 @@
 import { getProducts, getProductsByMainCategory } from '../../api/SDK/client';
 import createProductCard from './createProductCard';
 import getProductDataFromProduct, { getProductDataFromProductProjection } from './getProductData';
+/* eslint-disable-next-line */
+import detailedProductPage from '../detailedProductPage/detailedProductPage';
 
 export const currentSubcategory: { value: undefined | string } = {
   value: undefined,
@@ -45,5 +47,28 @@ export default async function displayProducts(id?: string): Promise<void> {
       const productCardData = getProductDataFromProduct(product);
       createProductCard(productCardData, catalog);
     });
+  }
+
+  let isCatalogClickListenerAdded = false;
+
+  if (catalog && !isCatalogClickListenerAdded) {
+    catalog.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement | null;
+
+      if (target) {
+        const card = target.closest('.product-card') as HTMLElement | null;
+
+        if (card) {
+          const productId = card.id;
+
+          const existingDppPage = document.querySelector('.dpp-page');
+
+          if (productId && !existingDppPage) {
+            detailedProductPage(productId);
+          }
+        }
+      }
+    });
+    isCatalogClickListenerAdded = true;
   }
 }
