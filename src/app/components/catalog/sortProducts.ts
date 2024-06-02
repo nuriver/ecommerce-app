@@ -1,9 +1,13 @@
 import displayProducts, { sortData } from './displayProducts';
 import { updatePage } from './pagination';
 
-function sortProducts(option: string, order: string): void {
+function sortProducts(option?: string, order?: string): void {
   updatePage(1);
-  sortData.currentSort = `${option} ${order}`;
+  if (option && order) {
+    sortData.currentSort = `${option} ${order}`;
+  } else {
+    sortData.currentSort = undefined;
+  }
   displayProducts(sortData.currentId);
 }
 
@@ -28,4 +32,6 @@ export default function sortHandler(event: Event): void {
   if (currentCheckbox.checked && sortOption && sortOrder) {
     sortProducts(sortOption, sortOrder);
   }
+
+  if (!currentCheckbox.checked) sortProducts();
 }
