@@ -4,6 +4,7 @@ import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesM
 import displayProducts from './displayProducts';
 import { updatePage } from './pagination';
 import updateBreadCrumbs from './updateBreadCrumbs';
+import { clearSort } from './sortProducts';
 
 export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategoriesContainer = createElement('div', ['subcategories-container']);
@@ -20,12 +21,16 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   subcategories.forEach((subcategory) => {
     subcategory.addEventListener('click', () => {
       const childCategory = subcategory as HTMLElement;
+
       updatePage(1);
+
       const parentCategoryButton = currentParent.value;
+
       if (parentCategoryButton) {
         categoryButtonToggle(parentCategoryButton);
         updateBreadCrumbs(parentCategoryButton, childCategory);
       }
+      clearSort();
       displayProducts(subcategory.id);
       closeButton.click();
     });
@@ -36,6 +41,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     updatePage(1);
     const parentCategoryButton = currentParent.value;
     closeButton.click();
+    clearSort();
     if (parentCategoryButton) {
       displayProducts(parentCategoryButton.id);
       categoryButtonToggle(parentCategoryButton);
@@ -67,6 +73,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   const allCategory = createElement('div', ['all-category', 'category'], parent, 'ALL');
   allCategory.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+    clearSort();
     updatePage(1);
     categoryButtonToggle(target);
     displayProducts();

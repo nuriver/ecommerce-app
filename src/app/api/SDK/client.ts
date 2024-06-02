@@ -79,7 +79,8 @@ export function getProductsByCategory(
 export function getAllProducts(
   limit: number,
   offset: number,
-  sort?: string
+  sort?: string,
+  searchText?: string
 ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
   return apiRoot
     .productProjections()
@@ -89,6 +90,8 @@ export function getAllProducts(
         limit,
         offset,
         sort,
+        'text.en': searchText,
+        fuzzy: true,
       },
     })
     .execute();
@@ -98,7 +101,8 @@ export function getProductsByMainCategory(
   categoryId: string,
   limit: number,
   offset: number,
-  sort?: string
+  sort?: string,
+  searchText?: string
 ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
   return apiRoot
     .productProjections()
@@ -109,6 +113,8 @@ export function getProductsByMainCategory(
         limit,
         offset,
         sort,
+        'text.en': searchText,
+        fuzzy: true,
       },
     })
     .execute();

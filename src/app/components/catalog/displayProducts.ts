@@ -13,6 +13,10 @@ export const sortData: SortData = {
   currentSort: undefined,
 };
 
+export const searchData: { value: string | undefined } = {
+  value: 'surrealism',
+};
+
 export const paginationData = {
   pageLimit: 12,
   currentPage: 1,
@@ -29,11 +33,17 @@ export default async function displayProducts(id?: string): Promise<void> {
   let response: ClientResponse<ProductProjectionPagedQueryResponse>;
 
   if (id) {
-    response = await getProductsByMainCategory(id, paginationData.pageLimit, offset, sortData.currentSort);
+    response = await getProductsByMainCategory(
+      id,
+      paginationData.pageLimit,
+      offset,
+      sortData.currentSort,
+      searchData.value
+    );
     currentSubcategory.value = id;
     sortData.currentId = id;
   } else {
-    response = await getAllProducts(paginationData.pageLimit, offset, sortData.currentSort);
+    response = await getAllProducts(paginationData.pageLimit, offset, sortData.currentSort, searchData.value);
     currentSubcategory.value = undefined;
     sortData.currentId = undefined;
   }

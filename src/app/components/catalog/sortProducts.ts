@@ -1,6 +1,14 @@
 import displayProducts, { sortData } from './displayProducts';
 import { updatePage } from './pagination';
 
+export function clearSort() {
+  const sortCheckboxes = document.querySelectorAll('.sort-checkbox') as NodeListOf<HTMLInputElement>;
+  sortCheckboxes.forEach((sortCheckbox) => {
+    sortCheckbox.checked = false;
+  });
+  sortData.currentSort = undefined;
+}
+
 function sortProducts(option?: string, order?: string): void {
   updatePage(1);
   if (option && order) {
@@ -12,12 +20,9 @@ function sortProducts(option?: string, order?: string): void {
 }
 
 function updateCheckbox(checkbox: HTMLInputElement) {
-  const sortCheckboxes = document.querySelectorAll('.sort-checkbox') as NodeListOf<HTMLInputElement>;
   const isChecked = checkbox.checked;
 
-  sortCheckboxes.forEach((sortCheckbox) => {
-    sortCheckbox.checked = false;
-  });
+  clearSort();
 
   if (isChecked) checkbox.checked = true;
 }
