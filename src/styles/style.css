@@ -1420,6 +1420,18 @@ label {
   background-size: 135%;
 }
 
+.bread-crumbs-container {
+  display: flex;
+  gap: 10px;
+}
+.bread-crumbs-container .bread-crumbs-heading {
+  font-weight: 600;
+}
+.bread-crumbs-container .bread-crumbs-delimiter {
+  font-size: 20px;
+  margin-top: -3px;
+}
+
 .pagination-container {
   width: 107px;
   height: 44px;

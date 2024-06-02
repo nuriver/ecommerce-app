@@ -3,6 +3,7 @@ import categoryButtonToggle from './categoryButtonToggle';
 import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesMenu';
 import displayProducts from './displayProducts';
 import { updatePage } from './pagination';
+import updateBreadCrumbs from './updateBreadCrumbs';
 
 export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategoriesContainer = createElement('div', ['subcategories-container']);
@@ -18,15 +19,19 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategories = subcategoriesContainer.querySelectorAll('.subcategory');
   subcategories.forEach((subcategory) => {
     subcategory.addEventListener('click', () => {
+      const childCategory = subcategory as HTMLElement;
       updatePage(1);
       const parentCategoryButton = currentParent.value;
-      if (parentCategoryButton) categoryButtonToggle(parentCategoryButton);
+      if (parentCategoryButton) {
+        categoryButtonToggle(parentCategoryButton);
+        updateBreadCrumbs(parentCategoryButton, childCategory);
+      }
       displayProducts(subcategory.id);
       closeButton.click();
     });
   });
 
-  const viewAll = createElement('div', ['view-all-subcategory'], subcategoriesContainer, 'View all');
+  const viewAll = createElement('div', ['view-all-subcategory'], subcategoriesContainer, 'VIEW ALL');
   viewAll.addEventListener('click', () => {
     updatePage(1);
     const parentCategoryButton = currentParent.value;
@@ -34,6 +39,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     if (parentCategoryButton) {
       displayProducts(parentCategoryButton.id);
       categoryButtonToggle(parentCategoryButton);
+      updateBreadCrumbs(parentCategoryButton);
     }
   });
 
@@ -64,5 +70,6 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     updatePage(1);
     categoryButtonToggle(target);
     displayProducts();
+    updateBreadCrumbs();
   });
 }

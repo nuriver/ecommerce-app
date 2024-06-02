@@ -18,6 +18,10 @@ export default function routeNavigation(
       pageToggle(main, 'main');
     } else if (currentRoute === '#/profile') {
       pageToggle(profile, 'profile');
+    } else if (currentRoute === '#/catalog') {
+      pageToggle(catalog);
+      const allCategory = document.querySelector('.all-category') as HTMLElement;
+      allCategory.click();
     } else {
       pageToggle(wrongRoute, '404');
     }

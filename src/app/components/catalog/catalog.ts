@@ -24,7 +24,11 @@ export default function createCatalog(): HTMLElement {
   const searchInput = createElement('input', ['search-input'], searchBlock);
   searchInput.id = 'searchInput';
 
-  createElement('div', ['bread-crumbs'], catalogWrapper);
+  const breadCrumbsContainer = createElement('div', ['bread-crumbs-container'], catalogWrapper);
+  createElement('p', ['bread-crumbs-heading'], breadCrumbsContainer, 'CATEGORY:');
+  createElement('p', ['bread-crumbs-category', 'bread-crumb'], breadCrumbsContainer, 'BAGS');
+  createElement('p', ['bread-crumbs-delimiter'], breadCrumbsContainer, '>');
+  createElement('p', ['bread-crumbs-subcategory', 'bread-crumb'], breadCrumbsContainer, 'MODERN BAGS');
 
   createElement('div', ['catalog'], catalogWrapper);
 
