@@ -1,7 +1,8 @@
-import { CustomerUpdateAction } from '@commercetools/platform-sdk';
+import { ClientResponse, Customer, CustomerUpdateAction } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
 import { checkAddressInputs } from './checks';
 import { updateCustomerById } from './updateCustomer';
+import getCustomerById from './getCustomerBuId';
 
 export default function addAddress(
   block: HTMLDivElement,
@@ -157,6 +158,8 @@ export default function addAddress(
     addressAllBtn,
     'Delete'
   );
+  const addressErr: HTMLDivElement = createElement('div', ['user-data__errors'], myAddress);
+
   const addressInputs: NodeListOf<HTMLInputElement> = myAddress.querySelectorAll('.data-block__input');
 
   checkAddressInputs(
@@ -201,19 +204,37 @@ export default function addAddress(
   });
 
   deleteAddressBtn.addEventListener('click', async () => {
-    const customerId = sessionStorage.getItem('customer');
-    const version = sessionStorage.getItem('customerVersion');
-    if (customerId && version && addressId) {
-      const customer = await updateCustomerById(customerId, +version, [{ action: 'removeAddress', addressId }]);
-      sessionStorage.setItem('customerVersion', `${customer.body.version}`);
-    } else {
-      myAddress.remove();
+    const customerString: string = localStorage.getItem('customer') as string;
+    const customerObj = JSON.parse(customerString);
+    const customerId = customerObj.id;
+
+    const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
+
+    const customerVersion = customerUpdated.body.version;
+    try {
+      if (customerId && customerVersion && addressId) {
+        await updateCustomerById(customerId, +customerVersion, [{ action: 'removeAddress', addressId }]);
+        setTimeout(async () => {
+          myAddress.remove();
+        }, 1500);
+      }
+    } catch (error) {
+      addressErr.style.color = 'red';
+      addressErr.innerHTML = `Oops! ${(error as Error).message}`;
+      setTimeout(async () => {
+        addressErr.innerHTML = '';
+      }, 5000);
     }
   });
 
   saveAddressesButton.addEventListener('click', async () => {
-    const customerId = sessionStorage.getItem('customer');
-    const versionFromStorage = sessionStorage.getItem('customerVersion');
+    const customerString: string = localStorage.getItem('customer') as string;
+    const customerObj = JSON.parse(customerString);
+    const customerId = customerObj.id;
+
+    const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
+
+    const versionFromStorage = customerUpdated.body.version;
     let version = versionFromStorage ? +versionFromStorage : 0;
     if (customerId && version) {
       try {
@@ -309,7 +330,11 @@ export default function addAddress(
         }
         sessionStorage.setItem('customerVersion', `${version}`);
       } catch (error) {
-        console.error((error as Error).message);
+        addressErr.style.color = 'red';
+        addressErr.innerHTML = `Oops! ${(error as Error).message}`;
+        setTimeout(async () => {
+          addressErr.innerHTML = '';
+        }, 5000);
       } finally {
         saveAddressesButton.disabled = true;
         editAddressesButton.disabled = false;

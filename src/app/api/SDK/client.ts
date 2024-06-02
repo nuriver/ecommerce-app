@@ -30,6 +30,7 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
   try {
     const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
     const customerId = response.body.customer.id;
+    const customerVersion = response.body.customer.version;
     const tokenCache = tokenCacheObject.tokenCache as TokenCache;
     const customerToken = tokenCache.get().token;
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
@@ -37,9 +38,11 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
     const customer = {
       id: customerId,
       token: customerToken,
+      version: customerVersion
     };
 
     localStorage.setItem('customer', JSON.stringify(customer));
+
     loginLink.innerText = 'LOGOUT';
     window.location.href = '#/main';
     return true;
