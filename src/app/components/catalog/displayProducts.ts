@@ -1,9 +1,16 @@
-import { getProducts, getProductsByMainCategory } from '../../api/SDK/client';
+import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
+import { getAllProducts, getProductsByMainCategory } from '../../api/SDK/client';
 import createProductCard from './createProductCard';
-import getProductDataFromProduct, { getProductDataFromProductProjection } from './getProductData';
+import getProductDataFromProductProjection from './getProductData';
+import { SortData } from '../../types/types';
 
 export const currentSubcategory: { value: undefined | string } = {
   value: undefined,
+};
+
+export const sortData: SortData = {
+  currentId: undefined,
+  currentSort: undefined,
 };
 
 export const paginationData = {
@@ -19,32 +26,25 @@ export default async function displayProducts(id?: string): Promise<void> {
 
   const paginationRight = document.querySelector('.pagination-right') as HTMLElement;
 
+  let response: ClientResponse<ProductProjectionPagedQueryResponse>;
+
   if (id) {
+    response = await getProductsByMainCategory(id, paginationData.pageLimit, offset, sortData.currentSort);
     currentSubcategory.value = id;
-
-    const response = await getProductsByMainCategory(id, paginationData.pageLimit, offset);
-    const products = response.body.results;
-    const totalProducts = response.body.total as number;
-    if (totalProducts > paginationData.pageLimit) paginationRight.classList.remove('pagination-disabled');
-    if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
-
-    products.forEach((product) => {
-      console.log(product);
-      const productCardData = getProductDataFromProductProjection(product);
-      createProductCard(productCardData, catalog);
-    });
+    sortData.currentId = id;
   } else {
+    response = await getAllProducts(paginationData.pageLimit, offset, sortData.currentSort);
     currentSubcategory.value = undefined;
-
-    const response = await getProducts(paginationData.pageLimit, offset);
-    const products = response.body.results;
-    const totalProducts = response.body.total as number;
-    if (totalProducts > paginationData.pageLimit) paginationRight.classList.remove('pagination-disabled');
-    if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
-
-    products.forEach((product) => {
-      const productCardData = getProductDataFromProduct(product);
-      createProductCard(productCardData, catalog);
-    });
+    sortData.currentId = undefined;
   }
+  const products = response.body.results;
+  const totalProducts = response.body.total as number;
+  if (totalProducts > paginationData.pageLimit) paginationRight.classList.remove('pagination-disabled');
+  if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
+
+  products.forEach((product) => {
+    console.log(product);
+    const productCardData = getProductDataFromProductProjection(product);
+    createProductCard(productCardData, catalog);
+  });
 }

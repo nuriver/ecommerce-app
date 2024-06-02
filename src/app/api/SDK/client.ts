@@ -6,7 +6,6 @@ import {
   CustomerPagedQueryResponse,
   CategoryPagedQueryResponse,
   ProductProjectionPagedQueryResponse,
-  ProductPagedQueryResponse,
   ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import { TokenCache } from '@commercetools/sdk-client-v2';
@@ -77,13 +76,19 @@ export function getProductsByCategory(
     .execute();
 }
 
-export function getProducts(limit: number, offset: number): Promise<ClientResponse<ProductPagedQueryResponse>> {
+export function getAllProducts(
+  limit: number,
+  offset: number,
+  sort?: string
+): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
   return apiRoot
-    .products()
+    .productProjections()
+    .search()
     .get({
       queryArgs: {
         limit,
         offset,
+        sort,
       },
     })
     .execute();
@@ -92,7 +97,8 @@ export function getProducts(limit: number, offset: number): Promise<ClientRespon
 export function getProductsByMainCategory(
   categoryId: string,
   limit: number,
-  offset: number
+  offset: number,
+  sort?: string
 ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
   return apiRoot
     .productProjections()
@@ -102,6 +108,7 @@ export function getProductsByMainCategory(
         filter: [`categories.id:subtree("${categoryId}")`],
         limit,
         offset,
+        sort,
       },
     })
     .execute();

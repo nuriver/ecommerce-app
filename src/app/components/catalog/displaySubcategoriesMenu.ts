@@ -21,7 +21,7 @@ export async function displaySubcategoriesMenu(
   currentParent.value = parent;
 
   subcategories.forEach((category, i) => {
-    const name = category.name.en.toUpperCase();
+    const name = category.name.en;
     const { id } = category;
     const subcategoryButton = subcategoryButtons[i] as HTMLElement;
 

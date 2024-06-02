@@ -21,3 +21,8 @@ export type ProductData = {
   id: string;
   discountPrice?: string;
 };
+
+export type SortData = {
+  currentId: string | undefined;
+  currentSort: string | undefined;
+};
