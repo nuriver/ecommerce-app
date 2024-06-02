@@ -1,8 +1,7 @@
-import { ClientResponse, Customer, CustomerUpdateAction } from '@commercetools/platform-sdk';
+import { CustomerUpdateAction } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
 import { checkAddressInputs } from './checks';
 import { updateCustomerById } from './updateCustomer';
-import getCustomerById from './getCustomerBuId';
 
 export default function addAddress(
   block: HTMLDivElement,
@@ -207,10 +206,10 @@ export default function addAddress(
     const customerString: string = localStorage.getItem('customer') as string;
     const customerObj = JSON.parse(customerString);
     const customerId = customerObj.id;
+    const customerVersion: string = localStorage.getItem('customerVersion') as string;
+    // const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
 
-    const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
-
-    const customerVersion = customerUpdated.body.version;
+    // const customerVersion = customerUpdated.body.version;
     try {
       if (customerId && customerVersion && addressId) {
         await updateCustomerById(customerId, +customerVersion, [{ action: 'removeAddress', addressId }]);
@@ -231,10 +230,7 @@ export default function addAddress(
     const customerString: string = localStorage.getItem('customer') as string;
     const customerObj = JSON.parse(customerString);
     const customerId = customerObj.id;
-
-    const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
-
-    const versionFromStorage = customerUpdated.body.version;
+    const versionFromStorage = localStorage.getItem('customerVersion');
     let version = versionFromStorage ? +versionFromStorage : 0;
     if (customerId && version) {
       try {
@@ -252,7 +248,6 @@ export default function addAddress(
         ]);
         version = customer.body.version;
         const updAddressId = newAddress ? customer.body.addresses[customer.body.addresses.length - 1].id : addressId;
-
         const actions: CustomerUpdateAction[] = [];
 
         if (
@@ -325,16 +320,18 @@ export default function addAddress(
         }
 
         if (actions.length) {
-          const customerUpd = await updateCustomerById(customerId, version, actions);
-          version = customerUpd.body.version;
+         const customerUpdated = await updateCustomerById(customer.body.id, customer.body.version, actions)
+         version = customerUpdated.body.version
         }
-        sessionStorage.setItem('customerVersion', `${version}`);
+        localStorage.setItem('customerVersion', `${version}`);
+
+
       } catch (error) {
         addressErr.style.color = 'red';
         addressErr.innerHTML = `Oops! ${(error as Error).message}`;
         setTimeout(async () => {
           addressErr.innerHTML = '';
-        }, 5000);
+        }, 2000);
       } finally {
         saveAddressesButton.disabled = true;
         editAddressesButton.disabled = false;
