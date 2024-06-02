@@ -1,9 +1,5 @@
 import createElement from '../../utilities/createElement';
 import { getProductById } from './getProduct';
-/* eslint-disable-next-line */
-import createCatalog from '../catalog/catalog';
-/* eslint-disable-next-line */
-import displayProducts from '../catalog/displayProducts';
 
 let img1: string;
 let img2: string;
@@ -16,10 +12,7 @@ let price: string;
 let disc: string | undefined;
 
 export default function detailedProductPage(productId: string): HTMLElement {
-  const testcont = document.querySelector('.page-wrapper') as HTMLElement;
-  const testcat = document.querySelector('.catalog-wrapper') as HTMLElement;
-
-  const dpp = createElement('div', ['dpp-page'], testcont);
+  const dpp = createElement('div', ['dpp-page']);
 
   let slideIndex: number = 1;
   let slideIndex1: number = 1;
@@ -138,7 +131,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
     showSlides1(slideIndex1);
   }
 
-  function createDPPDOM() {
+  function generateDetailedProductPageDOM() {
     const dppCont = createElement('div', ['dpp-cont'], dpp);
 
     const sliderCont = createElement('div', ['slideshow-container'], dppCont);
@@ -176,22 +169,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
 
     const textCont = createElement('div', ['dpp-text-cont'], dppCont);
 
-    const backToCat = createElement('div', ['dpp-back-to-cat'], textCont, 'go back to the catalog');
-
-    backToCat.addEventListener('click', () => {
-      while (dpp.firstChild) {
-        dpp.removeChild(dpp.firstChild);
-      }
-
-      dpp.parentElement!.removeChild(dpp);
-
-      const existingCatalog = document.querySelector('.catalog-wrapper');
-      if (!existingCatalog) {
-        const cat = createCatalog();
-        testcont.appendChild(cat);
-        displayProducts();
-      }
-    });
+    createElement('div', ['dpp-back-to-cat'], textCont, 'go back to the catalog');
 
     const nadCont = createElement('div', ['dpp-nad-text-cont'], textCont);
 
@@ -210,12 +188,6 @@ export default function detailedProductPage(productId: string): HTMLElement {
     const myModal = createElement('div', ['modal'], dpp);
     myModal.id = 'myModal';
     myModal.style.display = 'none';
-
-    while (testcat.firstChild) {
-      testcat.removeChild(testcat.firstChild);
-    }
-
-    testcat.parentElement!.removeChild(testcat);
 
     const modalCont = createElement('div', ['modal-content'], myModal);
 
@@ -274,7 +246,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
     }
   }
 
-  async function testProducts() {
+  async function getProductInfo() {
     try {
       const productResponse = await getProductById(productId);
       prodName = productResponse.body.masterData.current.name.en;
@@ -296,16 +268,12 @@ export default function detailedProductPage(productId: string): HTMLElement {
       const imagesUrl = productResponse.body.masterData.current.masterVariant.images;
 
       if (imagesUrl) {
-        // img1 = imagesUrl[0].url.replace(/(\.[^.]+$)/, '-medium$1');
-        // img2 = imagesUrl[1].url.replace(/(\.[^.]+$)/, '-medium$1');
-        // img3 = imagesUrl[2].url.replace(/(\.[^.]+$)/, '-medium$1');
-
-        img1 = imagesUrl[0].url;
-        img2 = imagesUrl[1].url;
-        img3 = imagesUrl[2].url;
+        img1 = imagesUrl[0].url.replace(/(\.[^.]+$)/, '-large$1');
+        img2 = imagesUrl[1].url.replace(/(\.[^.]+$)/, '-large$1');
+        img3 = imagesUrl[2].url.replace(/(\.[^.]+$)/, '-large$1');
       }
 
-      createDPPDOM();
+      generateDetailedProductPageDOM();
       showSlides(slideIndex);
       showSlides1(slideIndex1);
     } catch (error) {
@@ -313,7 +281,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
     }
   }
 
-  testProducts();
+  getProductInfo();
 
   return dpp;
 }

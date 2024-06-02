@@ -1,5 +1,4 @@
 import createElement from '../../utilities/createElement';
-/* eslint-disable-next-line */
 import displayProducts, { currentSubcategory, paginationData } from './displayProducts';
 
 export function updatePage(page: number) {

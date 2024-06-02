@@ -1,7 +1,6 @@
 import createElement from '../../utilities/createElement';
 import categoryButtonToggle from './categoryButtonToggle';
 import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesMenu';
-/* eslint-disable-next-line */
 import displayProducts from './displayProducts';
 import { updatePage } from './pagination';
 
