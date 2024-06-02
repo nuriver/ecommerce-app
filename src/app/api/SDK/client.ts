@@ -101,8 +101,7 @@ export function getProductsByMainCategory(
   categoryId: string,
   limit: number,
   offset: number,
-  sort?: string,
-  searchText?: string
+  sort?: string
 ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
   return apiRoot
     .productProjections()
@@ -113,8 +112,6 @@ export function getProductsByMainCategory(
         limit,
         offset,
         sort,
-        'text.en': searchText,
-        fuzzy: true,
       },
     })
     .execute();

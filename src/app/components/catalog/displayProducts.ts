@@ -14,7 +14,7 @@ export const sortData: SortData = {
 };
 
 export const searchData: { value: string | undefined } = {
-  value: 'surrealism',
+  value: undefined,
 };
 
 export const paginationData = {
@@ -33,13 +33,7 @@ export default async function displayProducts(id?: string): Promise<void> {
   let response: ClientResponse<ProductProjectionPagedQueryResponse>;
 
   if (id) {
-    response = await getProductsByMainCategory(
-      id,
-      paginationData.pageLimit,
-      offset,
-      sortData.currentSort,
-      searchData.value
-    );
+    response = await getProductsByMainCategory(id, paginationData.pageLimit, offset, sortData.currentSort);
     currentSubcategory.value = id;
     sortData.currentId = id;
   } else {

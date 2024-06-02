@@ -104,6 +104,25 @@ label {
   height: 15px;
 }
 
+.search-button {
+  width: 40px;
+  border: none;
+  background-color: white;
+  margin-left: -10px;
+}
+.search-button .search-icon {
+  display: block;
+  background-image: url(/src/assets/images/search-icon.svg);
+  background-size: cover;
+  width: 25px;
+  height: 25px;
+  transition: all 0.15 ease-in-out;
+}
+.search-button .search-icon:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
 .login-wrapper {
   max-width: 1440px;
   margin: 0 auto;

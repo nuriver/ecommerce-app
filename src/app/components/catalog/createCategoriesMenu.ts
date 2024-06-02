@@ -1,7 +1,7 @@
 import createElement from '../../utilities/createElement';
 import categoryButtonToggle from './categoryButtonToggle';
 import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesMenu';
-import displayProducts from './displayProducts';
+import displayProducts, { searchData } from './displayProducts';
 import { updatePage } from './pagination';
 import updateBreadCrumbs from './updateBreadCrumbs';
 import { clearSort } from './sortProducts';
@@ -75,6 +75,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     const target = event.target as HTMLElement;
     clearSort();
     updatePage(1);
+    if (searchData.value) searchData.value = undefined;
     categoryButtonToggle(target);
     displayProducts();
     updateBreadCrumbs();

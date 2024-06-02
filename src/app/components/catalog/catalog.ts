@@ -2,6 +2,7 @@ import createElement from '../../utilities/createElement';
 import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
 import { createPagination } from './pagination';
+import searchProducts from './searchProducts';
 
 export default function createCatalog(): HTMLElement {
   const catalogWrapper = createElement('div', ['catalog-wrapper']);
@@ -23,6 +24,10 @@ export default function createCatalog(): HTMLElement {
   searchLabel.setAttribute('for', 'searchInput');
   const searchInput = createElement('input', ['search-input'], searchBlock);
   searchInput.id = 'searchInput';
+
+  const searchButtonInnerText = '<span class="search-icon"></span>';
+  const searchButton = createElement('button', ['search-button'], searchBlock, searchButtonInnerText);
+  searchButton.addEventListener('click', searchProducts);
 
   const breadCrumbsContainer = createElement('div', ['bread-crumbs-container'], catalogWrapper);
   createElement('p', ['bread-crumbs-heading'], breadCrumbsContainer, 'CATEGORY:');
