@@ -8,6 +8,7 @@ import { isError } from '../../utilities/checkers';
 
 export default function createProfilePage(): HTMLDivElement {
   let customerId: string | undefined;
+  //   let customerVersion: string | undefined;
   const profilePage: HTMLDivElement = createElement('div', ['profile-page']);
   const profileWrapper: HTMLDivElement = createElement('div', ['profile-page__wrapper'], profilePage);
   createElement('h1', ['profile-page__title'], profileWrapper, 'MY ACCOUNT');
@@ -226,10 +227,11 @@ export default function createProfilePage(): HTMLDivElement {
     if (!isError(resultCheckPersonalInfo)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
-        if (customerId && sessionStorage.getItem('customerVersion')) {
-          const customer = await updateCustomerById(
+
+        if (customerId && localStorage.getItem('customerVersion')) {
+          const customer: ClientResponse<Customer> = await updateCustomerById(
             customerId,
-            +(sessionStorage.getItem('customerVersion') as string),
+            +(localStorage.getItem('customerVersion') as string),
             [
               { action: 'setFirstName', firstName: firstNameValue.value },
               { action: 'setLastName', lastName: lastNameValue.value },
@@ -237,8 +239,9 @@ export default function createProfilePage(): HTMLDivElement {
               { action: 'changeEmail', email: emailValue.value },
             ]
           );
-          sessionStorage.setItem('customerVersion', `${customer.body.version}`);
+          localStorage.setItem('customerVersion', `${customer.body.version}`);
         }
+
         accumulatePersonalInfoErr.style.color = 'green';
         accumulatePersonalInfoErr.innerHTML = 'Account has been updated!';
         setTimeout(async () => {
@@ -247,13 +250,13 @@ export default function createProfilePage(): HTMLDivElement {
             input.disabled = true;
           });
           editInfoEmailButton.disabled = false;
-        }, 1500);
+        }, 2500);
       } catch {
         accumulatePersonalInfoErr.style.color = 'red';
         accumulatePersonalInfoErr.innerHTML = `Oops! Something wrong. Try again...`;
         setTimeout(async () => {
           accumulatePersonalInfoErr.innerHTML = '';
-        }, 1500);
+        }, 2500);
       }
     }
   });
@@ -265,40 +268,42 @@ export default function createProfilePage(): HTMLDivElement {
       input.disabled = false;
     });
     editPasswordButton.disabled = true;
-    savePasswordButton.disabled = true;
+    // savePasswordButton.disabled = true;
     delayPasswordButton.disabled = false;
   });
 
   savePasswordButton.addEventListener('click', async (event) => {
+    const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
+
     if (!isError(resultCheckPasswords)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
         delayPasswordButton.disabled = true;
 
-        if (customerId && sessionStorage.getItem('customerVersion')) {
-          const customer = await updateCustomerPasswordById(
+        if (customerId && localStorage.getItem('customerVersion')) {
+          const customer: ClientResponse<Customer> = await updateCustomerPasswordById(
             customerId,
-            +(sessionStorage.getItem('customerVersion') as string),
+            +customerUpdated.body.version,
             currentPasswordInput.value,
             newPasswordInput.value
           );
-          sessionStorage.setItem('customerVersion', `${customer.body.version}`);
           accumulatePassErr.style.color = 'green';
           accumulatePassErr.innerHTML = 'Your password has been changed successfully!';
+          localStorage.setItem('customerVersion', `${customer.body.version}`);
           setTimeout(async () => {
             accumulatePassErr.innerHTML = '';
             passwordInputElements.forEach((input) => {
               input.disabled = true;
             });
             editPasswordButton.disabled = false;
-          }, 1500);
+          }, 2500);
         }
       } catch (error) {
         accumulatePassErr.style.color = 'red';
         accumulatePassErr.innerHTML = `Oops! ${(error as Error).message}`;
         setTimeout(async () => {
           accumulatePassErr.innerHTML = '';
-        }, 5000);
+        }, 2500);
         editPasswordButton.disabled = false;
       } finally {
         (event.target as HTMLButtonElement).disabled = true;
@@ -309,11 +314,16 @@ export default function createProfilePage(): HTMLDivElement {
     }
   });
 
-  let previousSessionStorage = JSON.stringify(sessionStorage);
+  let previousSessionStorage = JSON.stringify(localStorage);
 
   setInterval(async () => {
-    const currentSessionStorage = JSON.stringify(sessionStorage);
+    const currentSessionStorage = JSON.stringify(localStorage);
 
+    const customerString: string = localStorage.getItem('customer') as string;
+    if (customerString) {
+      const customerObj = JSON.parse(customerString);
+      customerId = customerObj.id;
+    }
     if (
       currentSessionStorage !== previousSessionStorage &&
       JSON.parse(currentSessionStorage).customer &&
@@ -340,9 +350,9 @@ export default function createProfilePage(): HTMLDivElement {
         message.innerHTML = '';
       });
 
-      const customer: ClientResponse<Customer> = await getCustomerById(JSON.parse(currentSessionStorage).customer);
+      const customer: ClientResponse<Customer> = await getCustomerById(customerId as string);
       customerId = customer.body.id;
-      sessionStorage.setItem('customerVersion', `${customer.body.version}`);
+      localStorage.setItem('customerVersion', `${customer.body.version}`);
       firstNameValue.value = customer.body.firstName as string;
       lastNameValue.value = customer.body.lastName as string;
       birthDateValue.value = customer.body.dateOfBirth as string;

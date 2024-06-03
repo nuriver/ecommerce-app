@@ -101,6 +101,14 @@ export function checkPasswordsForChange(
     if (check === false) {
       errors.currentPassword = false;
       printError(currentPasswordErr, '');
+      if (
+        currentPasswordInput.value.length &&
+        newPasswordInput.value.length &&
+        !currentPasswordErr.innerText.length &&
+        !newPasswordErr.innerText.length
+      ) {
+        savePasswordButton.disabled = false;
+      }
     } else {
       errors.currentPassword = true;
       printError(currentPasswordErr, check);
@@ -113,22 +121,21 @@ export function checkPasswordsForChange(
     const check: string | false = checkPassword(newPasswordInput.value);
     if (check === false) {
       errors.password = false;
-      savePasswordButton.disabled = false;
       printError(newPasswordErr, '');
+      if (
+        currentPasswordInput.value.length &&
+        newPasswordInput.value.length &&
+        !currentPasswordErr.innerText.length &&
+        !newPasswordErr.innerText.length
+      ) {
+        savePasswordButton.disabled = false;
+      }
     } else {
       errors.password = true;
       printError(newPasswordErr, check);
       savePasswordButton.disabled = true;
     }
   });
-  if (
-    currentPasswordInput.innerText.length &&
-    newPasswordInput.innerText.length &&
-    !currentPasswordErr.innerText &&
-    !newPasswordErr.innerText
-  ) {
-    savePasswordButton.disabled = false;
-  }
 
   return errors;
 }

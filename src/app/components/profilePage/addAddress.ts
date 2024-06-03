@@ -157,6 +157,8 @@ export default function addAddress(
     addressAllBtn,
     'Delete'
   );
+  const addressErr: HTMLDivElement = createElement('div', ['user-data__errors'], myAddress);
+
   const addressInputs: NodeListOf<HTMLInputElement> = myAddress.querySelectorAll('.data-block__input');
 
   checkAddressInputs(
@@ -201,19 +203,34 @@ export default function addAddress(
   });
 
   deleteAddressBtn.addEventListener('click', async () => {
-    const customerId = sessionStorage.getItem('customer');
-    const version = sessionStorage.getItem('customerVersion');
-    if (customerId && version && addressId) {
-      const customer = await updateCustomerById(customerId, +version, [{ action: 'removeAddress', addressId }]);
-      sessionStorage.setItem('customerVersion', `${customer.body.version}`);
-    } else {
-      myAddress.remove();
+    const customerString: string = localStorage.getItem('customer') as string;
+    const customerObj = JSON.parse(customerString);
+    const customerId = customerObj.id;
+    const customerVersion: string = localStorage.getItem('customerVersion') as string;
+    // const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
+
+    // const customerVersion = customerUpdated.body.version;
+    try {
+      if (customerId && customerVersion && addressId) {
+        await updateCustomerById(customerId, +customerVersion, [{ action: 'removeAddress', addressId }]);
+        setTimeout(async () => {
+          myAddress.remove();
+        }, 1500);
+      }
+    } catch (error) {
+      addressErr.style.color = 'red';
+      addressErr.innerHTML = `Oops! ${(error as Error).message}`;
+      setTimeout(async () => {
+        addressErr.innerHTML = '';
+      }, 5000);
     }
   });
 
   saveAddressesButton.addEventListener('click', async () => {
-    const customerId = sessionStorage.getItem('customer');
-    const versionFromStorage = sessionStorage.getItem('customerVersion');
+    const customerString: string = localStorage.getItem('customer') as string;
+    const customerObj = JSON.parse(customerString);
+    const customerId = customerObj.id;
+    const versionFromStorage = localStorage.getItem('customerVersion');
     let version = versionFromStorage ? +versionFromStorage : 0;
     if (customerId && version) {
       try {
@@ -231,7 +248,6 @@ export default function addAddress(
         ]);
         version = customer.body.version;
         const updAddressId = newAddress ? customer.body.addresses[customer.body.addresses.length - 1].id : addressId;
-
         const actions: CustomerUpdateAction[] = [];
 
         if (
@@ -304,12 +320,18 @@ export default function addAddress(
         }
 
         if (actions.length) {
-          const customerUpd = await updateCustomerById(customerId, version, actions);
-          version = customerUpd.body.version;
+         const customerUpdated = await updateCustomerById(customer.body.id, customer.body.version, actions)
+         version = customerUpdated.body.version
         }
-        sessionStorage.setItem('customerVersion', `${version}`);
+        localStorage.setItem('customerVersion', `${version}`);
+
+
       } catch (error) {
-        console.error((error as Error).message);
+        addressErr.style.color = 'red';
+        addressErr.innerHTML = `Oops! ${(error as Error).message}`;
+        setTimeout(async () => {
+          addressErr.innerHTML = '';
+        }, 2000);
       } finally {
         saveAddressesButton.disabled = true;
         editAddressesButton.disabled = false;
