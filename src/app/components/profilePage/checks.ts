@@ -107,7 +107,6 @@ export function checkPasswordsForChange(
         !currentPasswordErr.innerText.length &&
         !newPasswordErr.innerText.length
       ) {
-        console.log(1111)
         savePasswordButton.disabled = false;
       }
     } else {
@@ -115,8 +114,6 @@ export function checkPasswordsForChange(
       printError(currentPasswordErr, check);
       savePasswordButton.disabled = true;
     }
-    console.log(!currentPasswordErr.innerText.length);
-
   });
 
   newPasswordInput.addEventListener('input', () => {
@@ -131,7 +128,6 @@ export function checkPasswordsForChange(
         !currentPasswordErr.innerText.length &&
         !newPasswordErr.innerText.length
       ) {
-        console.log(1111)
         savePasswordButton.disabled = false;
       }
     } else {
@@ -139,8 +135,6 @@ export function checkPasswordsForChange(
       printError(newPasswordErr, check);
       savePasswordButton.disabled = true;
     }
-    console.log(!newPasswordErr.innerText.length);
-  
   });
 
   return errors;
