@@ -326,7 +326,7 @@ export default function createProfilePage(): HTMLDivElement {
     }
     if (
       currentSessionStorage !== previousSessionStorage &&
-      JSON.parse(currentSessionStorage) &&
+      JSON.parse(currentSessionStorage).customer &&
       (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer ||
         JSON.parse(currentSessionStorage).customerVersion !== JSON.parse(previousSessionStorage).customerVersion)
     ) {
