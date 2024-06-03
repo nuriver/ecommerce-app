@@ -8,7 +8,7 @@ import { isError } from '../../utilities/checkers';
 
 export default function createProfilePage(): HTMLDivElement {
   let customerId: string | undefined;
-//   let customerVersion: string | undefined;
+  //   let customerVersion: string | undefined;
   const profilePage: HTMLDivElement = createElement('div', ['profile-page']);
   const profileWrapper: HTMLDivElement = createElement('div', ['profile-page__wrapper'], profilePage);
   createElement('h1', ['profile-page__title'], profileWrapper, 'MY ACCOUNT');
@@ -224,22 +224,24 @@ export default function createProfilePage(): HTMLDivElement {
   });
 
   saveInfoEmailButton.addEventListener('click', async (event) => {
-    // const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
-    // localStorage.setItem('customerVersion', `${customerUpdated.body.version}`);
     if (!isError(resultCheckPersonalInfo)) {
       try {
         (event.target as HTMLButtonElement).disabled = true;
 
         if (customerId && localStorage.getItem('customerVersion')) {
-        const customer: ClientResponse<Customer> =  await updateCustomerById(customerId, +(localStorage.getItem('customerVersion') as string), [
-            { action: 'setFirstName', firstName: firstNameValue.value },
-            { action: 'setLastName', lastName: lastNameValue.value },
-            { action: 'setDateOfBirth', dateOfBirth: birthDateValue.value },
-            { action: 'changeEmail', email: emailValue.value },
-          ]);
-          localStorage.setItem('customerVersion', `${customer.body.version}`)
+          const customer: ClientResponse<Customer> = await updateCustomerById(
+            customerId,
+            +(localStorage.getItem('customerVersion') as string),
+            [
+              { action: 'setFirstName', firstName: firstNameValue.value },
+              { action: 'setLastName', lastName: lastNameValue.value },
+              { action: 'setDateOfBirth', dateOfBirth: birthDateValue.value },
+              { action: 'changeEmail', email: emailValue.value },
+            ]
+          );
+          localStorage.setItem('customerVersion', `${customer.body.version}`);
         }
-        
+
         accumulatePersonalInfoErr.style.color = 'green';
         accumulatePersonalInfoErr.innerHTML = 'Account has been updated!';
         setTimeout(async () => {
@@ -248,13 +250,13 @@ export default function createProfilePage(): HTMLDivElement {
             input.disabled = true;
           });
           editInfoEmailButton.disabled = false;
-        }, 1500);
+        }, 2500);
       } catch {
         accumulatePersonalInfoErr.style.color = 'red';
         accumulatePersonalInfoErr.innerHTML = `Oops! Something wrong. Try again...`;
         setTimeout(async () => {
           accumulatePersonalInfoErr.innerHTML = '';
-        }, 1500);
+        }, 2500);
       }
     }
   });
@@ -287,21 +289,21 @@ export default function createProfilePage(): HTMLDivElement {
           );
           accumulatePassErr.style.color = 'green';
           accumulatePassErr.innerHTML = 'Your password has been changed successfully!';
-          localStorage.setItem('customerVersion', `${customer.body.version}`)
+          localStorage.setItem('customerVersion', `${customer.body.version}`);
           setTimeout(async () => {
             accumulatePassErr.innerHTML = '';
             passwordInputElements.forEach((input) => {
               input.disabled = true;
             });
             editPasswordButton.disabled = false;
-          }, 1500);
+          }, 2500);
         }
       } catch (error) {
         accumulatePassErr.style.color = 'red';
         accumulatePassErr.innerHTML = `Oops! ${(error as Error).message}`;
         setTimeout(async () => {
           accumulatePassErr.innerHTML = '';
-        }, 5000);
+        }, 2500);
         editPasswordButton.disabled = false;
       } finally {
         (event.target as HTMLButtonElement).disabled = true;
@@ -324,7 +326,7 @@ export default function createProfilePage(): HTMLDivElement {
     }
     if (
       currentSessionStorage !== previousSessionStorage &&
-      JSON.parse(currentSessionStorage) &&
+      JSON.parse(currentSessionStorage).customer &&
       (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer ||
         JSON.parse(currentSessionStorage).customerVersion !== JSON.parse(previousSessionStorage).customerVersion)
     ) {

@@ -34,16 +34,20 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
     const tokenCache = tokenCacheObject.tokenCache as TokenCache;
     const customerToken = tokenCache.get().token;
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+    const profileLink: HTMLLinkElement = document.querySelector('.header-link-profile') as HTMLLinkElement;
 
     const customer = {
       id: customerId,
       token: customerToken,
-      version: customerVersion
+      version: customerVersion,
     };
 
     localStorage.setItem('customer', JSON.stringify(customer));
 
     loginLink.innerText = 'LOGOUT';
+    if (profileLink.classList.contains('header-link-profile-hidden')) {
+      profileLink.classList.remove('header-link-profile-hidden');
+    }
     window.location.href = '#/main';
     return true;
   } catch {
