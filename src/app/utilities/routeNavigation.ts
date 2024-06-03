@@ -15,13 +15,15 @@ export default function routeNavigation(
   const currentRoute = window.location.hash;
   const signInRouting = () => {
     if (workingRoutes.includes(currentRoute)) {
-      pageToggle(main, 'main');
+     pageToggle(main, 'main');
     } else if (currentRoute === '#/profile') {
-      pageToggle(profile, 'profile');
+     pageToggle(profile, 'profile');
+    } else if (currentRoute === '#/catalog') {
+      pageToggle(catalog, 'catalog');
     } else {
-      pageToggle(wrongRoute, '404');
+     pageToggle(wrongRoute, '404');
     }
-  };
+   };
   const signOutRoutingManually = () => {
     if (currentRoute === '#/login') {
       pageToggle(login);
