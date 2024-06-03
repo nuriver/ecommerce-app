@@ -5,6 +5,7 @@ import displayProducts, { searchData } from './displayProducts';
 import { updatePage } from './pagination';
 import updateBreadCrumbs from './updateBreadCrumbs';
 import { clearSort } from './sortProducts';
+import { totalFiltersReset } from './filterMenu';
 
 export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategoriesContainer = createElement('div', ['subcategories-container']);
@@ -31,6 +32,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
         updateBreadCrumbs(parentCategoryButton, childCategory);
       }
       clearSort();
+      totalFiltersReset();
       displayProducts(subcategory.id);
       closeButton.click();
     });
@@ -41,6 +43,7 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     updatePage(1);
     const parentCategoryButton = currentParent.value;
     closeButton.click();
+    totalFiltersReset();
     clearSort();
     if (parentCategoryButton) {
       displayProducts(parentCategoryButton.id);
@@ -79,5 +82,6 @@ export default function createCategoriesMenu(parent: HTMLElement) {
     categoryButtonToggle(target);
     displayProducts();
     updateBreadCrumbs();
+    totalFiltersReset();
   });
 }

@@ -26,3 +26,9 @@ export type SortData = {
   currentId: string | undefined;
   currentSort: string | undefined;
 };
+
+export type FilterData = {
+  artistFilters: string;
+  priceRange: string;
+  clearFilters: () => void;
+};

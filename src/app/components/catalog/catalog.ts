@@ -1,6 +1,8 @@
 import createElement from '../../utilities/createElement';
 import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
+import displayProducts, { sortData } from './displayProducts';
+import { showFilter, totalFiltersReset } from './filterMenu';
 import { createPagination } from './pagination';
 import searchProducts from './searchProducts';
 
@@ -17,7 +19,8 @@ export default function createCatalog(): HTMLElement {
   createSortOptions(sortOptionsContainer, 'price');
 
   const filterButtonInnerText = '<span class="filter-icon"></span> SHOW FILTERS';
-  createElement('button', ['button', 'filter-button'], sortBlock, filterButtonInnerText);
+  const filterButton = createElement('button', ['button', 'filter-button'], sortBlock, filterButtonInnerText);
+  filterButton.addEventListener('click', showFilter);
 
   const searchBlock = createElement('div', ['search-block'], catalogWrapper);
   const searchLabel = createElement('label', ['search-label'], searchBlock, 'SEARCH');
@@ -34,6 +37,20 @@ export default function createCatalog(): HTMLElement {
   createElement('p', ['bread-crumbs-category', 'bread-crumb'], breadCrumbsContainer, 'BAGS');
   createElement('p', ['bread-crumbs-delimiter'], breadCrumbsContainer, '>');
   createElement('p', ['bread-crumbs-subcategory', 'bread-crumb'], breadCrumbsContainer, 'MODERN BAGS');
+
+  const filterInfoBlock = createElement('div', ['filter-info-block'], catalogWrapper);
+  createElement('p', ['filter-info-heading'], filterInfoBlock, 'FILTERED BY:');
+  createElement('p', ['applied-filters-container'], filterInfoBlock);
+  const resetAppliedFilters = createElement(
+    'button',
+    ['reset-applied-filters', 'filter-reset'],
+    filterInfoBlock,
+    'RESET'
+  );
+  resetAppliedFilters.addEventListener('click', () => {
+    totalFiltersReset();
+    displayProducts(sortData.currentId);
+  });
 
   createElement('div', ['catalog'], catalogWrapper);
 

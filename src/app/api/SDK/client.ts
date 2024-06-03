@@ -77,6 +77,7 @@ export function getProductsByCategory(
 }
 
 export function getAllProducts(
+  filter: string[],
   limit: number,
   offset: number,
   sort?: string,
@@ -87,6 +88,7 @@ export function getAllProducts(
     .search()
     .get({
       queryArgs: {
+        filter,
         limit,
         offset,
         sort,
@@ -98,7 +100,7 @@ export function getAllProducts(
 }
 
 export function getProductsByMainCategory(
-  categoryId: string,
+  filters: string[],
   limit: number,
   offset: number,
   sort?: string
@@ -108,7 +110,7 @@ export function getProductsByMainCategory(
     .search()
     .get({
       queryArgs: {
-        filter: [`categories.id:subtree("${categoryId}")`],
+        filter: filters,
         limit,
         offset,
         sort,

@@ -63,3 +63,22 @@
     }
   }
 }
+
+.artist-button {
+  border: none;
+  width: 100px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 7px rgb(165, 165, 165);
+  }
+  &-active {
+    background-color: #000000;
+    color: white;
+    box-shadow: 1px 1px 7px rgb(165, 165, 165);
+  }
+}

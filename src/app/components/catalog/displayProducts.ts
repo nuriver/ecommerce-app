@@ -2,7 +2,7 @@ import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commerceto
 import { getAllProducts, getProductsByMainCategory } from '../../api/SDK/client';
 import createProductCard from './createProductCard';
 import getProductDataFromProductProjection from './getProductData';
-import { SortData } from '../../types/types';
+import { FilterData, SortData } from '../../types/types';
 
 export const currentSubcategory: { value: undefined | string } = {
   value: undefined,
@@ -17,6 +17,15 @@ export const searchData: { value: string | undefined } = {
   value: undefined,
 };
 
+export const filterData: FilterData = {
+  artistFilters: '',
+  priceRange: '',
+  clearFilters() {
+    this.artistFilters = '';
+    this.priceRange = '';
+  },
+};
+
 export const paginationData = {
   pageLimit: 12,
   currentPage: 1,
@@ -25,19 +34,19 @@ export const paginationData = {
 export default async function displayProducts(id?: string): Promise<void> {
   const catalog = document.querySelector('.catalog') as HTMLElement;
   catalog.innerHTML = '';
-
   const offset = (paginationData.currentPage - 1) * paginationData.pageLimit;
-
   const paginationRight = document.querySelector('.pagination-right') as HTMLElement;
 
   let response: ClientResponse<ProductProjectionPagedQueryResponse>;
 
   if (id) {
-    response = await getProductsByMainCategory(id, paginationData.pageLimit, offset, sortData.currentSort);
+    const filters = [`categories.id:subtree("${id}")`, filterData.artistFilters, filterData.priceRange];
+    response = await getProductsByMainCategory(filters, paginationData.pageLimit, offset, sortData.currentSort);
     currentSubcategory.value = id;
     sortData.currentId = id;
   } else {
-    response = await getAllProducts(paginationData.pageLimit, offset, sortData.currentSort, searchData.value);
+    const filters = [filterData.artistFilters, filterData.priceRange];
+    response = await getAllProducts(filters, paginationData.pageLimit, offset, sortData.currentSort, searchData.value);
     currentSubcategory.value = undefined;
     sortData.currentId = undefined;
   }

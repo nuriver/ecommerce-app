@@ -35,6 +35,10 @@ label {
   overflow-y: hidden;
 }
 
+.filters-shown {
+  overflow-y: hidden;
+}
+
 .hoverline {
   display: inline-block;
   position: relative;
@@ -121,6 +125,25 @@ label {
 .search-button .search-icon:hover {
   transform: scale(1.2);
   cursor: pointer;
+}
+
+.artist-button {
+  border: none;
+  width: 100px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.25s ease-in-out;
+}
+.artist-button:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 7px rgb(165, 165, 165);
+}
+.artist-button-active {
+  background-color: #000000;
+  color: white;
+  box-shadow: 1px 1px 7px rgb(165, 165, 165);
 }
 
 .login-wrapper {
@@ -357,6 +380,7 @@ label {
 }
 .header-menu--show {
   display: flex;
+  max-height: 100vh;
 }
 
 .burger {
@@ -1451,6 +1475,27 @@ label {
   margin-top: -3px;
 }
 
+.filter-info-block {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.filter-info-block .applied-filters-container {
+  display: flex;
+  gap: 10px;
+}
+.filter-info-block .applied-filters-container .applied-filter {
+  background-color: #000000;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+.filter-info-block .reset-applied-filters {
+  border: none;
+  background-color: white;
+  display: none;
+}
+
 .pagination-container {
   width: 107px;
   height: 44px;
@@ -1488,7 +1533,6 @@ label {
 .filter-menu-wrapper {
   display: none;
   z-index: 5;
-  top: 80px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
@@ -1528,20 +1572,24 @@ label {
   gap: 28px;
   margin-bottom: 110px;
 }
-.filter-menu-wrapper .filter-menu .artist-filter input {
-  max-width: 587px;
-  flex-grow: 2;
-  display: block;
-}
-.filter-menu-wrapper .filter-menu .artist-filter label {
+.filter-menu-wrapper .filter-menu .artist-filter p {
   width: 100px;
   display: block;
   margin: 0;
   padding: 0;
 }
+.filter-menu-wrapper .filter-menu .artist-filter .artists-container {
+  display: flex;
+  gap: 10px;
+  max-width: 430px;
+  flex-wrap: wrap;
+}
 .filter-menu-wrapper .filter-menu .artist-filter .filter-reset {
-  margin-top: 2px;
-  margin-left: -15px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  margin-top: -25px;
+  margin-left: -10px;
 }
 .filter-menu-wrapper .filter-menu .filter-name {
   font-size: 32px;
@@ -1556,7 +1604,11 @@ label {
   gap: 10px;
   align-items: center;
 }
-.filter-menu-wrapper .filter-menu .price-filter .price-range label {
+.filter-menu-wrapper .filter-menu .price-filter .price-range .price-currency {
+  margin-left: -30px;
+}
+.filter-menu-wrapper .filter-menu .price-filter .price-range label,
+.filter-menu-wrapper .filter-menu .price-filter .price-range .price-currency {
   font-size: 16px;
   font-weight: 500;
 }
@@ -1567,18 +1619,24 @@ label {
   margin-right: 25px;
 }
 .filter-menu-wrapper .filter-menu .price-filter .filter-reset {
-  margin-left: -10px;
+  margin-left: 10px;
   margin-top: 3px;
 }
-.filter-menu-wrapper .filter-menu .filter-reset {
-  font-size: 14px;
+
+.filter-reset {
+  font-size: 12px;
   align-self: flex-start;
-  transition: all 0.3 ease-in-out;
+  transition: all 0.2s ease-in-out;
+  width: 50px !important;
+  display: flex;
+  justify-content: center;
+  padding: 3px !important;
+  border-radius: 5px;
 }
-.filter-menu-wrapper .filter-menu .filter-reset:hover {
-  font-weight: 600;
+.filter-reset:hover {
   cursor: pointer;
-  transform: scale(1.1);
+  background-color: black;
+  color: white;
 }
 
 .profile-page {

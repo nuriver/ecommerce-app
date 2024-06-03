@@ -227,6 +227,27 @@
   }
 }
 
+.filter-info-block {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  .applied-filters-container {
+    display: flex;
+    gap: 10px;
+    .applied-filter {
+      background-color: #000000;
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+    }
+  }
+  .reset-applied-filters {
+    border: none;
+    background-color: white;
+    display: none;
+  }
+}
+
 .pagination-container {
   width: 107px;
   height: 44px;
