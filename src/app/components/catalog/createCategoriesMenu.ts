@@ -1,8 +1,11 @@
 import createElement from '../../utilities/createElement';
 import categoryButtonToggle from './categoryButtonToggle';
 import { currentParent, displaySubcategoriesMenu } from './displaySubcategoriesMenu';
-import displayProducts from './displayProducts';
+import displayProducts, { searchData } from './displayProducts';
 import { updatePage } from './pagination';
+import updateBreadCrumbs from './updateBreadCrumbs';
+import { clearSort } from './sortProducts';
+import { totalFiltersReset } from './filterMenu';
 
 export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategoriesContainer = createElement('div', ['subcategories-container']);
@@ -18,20 +21,35 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   const subcategories = subcategoriesContainer.querySelectorAll('.subcategory');
   subcategories.forEach((subcategory) => {
     subcategory.addEventListener('click', () => {
+      const childCategory = subcategory as HTMLElement;
+
       updatePage(1);
+
       const parentCategoryButton = currentParent.value;
-      if (parentCategoryButton) categoryButtonToggle(parentCategoryButton);
+
+      if (parentCategoryButton) {
+        categoryButtonToggle(parentCategoryButton);
+        updateBreadCrumbs(parentCategoryButton, childCategory);
+      }
+      clearSort();
+      totalFiltersReset();
       displayProducts(subcategory.id);
       closeButton.click();
     });
   });
 
-  const viewAll = createElement('div', ['view-all-subcategory'], subcategoriesContainer, 'View all');
+  const viewAll = createElement('div', ['view-all-subcategory'], subcategoriesContainer, 'VIEW ALL');
   viewAll.addEventListener('click', () => {
     updatePage(1);
     const parentCategoryButton = currentParent.value;
     closeButton.click();
-    if (parentCategoryButton) displayProducts(parentCategoryButton.id);
+    totalFiltersReset();
+    clearSort();
+    if (parentCategoryButton) {
+      displayProducts(parentCategoryButton.id);
+      categoryButtonToggle(parentCategoryButton);
+      updateBreadCrumbs(parentCategoryButton);
+    }
   });
 
   function categoryHandler(event: Event): void {
@@ -58,8 +76,12 @@ export default function createCategoriesMenu(parent: HTMLElement) {
   const allCategory = createElement('div', ['all-category', 'category'], parent, 'ALL');
   allCategory.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+    clearSort();
     updatePage(1);
+    if (searchData.value) searchData.value = undefined;
     categoryButtonToggle(target);
     displayProducts();
+    updateBreadCrumbs();
+    totalFiltersReset();
   });
 }

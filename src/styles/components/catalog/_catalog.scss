@@ -151,6 +151,7 @@
   row-gap: 50px;
   margin-bottom: 57px;
   .product-card {
+    position: relative;
     width: 308px;
     height: 488px;
     padding: 10px;
@@ -189,6 +190,16 @@
       font-size: 24px;
       font-weight: 500;
       margin-top: auto;
+      &-discount {
+        color: rgb(197, 43, 43);
+      }
+      &-old {
+        position: absolute;
+        bottom: 10px;
+        left: 100px;
+        font-size: 18px;
+        text-decoration: line-through;
+      }
     }
     &:hover {
       box-shadow: 2px 2px 20px 1px rgb(174, 174, 174);
@@ -201,6 +212,39 @@
         background-size: 135%;
       }
     }
+  }
+}
+
+.bread-crumbs-container {
+  display: flex;
+  gap: 10px;
+  .bread-crumbs-heading {
+    font-weight: 600;
+  }
+  .bread-crumbs-delimiter {
+    font-size: 20px;
+    margin-top: -3px;
+  }
+}
+
+.filter-info-block {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  .applied-filters-container {
+    display: flex;
+    gap: 10px;
+    .applied-filter {
+      background-color: #000000;
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+    }
+  }
+  .reset-applied-filters {
+    border: none;
+    background-color: white;
+    display: none;
   }
 }
 

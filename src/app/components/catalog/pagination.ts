@@ -3,7 +3,6 @@ import displayProducts, { currentSubcategory, paginationData } from './displayPr
 
 export function updatePage(page: number) {
   const paginationLeft = document.querySelector('.pagination-left');
-  // const paginationRight = document.querySelector('.pagination-right');
   const pageNumber = document.querySelector('.page-number') as HTMLElement;
 
   if (page > 1) {

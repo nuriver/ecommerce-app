@@ -19,4 +19,16 @@ export type ProductData = {
   image: string;
   price: number | string;
   id: string;
+  discountPrice?: string;
+};
+
+export type SortData = {
+  currentId: string | undefined;
+  currentSort: string | undefined;
+};
+
+export type FilterData = {
+  artistFilters: string;
+  priceRange: string;
+  clearFilters: () => void;
 };

@@ -8,7 +8,13 @@ export default function createProductCard(product: ProductData, parent: HTMLElem
   productImg.style.backgroundImage = `url(${product.image})`;
   createElement('p', ['product-name'], productCard, product.name);
   createElement('p', ['product-description'], productCard, product.description);
-  createElement('p', ['product-price'], productCard, `${product.price}$`);
+  if (product.discountPrice) {
+    createElement('p', ['product-price', 'product-price-discount'], productCard, `${product.discountPrice}$`);
+    createElement('p', ['product-price', 'product-price-old'], productCard, `${product.price}$`);
+  } else {
+    createElement('p', ['product-price'], productCard, `${product.price}$`);
+  }
+
   const bagRegex = /\bbag\b/i;
   const noteRegex = /\bnotebook\b/i;
   if (bagRegex.test(product.name)) {
