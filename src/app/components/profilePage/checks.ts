@@ -101,11 +101,22 @@ export function checkPasswordsForChange(
     if (check === false) {
       errors.currentPassword = false;
       printError(currentPasswordErr, '');
+      if (
+        currentPasswordInput.value.length &&
+        newPasswordInput.value.length &&
+        !currentPasswordErr.innerText.length &&
+        !newPasswordErr.innerText.length
+      ) {
+        console.log(1111)
+        savePasswordButton.disabled = false;
+      }
     } else {
       errors.currentPassword = true;
       printError(currentPasswordErr, check);
       savePasswordButton.disabled = true;
     }
+    console.log(!currentPasswordErr.innerText.length);
+
   });
 
   newPasswordInput.addEventListener('input', () => {
@@ -113,22 +124,24 @@ export function checkPasswordsForChange(
     const check: string | false = checkPassword(newPasswordInput.value);
     if (check === false) {
       errors.password = false;
-      savePasswordButton.disabled = false;
       printError(newPasswordErr, '');
+      if (
+        currentPasswordInput.value.length &&
+        newPasswordInput.value.length &&
+        !currentPasswordErr.innerText.length &&
+        !newPasswordErr.innerText.length
+      ) {
+        console.log(1111)
+        savePasswordButton.disabled = false;
+      }
     } else {
       errors.password = true;
       printError(newPasswordErr, check);
       savePasswordButton.disabled = true;
     }
+    console.log(!newPasswordErr.innerText.length);
+  
   });
-  if (
-    currentPasswordInput.innerText.length &&
-    newPasswordInput.innerText.length &&
-    !currentPasswordErr.innerText &&
-    !newPasswordErr.innerText
-  ) {
-    savePasswordButton.disabled = false;
-  }
 
   return errors;
 }

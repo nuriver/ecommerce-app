@@ -1646,6 +1646,20 @@ label {
     gap: 50px;
   }
 }
+@media screen and (max-width: 600px) {
+  .profile-page {
+    padding: 25px 51px;
+  }
+  .profile-page .data-block__address-wrapper {
+    gap: 15px;
+  }
+  .profile-page .new-address__all-btn {
+    gap: 10px;
+  }
+}
+@media screen and (max-width: 420px) {
+  .profile-page {
+    padding: 25px 31px;
 
 .dpp-cont {
   display: flex;
