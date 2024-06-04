@@ -348,11 +348,15 @@ label {
   justify-content: space-around;
   z-index: 1;
 }
-.header-menu .header-link {
+.header-menu .header-link,
+.header-menu .header-link-profile {
   text-decoration: none;
   color: black;
   font-size: 14px;
   white-space: nowrap;
+}
+.header-menu .header-link-profile-hidden {
+  display: none;
 }
 @media screen and (max-width: 900px) {
   .header-menu {

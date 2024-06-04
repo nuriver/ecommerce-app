@@ -23,8 +23,13 @@ export default function routeNavigation(
       pageToggle(profile, 'profile');
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog);
-      const allCategory = document.querySelector('.all-category') as HTMLElement;
-      allCategory.click();
+      if (modalState.value === false) {
+        const allCategory = document.querySelector('.all-category') as HTMLElement;
+        allCategory.click();
+      }
+      modalState.value = false;
+    } else if (currentRoute.match(productRoutePattern)) {
+      displayBySlug(currentRoute);
     } else {
       pageToggle(wrongRoute, '404');
     }
