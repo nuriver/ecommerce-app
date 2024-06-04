@@ -1,4 +1,6 @@
 import createElement from '../../utilities/createElement';
+import pageToggle from '../../utilities/pageToggle';
+import detailedProductPage from '../detailedProductPage/detailedProductPage';
 import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
 import displayProducts, { sortData } from './displayProducts';
@@ -52,7 +54,15 @@ export default function createCatalog(): HTMLElement {
     displayProducts(sortData.currentId);
   });
 
-  createElement('div', ['catalog'], catalogWrapper);
+  const catalog = createElement('div', ['catalog'], catalogWrapper);
+  catalog.addEventListener('click', async (event) => {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('catalog')) {
+      const card = target.closest('.product-card') as HTMLElement;
+      const productPage = detailedProductPage(card.id);
+      pageToggle(productPage);
+    }
+  });
 
   const paginationContainer = createElement('div', ['pagination-container'], catalogWrapper);
   createPagination(paginationContainer);

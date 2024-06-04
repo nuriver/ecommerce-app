@@ -125,3 +125,15 @@ export function getProductsByMainCategory(
     })
     .execute();
 }
+
+export function getProductsBySlug(slug: string): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
+  return apiRoot
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: {
+        filter: `slug.en: "${slug}"`,
+      },
+    })
+    .execute();
+}

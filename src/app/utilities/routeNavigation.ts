@@ -1,7 +1,10 @@
+import displayBySlug from '../components/catalog/displayBySlug';
+import { modalState } from '../components/detailedProductPage/detailedProductPage';
 import customerInStorage from './customerInStorage';
 import pageToggle from './pageToggle';
 
 const workingRoutes = ['#/login', '#/main', '#/registration'];
+const productRoutePattern = /^#\/catalog\/((?:\w+-)+\w+)$/;
 
 export default function routeNavigation(
   main: HTMLElement,
@@ -15,17 +18,22 @@ export default function routeNavigation(
   const currentRoute = window.location.hash;
   const signInRouting = () => {
     if (workingRoutes.includes(currentRoute)) {
-     pageToggle(main, 'main');
+      pageToggle(main, 'main');
     } else if (currentRoute === '#/profile') {
       pageToggle(profile, 'profile');
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog);
-      const allCategory = document.querySelector('.all-category') as HTMLElement;
-      allCategory.click();
+      if (modalState.value === false) {
+        const allCategory = document.querySelector('.all-category') as HTMLElement;
+        allCategory.click();
+      }
+      modalState.value = false;
+    } else if (currentRoute.match(productRoutePattern)) {
+      displayBySlug(currentRoute);
     } else {
-     pageToggle(wrongRoute, '404');
+      pageToggle(wrongRoute, '404');
     }
-   };
+  };
   const signOutRoutingManually = () => {
     if (currentRoute === '#/login') {
       pageToggle(login);
@@ -35,10 +43,15 @@ export default function routeNavigation(
       pageToggle(registration);
     } else if (currentRoute === '#/profile') {
       pageToggle(profile);
+    } else if (currentRoute.match(productRoutePattern)) {
+      displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog);
-      const allCategory = document.querySelector('.all-category') as HTMLElement;
-      allCategory.click();
+      if (modalState.value === false) {
+        const allCategory = document.querySelector('.all-category') as HTMLElement;
+        allCategory.click();
+      }
+      modalState.value = false;
     } else {
       pageToggle(wrongRoute);
     }
@@ -53,10 +66,15 @@ export default function routeNavigation(
       pageToggle(registration, 'registration');
     } else if (currentRoute === '#/profile') {
       pageToggle(profile, 'profile');
+    } else if (currentRoute.match(productRoutePattern)) {
+      displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog, 'catalog');
-      const allCategory = document.querySelector('.all-category') as HTMLElement;
-      allCategory.click();
+      if (!modalState.value) {
+        const allCategory = document.querySelector('.all-category') as HTMLElement;
+        allCategory.click();
+      }
+      modalState.value = false;
     } else {
       pageToggle(wrongRoute, '404');
     }
