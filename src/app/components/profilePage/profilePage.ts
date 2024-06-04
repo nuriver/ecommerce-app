@@ -174,6 +174,52 @@ export default function createProfilePage(): HTMLDivElement {
     profileWrapper,
     'Add new address'
   );
+
+  async function updateProfilePage() {
+    const allEditBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__edit-button');
+    const allSaveBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__save-button');
+    const allInputs: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
+    const allErrorMessages: NodeListOf<HTMLDivElement> = profileWrapper.querySelectorAll('.user-data__errors');
+
+    addressesBlock.innerHTML = '';
+    allEditBtns.forEach((btn) => {
+      btn.disabled = false;
+    });
+    allSaveBtns.forEach((btn) => {
+      btn.disabled = true;
+    });
+    allInputs.forEach((input) => {
+      input.value = '';
+      input.disabled = true;
+    });
+    allErrorMessages.forEach((message) => {
+      message.innerHTML = '';
+    });
+
+    const customer: ClientResponse<Customer> = await getCustomerById(customerId as string);
+    customerId = customer.body.id;
+    localStorage.setItem('customerVersion', `${customer.body.version}`);
+    firstNameValue.value = customer.body.firstName as string;
+    lastNameValue.value = customer.body.lastName as string;
+    birthDateValue.value = customer.body.dateOfBirth as string;
+    emailValue.value = customer.body.email;
+
+    customer.body.addresses.forEach((address) => {
+      addAddress(
+        addressesBlock,
+        false,
+        address.id,
+        address.city as string,
+        address.streetName as string,
+        address.postalCode as string,
+        customer.body.billingAddressIds?.some((id) => id === address.id),
+        customer.body.shippingAddressIds?.some((id) => id === address.id),
+        customer.body.defaultBillingAddressId === address.id,
+        customer.body.defaultShippingAddressId === address.id
+      );
+    });
+  }
+
   addAddressButton.addEventListener('click', () => {
     addAddress(addressesBlock, true, '', '', '', '', false, false, false);
   });
@@ -315,6 +361,7 @@ export default function createProfilePage(): HTMLDivElement {
   });
 
   let previousSessionStorage = JSON.stringify(localStorage);
+  let pageReloaded = false;
 
   setInterval(async () => {
     const currentSessionStorage = JSON.stringify(localStorage);
@@ -325,56 +372,23 @@ export default function createProfilePage(): HTMLDivElement {
       customerId = customerObj.id;
     }
     if (
+      !pageReloaded &&
+      JSON.parse(currentSessionStorage).customer &&
+      JSON.parse(currentSessionStorage).customerVersion
+    ) {
+      pageReloaded = true;
+      await updateProfilePage();
+    } else if (
       currentSessionStorage !== previousSessionStorage &&
       JSON.parse(currentSessionStorage).customer &&
       (JSON.parse(currentSessionStorage).customer !== JSON.parse(previousSessionStorage).customer ||
         JSON.parse(currentSessionStorage).customerVersion !== JSON.parse(previousSessionStorage).customerVersion)
     ) {
-      const allEditBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__edit-button');
-      const allSaveBtns: NodeListOf<HTMLButtonElement> = profilePage.querySelectorAll('.title-block__save-button');
-      const allInputs: NodeListOf<HTMLInputElement> = profileWrapper.querySelectorAll('.data-block__input');
-      const allErrorMessages: NodeListOf<HTMLDivElement> = profileWrapper.querySelectorAll('.user-data__errors');
-
-      addressesBlock.innerHTML = '';
-      allEditBtns.forEach((btn) => {
-        btn.disabled = false;
-      });
-      allSaveBtns.forEach((btn) => {
-        btn.disabled = true;
-      });
-      allInputs.forEach((input) => {
-        input.value = '';
-        input.disabled = true;
-      });
-      allErrorMessages.forEach((message) => {
-        message.innerHTML = '';
-      });
-
-      const customer: ClientResponse<Customer> = await getCustomerById(customerId as string);
-      customerId = customer.body.id;
-      localStorage.setItem('customerVersion', `${customer.body.version}`);
-      firstNameValue.value = customer.body.firstName as string;
-      lastNameValue.value = customer.body.lastName as string;
-      birthDateValue.value = customer.body.dateOfBirth as string;
-      emailValue.value = customer.body.email;
-
-      customer.body.addresses.forEach((address) => {
-        addAddress(
-          addressesBlock,
-          false,
-          address.id,
-          address.city as string,
-          address.streetName as string,
-          address.postalCode as string,
-          customer.body.billingAddressIds?.some((id) => id === address.id),
-          customer.body.shippingAddressIds?.some((id) => id === address.id),
-          customer.body.defaultBillingAddressId === address.id,
-          customer.body.defaultShippingAddressId === address.id
-        );
-      });
+      updateProfilePage();
     }
 
     previousSessionStorage = currentSessionStorage;
   }, 500);
+
   return profilePage;
 }
