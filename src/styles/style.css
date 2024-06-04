@@ -565,21 +565,21 @@ label {
 .main-page {
   margin-top: -15px;
   /* .products-card:hover {
-     .products-card__img {
-       background-size: 150%;
-       transition: all 0.3s ease-in-out;
-     }
+    .products-card__img {
+      background-size: 150%;
+      transition: all 0.3s ease-in-out;
+    }
 
-     .notebook-anim {
-       background-size: 120%;
-       // transition: all 5s ease-in-out;
-     }
+    .notebook-anim {
+      background-size: 120%;
+      // transition: all 5s ease-in-out;
+    }
 
-     .products-card__desc {
-       font-size: 28px;
-       transition: font-size 0.3s ease-in-out;
-     }
-   }*/
+    .products-card__desc {
+      font-size: 28px;
+      transition: font-size 0.3s ease-in-out;
+    }
+  }*/
 }
 .main-page .first-block {
   background-image: url('/src/assets/images/dali_main.png');
@@ -1264,7 +1264,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  max-width: 1192px;
+  max-width: 100%;
   gap: 35px;
 }
 
@@ -1327,11 +1327,34 @@ label {
   border: 2px solid rgb(137, 136, 136);
   color: rgb(137, 136, 136);
 }
+@media screen and (max-width: 900px) {
+  .categories-block {
+    margin-top: 80px;
+  }
+  .categories-block .category {
+    font-size: 20px;
+  }
+  .categories-block .subcategories-container {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 630px) {
+  .categories-block {
+    gap: 10px;
+  }
+  .categories-block .category {
+    font-size: 12px;
+  }
+  .categories-block .subcategories-container {
+    font-size: 10px;
+    gap: 7px;
+  }
+}
 
 .catalog-sort-block {
   display: flex;
   align-items: center;
-  gap: 89px;
+  justify-content: space-between;
 }
 .catalog-sort-block .sort-block-header {
   font-size: 32px;
@@ -1388,6 +1411,62 @@ label {
   font-size: 14px;
   margin-left: 10px;
 }
+@media screen and (max-width: 900px) {
+  .catalog-sort-block {
+    justify-content: center;
+    gap: 20px;
+  }
+  .catalog-sort-block .sort-block-header {
+    font-size: 20px;
+  }
+  .catalog-sort-block .sort-options-container {
+    gap: 20px;
+  }
+  .catalog-sort-block .sort-options-container .sort-option {
+    gap: 10px;
+  }
+  .catalog-sort-block .sort-options-container .sort-option-name {
+    font-size: 16px !important;
+  }
+  .catalog-sort-block .sort-options-container label {
+    font-size: 14px;
+  }
+  .catalog-sort-block button {
+    width: 70px;
+    border-radius: 3px;
+    margin: 0;
+    gap: 2px;
+  }
+  .catalog-sort-block .filter-icon {
+    display: none;
+  }
+}
+@media screen and (max-width: 630px) {
+  .catalog-sort-block .sort-block-header {
+    font-size: 13px;
+  }
+  .catalog-sort-block .sort-options-container {
+    gap: 8px;
+  }
+  .catalog-sort-block .sort-options-container .sort-option {
+    gap: 10px;
+  }
+  .catalog-sort-block .sort-options-container .sort-option-name {
+    font-size: 10px !important;
+  }
+  .catalog-sort-block .sort-options-container label {
+    font-size: 8px !important;
+    margin-left: 5px !important;
+  }
+  .catalog-sort-block button {
+    font-size: 8px;
+    width: 40px;
+    height: 30px;
+  }
+  .catalog-sort-block .sort-option-order {
+    gap: 5px !important;
+  }
+}
 
 .search-block {
   display: inline-flex;
@@ -1404,6 +1483,25 @@ label {
   border: 1px solid black;
   padding: 3px;
   font-size: 18px;
+}
+@media screen and (max-width: 900px) {
+  .search-block {
+    display: flex;
+    justify-content: center;
+    margin-left: 20px;
+    margin-right: 25px;
+  }
+  .search-block .search-input {
+    max-width: 100%;
+  }
+  .search-block .search-label {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 630px) {
+  .search-block .search-label {
+    font-size: 13px;
+  }
 }
 
 .catalog {
@@ -1475,6 +1573,12 @@ label {
 .catalog .product-card:hover .bag-image {
   background-size: 135%;
 }
+@media screen and (max-width: 900px) {
+  .catalog {
+    justify-content: center;
+    gap: 50px;
+  }
+}
 
 .bread-crumbs-container {
   display: flex;
@@ -1487,6 +1591,11 @@ label {
   font-size: 20px;
   margin-top: -3px;
 }
+@media screen and (max-width: 900px) {
+  .bread-crumbs-container {
+    margin-left: 20px;
+  }
+}
 
 .filter-info-block {
   display: flex;
@@ -1495,6 +1604,7 @@ label {
 }
 .filter-info-block .applied-filters-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .filter-info-block .applied-filters-container .applied-filter {
@@ -1507,6 +1617,11 @@ label {
   border: none;
   background-color: white;
   display: none;
+}
+@media screen and (max-width: 900px) {
+  .filter-info-block {
+    margin-left: 20px;
+  }
 }
 
 .pagination-container {
@@ -1545,7 +1660,7 @@ label {
 
 .filter-menu-wrapper {
   display: none;
-  z-index: 5;
+  z-index: 50;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
@@ -1634,6 +1749,64 @@ label {
 .filter-menu-wrapper .filter-menu .price-filter .filter-reset {
   margin-left: 10px;
   margin-top: 3px;
+}
+@media screen and (max-width: 1100px) {
+  .filter-menu-wrapper .filter-menu {
+    padding: 20px;
+  }
+}
+@media screen and (max-width: 770px) {
+  .filter-menu-wrapper .filter-menu-heading {
+    font-size: 30px !important;
+  }
+  .filter-menu-wrapper .button {
+    width: 130px;
+    gap: 5px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 12px !important;
+  }
+  .filter-menu-wrapper .artist-button {
+    height: 25px;
+    width: -moz-fit-content;
+    width: fit-content;
+    font-size: 12px;
+  }
+  .filter-menu-wrapper .filter-name {
+    font-size: 20px !important;
+  }
+  .filter-menu-wrapper .price-range-label {
+    font-size: 12px !important;
+  }
+  .filter-menu-wrapper input {
+    height: 20px !important;
+    width: 100px !important;
+    font-size: 15px !important;
+  }
+  .filter-menu-wrapper .artists-container {
+    max-width: 100% !important;
+  }
+  .filter-menu-wrapper .artist-filter {
+    max-width: 100% !important;
+    gap: 5px !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .filter-menu-wrapper .artist-button {
+    font-size: 9px !important;
+    height: 20px;
+  }
+  .filter-menu-wrapper .filter-name {
+    font-size: 15px !important;
+  }
+  .filter-menu-wrapper .price-range-label {
+    font-size: 10px !important;
+  }
+  .filter-menu-wrapper .price-range-input {
+    height: 15px !important;
+    width: 60px !important;
+    font-size: 10px !important;
+  }
 }
 
 .filter-reset {
