@@ -564,6 +564,22 @@ label {
 
 .main-page {
   margin-top: -15px;
+  /* .products-card:hover {
+     .products-card__img {
+       background-size: 150%;
+       transition: all 0.3s ease-in-out;
+     }
+
+     .notebook-anim {
+       background-size: 120%;
+       // transition: all 5s ease-in-out;
+     }
+
+     .products-card__desc {
+       font-size: 28px;
+       transition: font-size 0.3s ease-in-out;
+     }
+   }*/
 }
 .main-page .first-block {
   background-image: url('/src/assets/images/dali_main.png');
@@ -599,17 +615,6 @@ label {
   background-size: 125%;
   background-position: center;
   transition: all 0.3s ease-in-out;
-}
-.main-page .products-card:hover .products-card__img {
-  background-size: 150%;
-  transition: all 0.3s ease-in-out;
-}
-.main-page .products-card:hover .notebook-anim {
-  background-size: 120%;
-}
-.main-page .products-card:hover .products-card__desc {
-  font-size: 28px;
-  transition: font-size 0.3s ease-in-out;
 }
 .main-page .img-notebook {
   background-image: url('/src/assets/images/main-products-notebook.png');
@@ -1135,6 +1140,10 @@ label {
     width: 50%;
     text-align: center;
   }
+}
+
+.products-block div:hover {
+  cursor: default;
 }
 
 .ops-404 {
