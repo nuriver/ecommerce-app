@@ -1264,7 +1264,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  max-width: 100%;
+  max-width: 80%;
   gap: 35px;
 }
 
@@ -1411,6 +1411,11 @@ label {
   font-size: 14px;
   margin-left: 10px;
 }
+@media screen and (max-width: 1070px) {
+  .catalog-sort-block .filter-icon {
+    display: none;
+  }
+}
 @media screen and (max-width: 900px) {
   .catalog-sort-block {
     justify-content: center;
@@ -1436,9 +1441,6 @@ label {
     border-radius: 3px;
     margin: 0;
     gap: 2px;
-  }
-  .catalog-sort-block .filter-icon {
-    display: none;
   }
 }
 @media screen and (max-width: 630px) {
