@@ -149,5 +149,6 @@ applyButton.addEventListener('click', () => {
     showAppliedFilters(appliedFiltersNames);
   }
 
-  resetFilterMenu();
+  priceReset.click();
+  artistReset.click();
 });
