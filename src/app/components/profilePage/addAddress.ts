@@ -208,21 +208,25 @@ export default function addAddress(
     const customerId = customerObj.id;
     const customerVersion: string = localStorage.getItem('customerVersion') as string;
     // const customerUpdated: ClientResponse<Customer> = await getCustomerById(customerId as string);
-
     // const customerVersion = customerUpdated.body.version;
     try {
       if (customerId && customerVersion && addressId) {
-        await updateCustomerById(customerId, +customerVersion, [{ action: 'removeAddress', addressId }]);
-        setTimeout(async () => {
+        const customer = await updateCustomerById(customerId, +customerVersion, [
+          { action: 'removeAddress', addressId },
+        ]);
+        localStorage.setItem('customerVersion', `${customer.body.version}`);
+        setTimeout(() => {
           myAddress.remove();
         }, 1500);
+      } else {
+        myAddress.remove();
       }
     } catch (error) {
       addressErr.style.color = 'red';
       addressErr.innerHTML = `Oops! ${(error as Error).message}`;
       setTimeout(async () => {
         addressErr.innerHTML = '';
-      }, 5000);
+      }, 2500);
     }
   });
 
@@ -247,6 +251,7 @@ export default function addAddress(
           },
         ]);
         version = customer.body.version;
+        localStorage.setItem('customerVersion', `${version}`);
         const updAddressId = newAddress ? customer.body.addresses[customer.body.addresses.length - 1].id : addressId;
         const actions: CustomerUpdateAction[] = [];
 
@@ -322,8 +327,8 @@ export default function addAddress(
         if (actions.length) {
           const customerUpdated = await updateCustomerById(customer.body.id, customer.body.version, actions);
           version = customerUpdated.body.version;
+          localStorage.setItem('customerVersion', `${version}`);
         }
-        localStorage.setItem('customerVersion', `${version}`);
       } catch (error) {
         addressErr.style.color = 'red';
         addressErr.innerHTML = `Oops! ${(error as Error).message}`;

@@ -19,25 +19,21 @@ function createHeaderMenu(container: HTMLElement): void {
     headerLink.addEventListener('click', toggleMenu);
     headerLink.href = `${link.href}`;
     if (link.name === 'PROFILE') {
-      headerLink.classList.add('header-link-profile-hidden');
       headerLink.classList.add('header-link-profile');
+      if (!customerInStorage()) {
+        headerLink.classList.add('header-link-profile-hidden');
+      }
     }
     if (link.name === 'LOGIN') {
       headerLink.classList.add('header-link-login');
       headerLink.addEventListener('click', () => {
+        const headerProfileLink: HTMLAnchorElement | null = document.querySelector('.header-link-profile');
+
         if (customerInStorage()) {
           localStorage.clear();
           window.location.href = '#/login';
           headerLink.innerText = 'LOGIN';
-          const allHeaderLinks: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('.header-link');
-          allHeaderLinks.forEach((myLink) => {
-            if (
-              myLink.classList.contains('header-link-profile') &&
-              !myLink.classList.contains('header-link-profile-hidden')
-            ) {
-              myLink.classList.add('header-link-profile-hidden');
-            }
-          });
+          headerProfileLink?.classList.add('header-link-profile-hidden');
         }
       });
     }

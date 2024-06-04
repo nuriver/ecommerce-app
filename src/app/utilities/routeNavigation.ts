@@ -42,7 +42,7 @@ export default function routeNavigation(
     } else if (currentRoute === '#/registration') {
       pageToggle(registration);
     } else if (currentRoute === '#/profile') {
-      pageToggle(profile);
+      pageToggle(login);
     } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
@@ -65,7 +65,7 @@ export default function routeNavigation(
     } else if (currentRoute === '#/registration') {
       pageToggle(registration, 'registration');
     } else if (currentRoute === '#/profile') {
-      pageToggle(profile, 'profile');
+      pageToggle(login, 'login');
     } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
