@@ -320,12 +320,10 @@ export default function addAddress(
         }
 
         if (actions.length) {
-         const customerUpdated = await updateCustomerById(customer.body.id, customer.body.version, actions)
-         version = customerUpdated.body.version
+          const customerUpdated = await updateCustomerById(customer.body.id, customer.body.version, actions);
+          version = customerUpdated.body.version;
         }
         localStorage.setItem('customerVersion', `${version}`);
-
-
       } catch (error) {
         addressErr.style.color = 'red';
         addressErr.innerHTML = `Oops! ${(error as Error).message}`;

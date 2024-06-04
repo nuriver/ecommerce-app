@@ -1,6 +1,10 @@
 import createElement from '../../utilities/createElement';
 import { getProductById } from './getProduct';
 
+export const modalState = {
+  value: false,
+};
+
 let img1: string;
 let img2: string;
 let img3: string;
@@ -169,7 +173,13 @@ export default function detailedProductPage(productId: string): HTMLElement {
 
     const textCont = createElement('div', ['dpp-text-cont'], dppCont);
 
-    createElement('div', ['dpp-back-to-cat'], textCont, 'go back to the catalog');
+    const backToCatalog = createElement('div', ['dpp-back-to-cat'], textCont, 'go back to the catalog');
+    backToCatalog.addEventListener('click', () => {
+      const productPage = document.querySelector('.dpp-page') as HTMLElement;
+      productPage.remove();
+      modalState.value = true;
+      window.location.href = '#/catalog';
+    });
 
     const nadCont = createElement('div', ['dpp-nad-text-cont'], textCont);
 
@@ -249,6 +259,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
   async function getProductInfo() {
     try {
       const productResponse = await getProductById(productId);
+      const slug = `#/catalog/${productResponse.body.masterData.current.slug.en}`;
       prodName = productResponse.body.masterData.current.name.en;
       prodDesc = productResponse.body.masterData.current.description?.en;
       const productPrice = productResponse.body.masterData.current.masterVariant.prices?.[0];
@@ -276,6 +287,7 @@ export default function detailedProductPage(productId: string): HTMLElement {
       generateDetailedProductPageDOM();
       showSlides(slideIndex);
       showSlides1(slideIndex1);
+      window.history.pushState({}, '', slug);
     } catch (error) {
       console.error('Ошибка при получении продуктов:', error);
     }
