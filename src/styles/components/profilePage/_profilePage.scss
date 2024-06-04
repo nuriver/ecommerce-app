@@ -105,9 +105,8 @@
     }
   }
   @media screen and (max-width: 600px) {
-    .profile-page {
-      padding: 25px 51px;
-    }
+    padding: 25px 51px;
+
     .profile-page .data-block__address-wrapper {
       gap: 15px;
     }
@@ -116,8 +115,6 @@
     }
   }
   @media screen and (max-width: 420px) {
-    .profile-page {
-      padding: 25px 31px;
-    }
+    padding: 25px 31px;
   }
 }

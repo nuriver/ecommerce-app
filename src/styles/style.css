@@ -1935,7 +1935,7 @@ label {
   }
 }
 @media screen and (max-width: 600px) {
-  .profile-page .profile-page {
+  .profile-page {
     padding: 25px 51px;
   }
   .profile-page .profile-page .data-block__address-wrapper {
@@ -1946,7 +1946,7 @@ label {
   }
 }
 @media screen and (max-width: 420px) {
-  .profile-page .profile-page {
+  .profile-page {
     padding: 25px 31px;
   }
 }
