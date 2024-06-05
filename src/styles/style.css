@@ -1589,9 +1589,14 @@ label {
 .bread-crumbs-container .bread-crumbs-heading {
   font-weight: 600;
 }
-.bread-crumbs-container .bread-crumbs-delimiter {
+.bread-crumbs-container .bread-crumbs-delimiter,
+.bread-crumbs-container .bread-crumbs-delimiter-first {
   font-size: 20px;
   margin-top: -3px;
+}
+.bread-crumbs-container .bread-crumb-active:hover {
+  cursor: pointer;
+  pointer-events: auto;
 }
 @media screen and (max-width: 900px) {
   .bread-crumbs-container {

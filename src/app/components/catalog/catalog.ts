@@ -1,12 +1,16 @@
 import createElement from '../../utilities/createElement';
 import pageToggle from '../../utilities/pageToggle';
 import detailedProductPage from '../detailedProductPage/detailedProductPage';
+import categoryButtonToggle from './categoryButtonToggle';
 import createCategoriesMenu from './createCategoriesMenu';
 import createSortOptions from './createSortOptions';
 import displayProducts, { sortData } from './displayProducts';
+import { currentParent } from './displaySubcategoriesMenu';
 import { showFilter, totalFiltersReset } from './filterMenu';
-import { createPagination } from './pagination';
+import { createPagination, updatePage } from './pagination';
 import searchProducts from './searchProducts';
+import { clearSort } from './sortProducts';
+import updateBreadCrumbs from './updateBreadCrumbs';
 
 export default function createCatalog(): HTMLElement {
   const catalogWrapper = createElement('div', ['catalog-wrapper']);
@@ -36,9 +40,37 @@ export default function createCatalog(): HTMLElement {
 
   const breadCrumbsContainer = createElement('div', ['bread-crumbs-container'], catalogWrapper);
   createElement('p', ['bread-crumbs-heading'], breadCrumbsContainer, 'CATEGORY:');
-  createElement('p', ['bread-crumbs-category', 'bread-crumb'], breadCrumbsContainer, 'BAGS');
+  const catalogCrumb = createElement(
+    'p',
+    ['bread-crumbs-catalog', 'bread-crumb', 'bread-crumb-active'],
+    breadCrumbsContainer,
+    'CATALOG'
+  );
+  catalogCrumb.addEventListener('click', () => {
+    const allProductsButton = document.querySelector('.all-category') as HTMLElement;
+    allProductsButton.click();
+  });
+  createElement('p', ['bread-crumbs-delimiter-first'], breadCrumbsContainer, '>');
+  const categoryCrumb = createElement('p', ['bread-crumbs-category', 'bread-crumb'], breadCrumbsContainer);
+  categoryCrumb.addEventListener('click', () => {
+    if (categoryCrumb.classList.contains('bread-crumb-active')) {
+      updatePage(1);
+      const parentCategoryButton = currentParent.value;
+      totalFiltersReset();
+      clearSort();
+      if (parentCategoryButton) {
+        displayProducts(parentCategoryButton.id);
+        categoryButtonToggle(parentCategoryButton);
+        updateBreadCrumbs(parentCategoryButton);
+      }
+      categoryCrumb.classList.remove('bread-crumb-active');
+    }
+  });
   createElement('p', ['bread-crumbs-delimiter'], breadCrumbsContainer, '>');
-  createElement('p', ['bread-crumbs-subcategory', 'bread-crumb'], breadCrumbsContainer, 'MODERN BAGS');
+  const subCategoryCrumb = createElement('p', ['bread-crumbs-subcategory', 'bread-crumb'], breadCrumbsContainer);
+  subCategoryCrumb.addEventListener('click', () => {
+    subCategoryCrumb.classList.remove('bread-crumb-active');
+  });
 
   const filterInfoBlock = createElement('div', ['filter-info-block'], catalogWrapper);
   createElement('p', ['filter-info-heading'], filterInfoBlock, 'FILTERED BY:');

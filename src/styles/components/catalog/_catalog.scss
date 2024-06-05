@@ -319,9 +319,17 @@
   .bread-crumbs-heading {
     font-weight: 600;
   }
-  .bread-crumbs-delimiter {
+  .bread-crumbs-delimiter,
+  .bread-crumbs-delimiter-first {
     font-size: 20px;
     margin-top: -3px;
+  }
+
+  .bread-crumb-active {
+    &:hover {
+      cursor: pointer;
+      pointer-events: auto;
+    }
   }
   @media screen and (max-width: 900px) {
     margin-left: 20px;
