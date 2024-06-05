@@ -1,4 +1,5 @@
 import { getProductsBySlug } from '../../api/SDK/client';
+import { hideLoadIndicator } from '../../api/SDK/loadIndicator';
 import pageToggle from '../../utilities/pageToggle';
 import detailedProductPage from '../detailedProductPage/detailedProductPage';
 
@@ -13,4 +14,5 @@ export default async function displayBySlug(path: string): Promise<void> {
   } else {
     window.location.href = '#/404';
   }
+  hideLoadIndicator();
 }

@@ -11,6 +11,7 @@ import {
 import { TokenCache } from '@commercetools/sdk-client-v2';
 import { CustomerCredentials } from '../../types/interfaces';
 import { createCtpClientPasswordFlow, ctpClient, tokenCacheObject } from './clientBuilder';
+import { showLoadIndicator } from './loadIndicator';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
@@ -59,6 +60,7 @@ export function getCustomers(): Promise<ClientResponse<CustomerPagedQueryRespons
 }
 
 export function getSubcategoriesByParentId(parentId: string): Promise<ClientResponse<CategoryPagedQueryResponse>> {
+  showLoadIndicator();
   return apiRoot
     .categories()
     .get({
@@ -90,6 +92,7 @@ export function getAllProducts(
   sort?: string,
   searchText?: string
 ): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
+  showLoadIndicator();
   return apiRoot
     .productProjections()
     .search()
@@ -112,6 +115,7 @@ export function getProductsByMainCategory(
   offset: number,
   sort?: string
 ): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
+  showLoadIndicator();
   return apiRoot
     .productProjections()
     .search()
@@ -127,6 +131,7 @@ export function getProductsByMainCategory(
 }
 
 export function getProductsBySlug(slug: string): Promise<ClientResponse<ProductProjectionPagedSearchResponse>> {
+  showLoadIndicator();
   return apiRoot
     .productProjections()
     .search()

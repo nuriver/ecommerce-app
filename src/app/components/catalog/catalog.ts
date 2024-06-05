@@ -48,7 +48,9 @@ export default function createCatalog(): HTMLElement {
   );
   catalogCrumb.addEventListener('click', () => {
     const allProductsButton = document.querySelector('.all-category') as HTMLElement;
+    const closeButton = document.querySelector('.close-button') as HTMLElement;
     allProductsButton.click();
+    if (closeButton) closeButton.click();
   });
   createElement('p', ['bread-crumbs-delimiter-first'], breadCrumbsContainer, '>');
   const categoryCrumb = createElement('p', ['bread-crumbs-category', 'bread-crumb'], breadCrumbsContainer);
@@ -65,6 +67,8 @@ export default function createCatalog(): HTMLElement {
       }
       categoryCrumb.classList.remove('bread-crumb-active');
     }
+    const closeButton = document.querySelector('.close-button') as HTMLElement;
+    if (closeButton) closeButton.click();
   });
   createElement('p', ['bread-crumbs-delimiter'], breadCrumbsContainer, '>');
   const subCategoryCrumb = createElement('p', ['bread-crumbs-subcategory', 'bread-crumb'], breadCrumbsContainer);
