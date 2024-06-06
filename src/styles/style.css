@@ -1313,6 +1313,11 @@ label {
   max-width: 80%;
   gap: 35px;
 }
+@media screen and (max-width: 600px) {
+  .catalog-wrapper {
+    gap: 10px;
+  }
+}
 
 .categories-block {
   position: relative;
@@ -1382,6 +1387,11 @@ label {
   }
   .categories-block .subcategories-container {
     font-size: 15px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .categories-block {
+    margin-bottom: 10px !important;
   }
 }
 @media screen and (max-width: 630px) {
@@ -1621,7 +1631,7 @@ label {
 .catalog .product-card:hover .bag-image {
   background-size: 135%;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1172px) {
   .catalog {
     justify-content: center;
     gap: 50px;
@@ -1649,6 +1659,20 @@ label {
     margin-left: 20px;
   }
 }
+@media screen and (max-width: 600px) {
+  .bread-crumbs-container {
+    gap: 5px;
+    align-items: center;
+  }
+  .bread-crumbs-container .bread-crumbs-heading {
+    font-size: 12px;
+  }
+  .bread-crumbs-container .bread-crumb,
+  .bread-crumbs-container .bread-crumbs-delimiter,
+  .bread-crumbs-container .bread-crumbs-delimiter-first {
+    font-size: 10px !important;
+  }
+}
 
 .filter-info-block {
   display: flex;
@@ -1674,6 +1698,16 @@ label {
 @media screen and (max-width: 900px) {
   .filter-info-block {
     margin-left: 20px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .filter-info-block .filter-info-heading {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .filter-info-block .applied-filter {
+    font-size: 12px;
+    padding: 2px !important;
   }
 }
 
