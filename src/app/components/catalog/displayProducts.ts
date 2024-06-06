@@ -3,6 +3,7 @@ import { getAllProducts, getProductsByMainCategory } from '../../api/SDK/client'
 import createProductCard from './createProductCard';
 import getProductDataFromProductProjection from './getProductData';
 import { FilterData, SortData } from '../../types/types';
+import { hideLoadIndicator } from '../../api/SDK/loadIndicator';
 
 export const currentSubcategory: { value: undefined | string } = {
   value: undefined,
@@ -59,4 +60,5 @@ export default async function displayProducts(id?: string): Promise<void> {
     const productCardData = getProductDataFromProductProjection(product);
     createProductCard(productCardData, catalog);
   });
+  hideLoadIndicator();
 }

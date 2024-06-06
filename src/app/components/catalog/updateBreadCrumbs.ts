@@ -1,25 +1,34 @@
 export default function updateBreadCrumbs(category?: HTMLElement, subcategory?: HTMLElement) {
   const mainCategoryCrumb = document.querySelector('.bread-crumbs-category') as HTMLElement;
-  mainCategoryCrumb.addEventListener('click', () => {});
   const subcategoryCrumb = document.querySelector('.bread-crumbs-subcategory') as HTMLElement;
-  const breadCrumbsContainer = document.querySelector('.bread-crumbs-delimiter') as HTMLElement;
+  const breadCrumbsDelimiter = document.querySelector('.bread-crumbs-delimiter') as HTMLElement;
 
-  if (category) mainCategoryCrumb.innerHTML = category.innerHTML;
+  // Test code
+  if (category) console.log(category.id);
 
+  // Deploy code
+
+  if (category) {
+    mainCategoryCrumb.innerHTML = category.innerHTML;
+  }
+
+  if (category && subcategory) {
+    mainCategoryCrumb.classList.add('bread-crumb-active');
+  }
   if (subcategory) {
-    breadCrumbsContainer.style.display = 'block';
+    breadCrumbsDelimiter.style.display = 'block';
     subcategoryCrumb.style.display = 'block';
     subcategoryCrumb.innerHTML = subcategory.innerHTML.toUpperCase();
   }
 
   if (category && !subcategory) {
-    breadCrumbsContainer.style.display = 'block';
+    breadCrumbsDelimiter.style.display = 'none';
     subcategoryCrumb.style.display = 'block';
-    subcategoryCrumb.innerHTML = 'VIEW ALL';
+    subcategoryCrumb.innerHTML = '';
   }
 
   if (!category && !subcategory) {
-    breadCrumbsContainer.style.display = 'none';
+    breadCrumbsDelimiter.style.display = 'none';
     subcategoryCrumb.style.display = 'none';
     mainCategoryCrumb.innerHTML = 'ALL';
   }

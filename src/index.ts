@@ -34,5 +34,9 @@ window.addEventListener('load', () => {
   if (customerInStorage()) {
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
     loginLink.innerText = 'LOGOUT';
+    const profileLink = document.querySelector('.header-link-profile') as HTMLElement;
+    if (profileLink.classList.contains('header-link-profile-hidden')) {
+      profileLink.classList.remove('header-link-profile-hidden');
+    }
   }
 });

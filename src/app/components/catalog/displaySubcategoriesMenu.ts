@@ -1,4 +1,5 @@
 import { getSubcategoriesByParentId } from '../../api/SDK/client';
+import { hideLoadIndicator } from '../../api/SDK/loadIndicator';
 
 export const currentParent: { value: null | HTMLElement } = {
   value: null,
@@ -28,4 +29,5 @@ export async function displaySubcategoriesMenu(
     subcategoryButton.innerHTML = `${name}`;
     subcategoryButton.id = id;
   });
+  hideLoadIndicator();
 }
