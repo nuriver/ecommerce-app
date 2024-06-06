@@ -11,11 +11,15 @@
   justify-content: space-around;
   z-index: 1;
 
-  .header-link {
+  .header-link,
+  .header-link-profile {
     text-decoration: none;
     color: black;
     font-size: 14px;
     white-space: nowrap;
+  }
+  .header-link-profile-hidden {
+    display: none;
   }
 
   @media screen and (max-width: 900px) {
@@ -34,6 +38,7 @@
   }
   &--show {
     display: flex;
+    max-height: 100vh;
   }
 }
 

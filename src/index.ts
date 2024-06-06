@@ -7,7 +7,9 @@ import createRegistrationPage from './app/components/registrationPage/registrati
 import routeNavigation from './app/utilities/routeNavigation';
 import create404Page from './app/components/404Page/404Page';
 import createFooter from './app/components/footer';
-import redirectTo404 from './app/utilities/redirectTo404';
+import customerInStorage from './app/utilities/customerInStorage';
+import createCatalog from './app/components/catalog/catalog';
+import createProfilePage from './app/components/profilePage/profilePage';
 
 const { body } = document;
 
@@ -15,18 +17,26 @@ createHeader(body);
 createElement('div', ['page-wrapper'], body);
 createFooter(body);
 
+const catalogPage = createCatalog();
 const loginPage = createLoginPage();
 const mainPage = createMain();
-redirectTo404(mainPage);
 const registerPage = createRegistrationPage();
 const page404 = create404Page();
+const profilePage = createProfilePage();
 
-routeNavigation(mainPage, loginPage, registerPage, page404, false);
+routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, false);
 
 window.addEventListener('hashchange', () => {
-  routeNavigation(mainPage, loginPage, registerPage, page404, true);
+  routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, true);
 });
 
 window.addEventListener('load', () => {
-  sessionStorage.clear();
+  if (customerInStorage()) {
+    const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+    loginLink.innerText = 'LOGOUT';
+    const profileLink = document.querySelector('.header-link-profile') as HTMLElement;
+    if (profileLink.classList.contains('header-link-profile-hidden')) {
+      profileLink.classList.remove('header-link-profile-hidden');
+    }
+  }
 });

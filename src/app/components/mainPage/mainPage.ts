@@ -25,8 +25,12 @@ export default function createMain(): HTMLElement {
   const productsCard3 = createElement('div', ['products-card', 'dead-link'], productsCards);
   createElement('div', ['products-card__img', 'img-bag'], productsCard3);
   createElement('div', ['products-card__desc'], productsCard3, 'BAGS');
-  createElement('div', ['products-see-all', 'dead-link'], productsBlock, 'SEE ALL ->');
+  const seeAll = createElement('div', ['products-see-all', 'dead-link'], productsBlock, 'SEE ALL ->');
+  seeAll.addEventListener('click', () => {
+    simpleRedirect('catalog');
+  });
 
+  /*
   //  art styles
   const artstylesBlock = createElement('div', ['artstyle-block'], mainPage);
   createElement('div', ['first-title'], artstylesBlock, 'ART STYLES');
@@ -48,7 +52,7 @@ export default function createMain(): HTMLElement {
   createElement('div', ['artist-card__img', 'img-kahlo'], artistCard3);
   createElement('div', ['artist-card__desc'], artistCard3, 'FRIDA KAHLO');
   createElement('div', ['products-see-all', 'dead-link'], artistsBlock, 'SEE ALL ->');
-
+*/
   //  goal
   const goalBlock = createElement('div', ['goal-block'], mainPage);
   createElement('div', ['title'], goalBlock, 'OUR GOAL — ');
@@ -58,7 +62,7 @@ export default function createMain(): HTMLElement {
     goalBlock,
     'WE STRIVE TO CREATE A UNIQUE SPACE WHERE ART AND EVERYDAY LIFE MERGE INTO ONE. WE OFFER NOT JUST PRODUCTS WITH PRINTS OF GREAT PAINTINGS, BUT ALSO THE OPPORTUNITY TO IMMERSE ONESELF IN THE WORLD OF ART. OUR GOAL IS TO MAKE ART ACCESSIBLE AND UNDERSTANDABLE TO EVERYONE, REGARDLESS OF THEIR LEVEL OF KNOWLEDGE OR INTERESTS'
   );
-
+  /*
   //  categories
   const categBlock = createElement('div', ['categ-block'], mainPage);
   createElement('div', ['title-black'], categBlock, 'OUR CATEGORIES');
@@ -66,7 +70,7 @@ export default function createMain(): HTMLElement {
   createElement('p', ['artstyle', 'pointer', 'hoverline', 'dead-link'], categBlock, 'BOTTLES');
   createElement('p', ['artstyle', 'pointer', 'hoverline', 'dead-link'], categBlock, 'BAGS');
   createElement('p', ['artstyle', 'pointer', 'hoverline', 'dead-link'], categBlock, 'BOTTLES');
-
+*/
   //  join
   const joinBlock = createElement('div', ['join-block'], mainPage);
   const joinCont = createElement('div', ['join-cont'], joinBlock);
