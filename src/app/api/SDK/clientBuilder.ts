@@ -4,9 +4,11 @@ import {
   PasswordAuthMiddlewareOptions,
   TokenCache,
   TokenStore,
+  createAuthForAnonymousSessionFlow,
   type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
+import { v4 as uuidv4 } from 'uuid';
 import { CustomerCredentials, TokenCacheObject } from '../../types/interfaces';
 
 const projectKey = process.env.CTP_PROJECT_KEY as string;
@@ -85,4 +87,30 @@ export function createCtpClientPasswordFlow(credentials: CustomerCredentials): C
     .withLoggerMiddleware()
     .build();
   return ctpClientPasswordFlow;
+}
+
+export function createClientWithAnonymousFlow(): Client {
+  const passwordFlowTokenCache = new PasswordFlowTokenCache();
+  const anonymousId = uuidv4();
+  sessionStorage.setItem('anonymousCustomer', anonymousId);
+
+  const authMiddlewareOptionsWithAnonymousFlow = createAuthForAnonymousSessionFlow({
+    host: 'https://auth.europe-west1.gcp.commercetools.com',
+    projectKey,
+    credentials: {
+      clientId,
+      clientSecret,
+      anonymousId,
+    },
+    tokenCache: passwordFlowTokenCache,
+    scopes,
+    fetch,
+  });
+  const anonymousClient: Client = new ClientBuilder()
+    .withProjectKey(projectKey)
+    .withMiddleware(authMiddlewareOptionsWithAnonymousFlow)
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+
+  return anonymousClient;
 }

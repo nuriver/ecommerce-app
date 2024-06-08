@@ -1,3 +1,4 @@
+import { updateCart } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 import pageToggle from '../../utilities/pageToggle';
 import detailedProductPage from '../detailedProductPage/detailedProductPage';
@@ -94,9 +95,15 @@ export default function createCatalog(): HTMLElement {
   catalog.addEventListener('click', async (event) => {
     const target = event.target as HTMLElement;
     if (!target.classList.contains('catalog')) {
-      const card = target.closest('.product-card') as HTMLElement;
-      const productPage = detailedProductPage(card.id);
-      pageToggle(productPage);
+      if (!target.classList.contains('cart-icon')) {
+        const card = target.closest('.product-card') as HTMLElement;
+        const productPage = detailedProductPage(card.id);
+        pageToggle(productPage);
+      } else {
+        const addToCartButton = target.closest('.add-to-cart-button') as HTMLButtonElement;
+        updateCart(addToCartButton.id);
+        addToCartButton.disabled = true;
+      }
     }
   });
 
