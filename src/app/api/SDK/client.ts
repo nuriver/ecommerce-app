@@ -7,15 +7,32 @@ import {
   CategoryPagedQueryResponse,
   ProductProjectionPagedQueryResponse,
   ProductProjectionPagedSearchResponse,
+  ByProjectKeyRequestBuilder,
+  CartPagedQueryResponse,
+  Cart,
 } from '@commercetools/platform-sdk';
-import { TokenCache } from '@commercetools/sdk-client-v2';
-import { CustomerCredentials } from '../../types/interfaces';
-import { createCtpClientPasswordFlow, ctpClient, tokenCacheObject } from './clientBuilder';
-import { showLoadIndicator } from './loadIndicator';
+import { Client, TokenCache } from '@commercetools/sdk-client-v2';
+import { ApiRootStorage, CustomerCredentials } from '../../types/interfaces';
+import {
+  createClientWithAnonymousFlow,
+  createClientWithRefreshTokenFlow,
+  createCtpClientPasswordFlow,
+  ctpClient,
+  tokenCacheObject,
+} from './clientBuilder';
+import { hideLoadIndicator, showLoadIndicator } from './loadIndicator';
+import customerInStorage from '../../utilities/customerInStorage';
 
-const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
+let apiRoot: ByProjectKeyRequestBuilder = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: process.env.CTP_PROJECT_KEY as string,
 });
+
+export const apiRootStorage: ApiRootStorage = {
+  value: apiRoot,
+  updateRoot() {
+    this.value = apiRoot;
+  },
+};
 
 export function createCustomer(customerDraft: CustomerDraft): Promise<ClientResponse<CustomerSignInResult>> {
   return apiRoot.customers().post({ body: customerDraft }).execute();
@@ -26,13 +43,15 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
   const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
     projectKey: process.env.CTP_PROJECT_KEY as string,
   });
+  apiRoot = apiRootPasswordFlow;
+  apiRootStorage.updateRoot();
 
   try {
     const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
     const customerId = response.body.customer.id;
     const customerVersion = response.body.customer.version;
     const tokenCache = tokenCacheObject.tokenCache as TokenCache;
-    const customerToken = tokenCache.get().token;
+    const customerToken = tokenCache.get().refreshToken;
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
     const profileLink: HTMLLinkElement = document.querySelector('.header-link-profile') as HTMLLinkElement;
 
@@ -49,6 +68,7 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
       profileLink.classList.remove('header-link-profile-hidden');
     }
     window.location.href = '#/main';
+    sessionStorage.clear();
     return true;
   } catch {
     return false;
@@ -141,4 +161,75 @@ export function getProductsBySlug(slug: string): Promise<ClientResponse<ProductP
       },
     })
     .execute();
+}
+
+// PRODUCT CARTS
+
+export async function createAnonymousCart(): Promise<false | ClientResponse<Cart>> {
+  const anonymousCustomer = sessionStorage.getItem('anonymousCustomer');
+  const anonymousId = anonymousCustomer as string;
+  try {
+    return await apiRoot
+      .carts()
+      .post({
+        body: {
+          currency: 'USD',
+          anonymousId,
+        },
+      })
+      .execute();
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export function startAnonymousSession(): void {
+  const anonymousClient: Client = createClientWithAnonymousFlow();
+  apiRoot = createApiBuilderFromCtpClient(anonymousClient).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+  apiRootStorage.updateRoot();
+  createAnonymousCart();
+}
+
+export function getCurrentCustomerCart(): Promise<ClientResponse<CartPagedQueryResponse>> {
+  return apiRootStorage.value.me().carts().get().execute();
+}
+
+export async function updateCart(product: string, quantity?: number) {
+  showLoadIndicator();
+
+  const response = await getCurrentCustomerCart();
+  const cart = response.body.results[0];
+
+  await apiRoot
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: 'addLineItem',
+            productId: product,
+            variantId: 1,
+            quantity,
+          },
+        ],
+      },
+    })
+    .execute();
+  hideLoadIndicator();
+}
+
+if (!customerInStorage()) startAnonymousSession();
+
+export function signInWithRefreshToken(): void {
+  const ctpClientRefreshTokenFlow = createClientWithRefreshTokenFlow();
+  const apiRootRefreshTokenFlow = createApiBuilderFromCtpClient(ctpClientRefreshTokenFlow).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+  apiRoot = apiRootRefreshTokenFlow;
+  apiRootStorage.updateRoot();
 }

@@ -7,7 +7,7 @@ const loadIndicator = createElement('div', ['load-indicator'], loadIndicatorCont
 createElement('div', ['indicator-circle'], loadIndicator);
 createElement('p', ['loading-name'], loadIndicator, 'Just a moment...');
 export function showLoadIndicator() {
-  loadIndicatorContainer.style.display = 'block';
+  loadIndicatorContainer.style.display = 'flex';
 }
 export function hideLoadIndicator() {
   loadIndicatorContainer.style.display = 'none';

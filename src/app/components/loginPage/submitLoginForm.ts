@@ -27,9 +27,12 @@ function submitLoginForm(form: HTMLFormElement, event: Event): void {
     emailError.style.display !== 'block' &&
     passwordError.style.display !== 'block'
   ) {
+    const anonymousId = sessionStorage.getItem('anonymousCustomer');
+
     const credentials = {
       email: emailInput.value,
       password: passwordInput.value,
+      anonymousId: anonymousId as string,
     };
 
     signInCustomer(credentials).then((isSignedIn) => {

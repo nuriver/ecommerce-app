@@ -82,3 +82,36 @@
     box-shadow: 1px 1px 7px rgb(165, 165, 165);
   }
 }
+
+.add-to-cart-button {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border-radius: 50px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .cart-icon {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-image: url(/src/assets/images/cart-icon-black.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: all 0.2s ease-in-out;
+  }
+  &:hover {
+    cursor: cell;
+    .cart-icon {
+      transform: scale(1.1);
+      background-image: url(/src/assets/images/cart-icon-gray.svg);
+    }
+  }
+  &:disabled {
+    .cart-icon {
+      transform: none;
+      background-image: url(/src/assets/images/cart-icon-green.svg);
+    }
+  }
+}

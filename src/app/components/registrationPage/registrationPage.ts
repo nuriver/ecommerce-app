@@ -359,8 +359,13 @@ export default function createRegistrationPage(): HTMLDivElement {
         accumulateErr.innerHTML = `Registration successful!`;
         inputReset(registerPage);
         setTimeout(async () => {
+          const anonymousId = sessionStorage.getItem('anonymousCustomer');
           accumulateErr.innerHTML = '';
-          await signInCustomer({ email: customerDraft.email, password: customerDraft.password as string });
+          await signInCustomer({
+            email: customerDraft.email,
+            password: customerDraft.password as string,
+            anonymousId: anonymousId as string,
+          });
         }, 1500);
       } catch (error) {
         accumulateErr.style.color = 'red';

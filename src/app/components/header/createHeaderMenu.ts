@@ -1,3 +1,4 @@
+import { startAnonymousSession } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 import customerInStorage from '../../utilities/customerInStorage';
 import toggleMenu from './toggleMenu';
@@ -34,6 +35,7 @@ function createHeaderMenu(container: HTMLElement): void {
           window.location.href = '#/login';
           headerLink.innerText = 'LOGIN';
           headerProfileLink?.classList.add('header-link-profile-hidden');
+          startAnonymousSession();
         }
       });
     }

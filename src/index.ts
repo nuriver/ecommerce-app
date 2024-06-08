@@ -10,6 +10,7 @@ import createFooter from './app/components/footer';
 import customerInStorage from './app/utilities/customerInStorage';
 import createCatalog from './app/components/catalog/catalog';
 import createProfilePage from './app/components/profilePage/profilePage';
+import { signInWithRefreshToken } from './app/api/SDK/client';
 
 const { body } = document;
 
@@ -38,5 +39,6 @@ window.addEventListener('load', () => {
     if (profileLink.classList.contains('header-link-profile-hidden')) {
       profileLink.classList.remove('header-link-profile-hidden');
     }
+    signInWithRefreshToken();
   }
 });
