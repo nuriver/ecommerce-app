@@ -2,6 +2,7 @@ import {
   Client,
   ClientBuilder,
   PasswordAuthMiddlewareOptions,
+  RefreshAuthMiddlewareOptions,
   TokenCache,
   TokenStore,
   createAuthForAnonymousSessionFlow,
@@ -113,4 +114,31 @@ export function createClientWithAnonymousFlow(): Client {
     .build();
 
   return anonymousClient;
+}
+
+export function createClientWithRefreshTokenFlow() {
+  const passwordFlowTokenCache = new PasswordFlowTokenCache();
+  const customer = localStorage.getItem('customer');
+  if (!customer) throw new Error('No customer in storage');
+  const refreshToken = JSON.parse(customer).token;
+
+  const options: RefreshAuthMiddlewareOptions = {
+    host: 'https://auth.europe-west1.gcp.commercetools.com',
+    projectKey,
+    credentials: {
+      clientId,
+      clientSecret,
+    },
+    refreshToken,
+    tokenCache: passwordFlowTokenCache,
+    fetch,
+  };
+
+  const refreshTokenClient = new ClientBuilder()
+    .withRefreshTokenFlow(options)
+    .withProjectKey(projectKey)
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+
+  return refreshTokenClient;
 }

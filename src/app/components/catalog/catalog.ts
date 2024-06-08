@@ -28,6 +28,13 @@ export default function createCatalog(): HTMLElement {
   const filterButtonInnerText = '<span class="filter-icon"></span> SHOW FILTERS';
   const filterButton = createElement('button', ['button', 'filter-button'], sortBlock, filterButtonInnerText);
   filterButton.addEventListener('click', showFilter);
+  // filterButton.addEventListener('click', async () => {
+  // const findCart = () => apiRootStorage.value.me().carts().get().execute();
+
+  // const response = await findCart();
+  // const products = response.body.results[0].lineItems;
+  // console.log(products);
+  // });
 
   const searchBlock = createElement('div', ['search-block'], catalogWrapper);
   const searchLabel = createElement('label', ['search-label'], searchBlock, 'SEARCH');

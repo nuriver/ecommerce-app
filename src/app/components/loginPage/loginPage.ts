@@ -67,22 +67,5 @@ export default function createLoginPage(): HTMLElement {
     window.location.href = '#/registration';
   });
 
-  // TEST BUTTON
-  //   const devButton = createElement(
-  //     'button',
-  //     ['button', 'button-white', 'registration-button'],
-  //     loginForm,
-  //     'DEV BUTTON'
-  //   );
-  // devButton.addEventListener('click', async (event) => {
-  //   event.preventDefault();
-
-  //   const findCart = () => apiRootStorage.value.me().carts().get().execute();
-
-  //   const response = await findCart();
-  //   const products = response.body.results[0].lineItems
-  //   console.log(products)
-  // });
-
   return loginWrapper;
 }

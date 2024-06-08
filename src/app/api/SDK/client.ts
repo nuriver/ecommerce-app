@@ -8,11 +8,14 @@ import {
   ProductProjectionPagedQueryResponse,
   ProductProjectionPagedSearchResponse,
   ByProjectKeyRequestBuilder,
+  CartPagedQueryResponse,
+  Cart,
 } from '@commercetools/platform-sdk';
 import { Client, TokenCache } from '@commercetools/sdk-client-v2';
 import { ApiRootStorage, CustomerCredentials } from '../../types/interfaces';
 import {
   createClientWithAnonymousFlow,
+  createClientWithRefreshTokenFlow,
   createCtpClientPasswordFlow,
   ctpClient,
   tokenCacheObject,
@@ -48,7 +51,7 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
     const customerId = response.body.customer.id;
     const customerVersion = response.body.customer.version;
     const tokenCache = tokenCacheObject.tokenCache as TokenCache;
-    const customerToken = tokenCache.get().token;
+    const customerToken = tokenCache.get().refreshToken;
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
     const profileLink: HTMLLinkElement = document.querySelector('.header-link-profile') as HTMLLinkElement;
 
@@ -160,7 +163,9 @@ export function getProductsBySlug(slug: string): Promise<ClientResponse<ProductP
     .execute();
 }
 
-export async function createAnonymousCart() {
+// PRODUCT CARTS
+
+export async function createAnonymousCart(): Promise<false | ClientResponse<Cart>> {
   const anonymousCustomer = sessionStorage.getItem('anonymousCustomer');
   const anonymousId = anonymousCustomer as string;
   try {
@@ -179,7 +184,7 @@ export async function createAnonymousCart() {
   }
 }
 
-export function startAnonymousSession() {
+export function startAnonymousSession(): void {
   const anonymousClient: Client = createClientWithAnonymousFlow();
   apiRoot = createApiBuilderFromCtpClient(anonymousClient).withProjectKey({
     projectKey: process.env.CTP_PROJECT_KEY as string,
@@ -188,41 +193,15 @@ export function startAnonymousSession() {
   createAnonymousCart();
 }
 
+export function getCurrentCustomerCart(): Promise<ClientResponse<CartPagedQueryResponse>> {
+  return apiRootStorage.value.me().carts().get().execute();
+}
+
 export async function updateCart(product: string, quantity?: number) {
   showLoadIndicator();
-  const getCart = async () => {
-    const cart: { id: string; version: number } = {
-      id: '',
-      version: 0,
-    };
 
-    if (customerInStorage()) {
-      const currentCustomer = localStorage.getItem('customer');
-      if (currentCustomer) {
-        const customerId = JSON.parse(currentCustomer).id;
-        const cartResponse = await apiRoot
-          .carts()
-          .get({ queryArgs: { where: `customerId = "${customerId}"` } })
-          .execute();
-        const currentCart = cartResponse.body.results[0];
-        cart.id = currentCart.id;
-        cart.version = currentCart.version;
-      }
-    } else {
-      const anonymousCustomerId = sessionStorage.getItem('anonymousCustomer');
-      const cartResponse = await apiRoot
-        .carts()
-        .get({ queryArgs: { where: `anonymousId = "${anonymousCustomerId}"` } })
-        .execute();
-      console.log(cartResponse);
-      const currentCart = cartResponse.body.results[0];
-      cart.id = currentCart.id;
-      cart.version = currentCart.version;
-    }
-    return cart;
-  };
-
-  const cart = await getCart();
+  const response = await getCurrentCustomerCart();
+  const cart = response.body.results[0];
 
   await apiRoot
     .carts()
@@ -245,3 +224,12 @@ export async function updateCart(product: string, quantity?: number) {
 }
 
 if (!customerInStorage()) startAnonymousSession();
+
+export function signInWithRefreshToken(): void {
+  const ctpClientRefreshTokenFlow = createClientWithRefreshTokenFlow();
+  const apiRootRefreshTokenFlow = createApiBuilderFromCtpClient(ctpClientRefreshTokenFlow).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+  apiRoot = apiRootRefreshTokenFlow;
+  apiRootStorage.updateRoot();
+}
