@@ -12,6 +12,7 @@ export default function routeNavigation(
   registration: HTMLElement,
   profile: HTMLElement,
   catalog: HTMLElement,
+  basket: HTMLElement,
   wrongRoute: HTMLElement,
   viaUrlBar: boolean
 ) {
@@ -28,6 +29,8 @@ export default function routeNavigation(
         allCategory.click();
       }
       modalState.value = false;
+    } else if (currentRoute === '#/basket') {
+      pageToggle(basket, 'basket');
     } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else {
@@ -52,7 +55,9 @@ export default function routeNavigation(
         allCategory.click();
       }
       modalState.value = false;
-    } else {
+    } else if (currentRoute === '#/basket') {
+        pageToggle(basket);
+  } else {
       pageToggle(wrongRoute);
     }
   };
@@ -66,7 +71,9 @@ export default function routeNavigation(
       pageToggle(registration, 'registration');
     } else if (currentRoute === '#/profile') {
       pageToggle(login, 'login');
-    } else if (currentRoute.match(productRoutePattern)) {
+    } else if (currentRoute === '#/basket') {
+        pageToggle(basket, 'basket');
+  } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog, 'catalog');

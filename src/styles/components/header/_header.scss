@@ -12,13 +12,15 @@
   z-index: 1;
 
   .header-link,
-  .header-link-profile {
+  .header-link-profile,
+  .header-link-registration {
     text-decoration: none;
     color: black;
     font-size: 14px;
     white-space: nowrap;
   }
-  .header-link-profile-hidden {
+  .header-link-profile-hidden,
+  .header-link-registration-hidden {
     display: none;
   }
 

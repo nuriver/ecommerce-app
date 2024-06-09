@@ -54,6 +54,7 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
     const customerToken = tokenCache.get().refreshToken;
     const loginLink = document.querySelector('.header-link-login') as HTMLElement;
     const profileLink: HTMLLinkElement = document.querySelector('.header-link-profile') as HTMLLinkElement;
+    const registrationLink: HTMLAnchorElement | null = document.querySelector('.header-link-registration');
 
     const customer = {
       id: customerId,
@@ -67,6 +68,10 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
     if (profileLink.classList.contains('header-link-profile-hidden')) {
       profileLink.classList.remove('header-link-profile-hidden');
     }
+    if (!registrationLink?.classList.contains('header-link-registration-hidden')) {
+      registrationLink?.classList.add('header-link-registration-hidden');
+    }
+
     window.location.href = '#/main';
     sessionStorage.clear();
     return true;

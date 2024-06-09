@@ -1,0 +1,110 @@
+.basket-page {
+  @include wrapper;
+  //   padding: 25px 121px;
+  flex-direction: column;
+  align-items: center;
+  h2 {
+    margin: 0;
+  }
+  .basket-page__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 50px;
+    padding: 0 60px;
+  }
+  .basket-page__goods-basket-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .basket-block__title {
+    margin: 0;
+    font-weight: bold;
+  }
+  .basket-page__input {
+    padding: 10px;
+  }
+
+  .basket-page__promo-block,
+  .basket-page__total-sum-block {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    gap: 25px;
+    border: 1px solid gray;
+    box-shadow: 2px 2px 10px 1px rgb(174, 174, 174);
+    padding: 20px;
+    border-radius: 5px;
+  }
+  .total-sum-block__sum {
+    max-width: fit-content;
+    box-shadow: 0px 0px 6px 2px rgb(174 174 174 / 33%);
+    display: flex;
+    align-self: center;
+    font-weight: bold;
+    font-size: 24px;
+    padding: 5px;
+  }
+  .basket-page__card-product {
+    display: flex;
+    border: 1px solid gray;
+    box-shadow: 2px 2px 10px 1px rgb(174, 174, 174);
+    padding: 20px;
+    border-radius: 5px;
+    gap: 20px;
+    width: fit-content;
+  }
+  .card-product__img-part {
+    display: flex;
+    justify-content: center;
+  }
+  .card-product__data-part {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+  }
+  .card-product__quantity-block,
+  .card-product__price-block {
+    display: flex;
+    gap: 10px;
+    font-weight: bold;
+    align-items: center;
+  }
+  .card-product__img {
+    background: url('/src/assets/images/main-log-img.png') center center / cover no-repeat;
+    width: 250px;
+    height: 250px;
+    margin: auto;
+  }
+  .quantity-block__quantity {
+    width: 60px;
+    border-radius: 3px;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .price-block__price {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  @media screen and (max-width: 1281px) {
+    .basket-page__card-product {
+      flex-direction: column;
+    }
+  }
+  @media screen and (max-width: 900px) {
+    .basket-page__wrapper {
+      padding: 25px 60px;
+    }
+  }
+  @media screen and (max-width: 425px) {
+    .basket-page__wrapper {
+      padding: 25px 30px;
+    }
+  }
+  
+}

@@ -10,6 +10,7 @@ const headerLinks = [
   { name: 'LOGIN', href: '#/login' },
   { name: 'PROFILE', href: '#/profile' },
   { name: 'REGISTRATION', href: '#/registration' },
+  { name: 'BASKET', href: '#/basket' },
 ];
 
 function createHeaderMenu(container: HTMLElement): void {
@@ -25,16 +26,27 @@ function createHeaderMenu(container: HTMLElement): void {
         headerLink.classList.add('header-link-profile-hidden');
       }
     }
+    if (link.name === 'REGISTRATION') {
+      headerLink.classList.add('header-link-registration');
+      if (customerInStorage()) {
+        headerLink.classList.add('header-link-registration-hidden');
+      }
+    }
     if (link.name === 'LOGIN') {
       headerLink.classList.add('header-link-login');
       headerLink.addEventListener('click', () => {
         const headerProfileLink: HTMLAnchorElement | null = document.querySelector('.header-link-profile');
+        const headerRegistrationLink: HTMLAnchorElement | null = document.querySelector('.header-link-registration');
 
         if (customerInStorage()) {
           localStorage.clear();
           window.location.href = '#/login';
           headerLink.innerText = 'LOGIN';
           headerProfileLink?.classList.add('header-link-profile-hidden');
+          if (headerRegistrationLink?.classList.contains('header-link-registration-hidden')) {
+            headerRegistrationLink?.classList.remove('header-link-registration-hidden');
+          }
+
           startAnonymousSession();
         }
       });
