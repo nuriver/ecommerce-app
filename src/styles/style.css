@@ -1660,7 +1660,7 @@ label {
 .catalog .product-card {
   position: relative;
   width: 308px;
-  height: 488px;
+  height: 520px;
   padding: 10px;
   display: flex;
   flex-direction: column;
