@@ -1,9 +1,10 @@
 import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
-import { getAllProducts, getCurrentCustomerCart, getProductsByMainCategory } from '../../api/SDK/client';
+import { getAllProducts, getProductsByMainCategory } from '../../api/SDK/client';
 import createProductCard from './createProductCard';
 import getProductDataFromProductProjection from './getProductData';
 import { FilterData, SortData } from '../../types/types';
 import { hideLoadIndicator } from '../../api/SDK/loadIndicator';
+import getAddedToCartProducts from '../../utilities/getAddedToCartProducts';
 
 export const currentSubcategory: { value: undefined | string } = {
   value: undefined,
@@ -56,13 +57,7 @@ export default async function displayProducts(id?: string): Promise<void> {
   if (totalProducts > paginationData.pageLimit) paginationRight.classList.remove('pagination-disabled');
   if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
 
-  const currentCartResponse = await getCurrentCustomerCart();
-  const addedProducts = currentCartResponse.body.results[0].lineItems;
-  const addedProductsId: string[] = [];
-  addedProducts.forEach((product) => {
-    addedProductsId.push(product.productId);
-  });
-
+  const addedProductsId = await getAddedToCartProducts();
   products.forEach((product) => {
     const productCardData = getProductDataFromProductProjection(product);
     createProductCard(productCardData, catalog, addedProductsId);

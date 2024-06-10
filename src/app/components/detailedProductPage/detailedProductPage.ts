@@ -1,5 +1,8 @@
+import { hideLoadIndicator, showLoadIndicator } from '../../api/SDK/loadIndicator';
 import createElement from '../../utilities/createElement';
+import getAddedToCartProducts from '../../utilities/getAddedToCartProducts';
 import { getProductById } from './getProduct';
+import productPageCartButtonHandler from './productPageCartButtonHandler';
 
 export const modalState = {
   value: false,
@@ -15,7 +18,8 @@ let prodDesc: string | undefined;
 let price: string;
 let disc: string | undefined;
 
-export default function detailedProductPage(productId: string): HTMLElement {
+export default function detailedProductPage(productId: string, addedToCart: boolean): HTMLElement {
+  showLoadIndicator();
   const dpp = createElement('div', ['dpp-page']);
 
   let slideIndex: number = 1;
@@ -179,12 +183,68 @@ export default function detailedProductPage(productId: string): HTMLElement {
       productPage.remove();
       modalState.value = true;
       window.location.href = '#/catalog';
+      setTimeout(async () => {
+        const catalog = document.querySelector('.catalog-wrapper');
+        const viewedProduct = document.getElementById(productId);
+        const addToCartButton = viewedProduct?.querySelector('.add-to-cart-button') as HTMLButtonElement;
+        const addedProductsId = await getAddedToCartProducts();
+
+        if (viewedProduct && addedProductsId.includes(productId)) {
+          if (addToCartButton.disabled === false) {
+            addToCartButton.disabled = true;
+          }
+        }
+
+        if (viewedProduct && !addedProductsId.includes(productId)) {
+          if (addToCartButton.disabled === true) {
+            addToCartButton.disabled = false;
+          }
+        }
+
+        if (!viewedProduct) {
+          const allCategoryButton = catalog?.querySelector('.all-category') as HTMLButtonElement;
+          allCategoryButton.click();
+        }
+      }, 0);
     });
 
     const nadCont = createElement('div', ['dpp-nad-text-cont'], textCont);
 
     createElement('div', ['dpp-name'], nadCont, `${prodName}`);
     createElement('div', ['dpp-desc'], nadCont, `${prodDesc}`);
+
+    const productPageCartButtonInnerHtml =
+      '<span class="product-page-cart-button-icon">+</span><span class="product-page-cart-button-text">ADD TO CART</span>';
+    const productPageCartButton = createElement(
+      'button',
+      ['product-page-cart-button'],
+      nadCont,
+      productPageCartButtonInnerHtml
+    );
+    productPageCartButton.id = productId;
+    if (addedToCart === true) {
+      productPageCartButton.classList.add('remove-from-cart-button');
+      productPageCartButton.innerHTML =
+        '<span class="product-page-cart-button-icon">-</span> <span class="product-page-cart-button-text">REMOVE FROM CART</span>';
+    }
+    productPageCartButton.addEventListener('click', productPageCartButtonHandler);
+
+    const productCartActionMessage = createElement(
+      'p',
+      ['product-cart-action-message'],
+      nadCont,
+      'Product removed from cart'
+    );
+    dpp.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.classList.contains('product-page-cart-button') &&
+        !target.classList.contains('product-page-cart-button-text') &&
+        !target.classList.contains('product-page-cart-button-icon')
+      ) {
+        productCartActionMessage.style.display = 'none';
+      }
+    });
 
     const priceCont = createElement('div', ['dpp-price-cont'], textCont);
 
@@ -294,6 +354,6 @@ export default function detailedProductPage(productId: string): HTMLElement {
   }
 
   getProductInfo();
-
+  hideLoadIndicator();
   return dpp;
 }
