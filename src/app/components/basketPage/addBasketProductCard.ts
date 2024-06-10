@@ -1,7 +1,12 @@
 import createElement from '../../utilities/createElement';
 import { updateCustomerById } from '../profilePage/updateCustomer';
 
-export default function createBasketProductCard(block: HTMLDivElement): HTMLDivElement {
+export default function createBasketProductCard(
+  productName: string,
+  productPrice: number,
+  currency: string,
+  block: HTMLDivElement
+): HTMLDivElement {
   const cardProduct: HTMLDivElement = createElement('div', ['basket-page__card-product'], block);
   const cardProductImgPart: HTMLDivElement = createElement('div', ['card-product__img-part'], cardProduct);
   const cardProductDataPart: HTMLDivElement = createElement('div', ['card-product__data-part'], cardProduct);
@@ -10,7 +15,7 @@ export default function createBasketProductCard(block: HTMLDivElement): HTMLDivE
     ['card-product__data', 'card-product__title'],
     cardProductDataPart
   );
-  cardProductTitle.innerHTML = `PRODUCT NAME`;
+  cardProductTitle.innerHTML = `${productName}`;
   const cardProductImg: HTMLImageElement = createElement('img', ['card-product__img'], cardProductImgPart);
   // cardProductImg.innerHTML = ;
   const cardProductprice: HTMLHeadingElement = createElement(
@@ -18,7 +23,7 @@ export default function createBasketProductCard(block: HTMLDivElement): HTMLDivE
     ['card-product__data', 'card-product__price'],
     cardProductDataPart
   );
-  cardProductprice.innerHTML = `10.00 USD`;
+  cardProductprice.innerHTML = `${productPrice} ${currency}`;
 
   const cardProductQuantityBlock: HTMLDivElement = createElement(
     'div',
@@ -51,8 +56,8 @@ export default function createBasketProductCard(block: HTMLDivElement): HTMLDivE
   const cardProductPrice: HTMLDivElement = createElement(
     'div',
     ['price-block__price'],
-    cardProductTotalPrice,
-    '150.00 USD'
+    cardProductTotalPrice
+    // `${+cardProductQuantity.value * productPrice}`
   );
 
   const cardProductRemoveBtn: HTMLButtonElement = createElement(
@@ -61,5 +66,8 @@ export default function createBasketProductCard(block: HTMLDivElement): HTMLDivE
     cardProductDataPart,
     'Remove'
   );
+  cardProductQuantity.addEventListener('input', () => {
+    cardProductPrice.innerHTML = `${+cardProductQuantity.value * productPrice} ${currency}`;
+  });
   return cardProduct;
 }

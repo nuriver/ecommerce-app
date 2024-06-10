@@ -2,15 +2,17 @@
 import { ClientResponse, Customer, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
 import getCartsByCustomerId from './createrCustomerCart';
+import { getCurrentCustomerCart } from '../../api/SDK/client';
+import createBasketProductCard from './addBasketProductCard';
 // import getCustomerById from './getCustomerBuId';
 
 export default function createBasketPage(): HTMLDivElement {
-    // if (localStorage.getItem('customer')) {
-    //     const customerString: string = localStorage.getItem('customer') as string;
-    //       const customerId:string = JSON.parse(customerString).id;
-    
-    //     getCartsByCustomerId(customerId)
-    // }
+  // if (localStorage.getItem('customer')) {
+  //     const customerString: string = localStorage.getItem('customer') as string;
+  //       const customerId:string = JSON.parse(customerString).id;
+
+  //     getCartsByCustomerId(customerId)
+  // }
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
   const basketWrapper: HTMLDivElement = createElement('div', ['basket-page__wrapper'], basketPage);
 
@@ -61,6 +63,21 @@ export default function createBasketPage(): HTMLDivElement {
   basketToCatalogBtn.addEventListener('click', () => {
     window.location.href = '#/catalog';
   });
-  getCartsByCustomerId("be57bafe-d61b-4919-b690-1b6343d8cbaa")
+
+  setTimeout(async () => {
+    const customerCart = await getCurrentCustomerCart();
+    const productsInBasket = customerCart.body.results[0].lineItems;
+    console.log(productsInBasket);
+    productsInBasket.forEach((element) => {
+      createBasketProductCard(
+        element.name.en,
+        element.price.value.centAmount / 100,
+        element.price.value.currencyCode,
+        goodsInBasketBlock
+      );
+    });
+  }, 1500);
+
+  getCartsByCustomerId('be57bafe-d61b-4919-b690-1b6343d8cbaa');
   return basketPage;
 }
