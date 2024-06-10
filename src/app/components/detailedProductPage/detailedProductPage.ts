@@ -229,6 +229,8 @@ export default function detailedProductPage(productId: string, addedToCart: bool
     }
     productPageCartButton.addEventListener('click', productPageCartButtonHandler);
 
+    createElement('p', ['product-cart-action-message'], nadCont, 'Product removed from cart');
+
     const priceCont = createElement('div', ['dpp-price-cont'], textCont);
 
     if (disc !== undefined) {

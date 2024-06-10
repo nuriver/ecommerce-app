@@ -2612,4 +2612,9 @@ label {
     width: 290px;
     height: 290px;
   }
+}
+.product-cart-action-message {
+  margin-top: 10px;
+  color: rgb(1, 103, 1);
+  display: none;
 } /*# sourceMappingURL=style.css.map */
