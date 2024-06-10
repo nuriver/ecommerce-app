@@ -233,3 +233,33 @@ export function signInWithRefreshToken(): void {
   apiRoot = apiRootRefreshTokenFlow;
   apiRootStorage.updateRoot();
 }
+
+export async function deleteProductFromCart(product: string) {
+  showLoadIndicator();
+
+  const response = await getCurrentCustomerCart();
+  const cart = response.body.results[0];
+  const { lineItems } = cart;
+  let lineItemId: string = '';
+  lineItems.forEach((lineItem) => {
+    if (lineItem.productId === product) {
+      lineItemId = lineItem.id;
+    }
+  });
+  await apiRoot
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: 'removeLineItem',
+            lineItemId,
+          },
+        ],
+      },
+    })
+    .execute();
+  hideLoadIndicator();
+}

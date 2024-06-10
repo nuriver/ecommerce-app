@@ -29,9 +29,8 @@ export default function createCatalog(): HTMLElement {
   const filterButton = createElement('button', ['button', 'filter-button'], sortBlock, filterButtonInnerText);
   filterButton.addEventListener('click', showFilter);
   // filterButton.addEventListener('click', async () => {
-  //   const findCart = () => apiRootStorage.value.me().carts().get().execute();
 
-  //   const response = await findCart();
+  //   const response = await getCurrentCustomerCart()
   //   const products = response.body.results[0].lineItems;
   //   console.log(products);
   // });
@@ -104,7 +103,9 @@ export default function createCatalog(): HTMLElement {
     if (!target.classList.contains('catalog')) {
       if (!target.classList.contains('cart-icon')) {
         const card = target.closest('.product-card') as HTMLElement;
-        const productPage = detailedProductPage(card.id);
+        const addToCartButton = card.querySelector('.add-to-cart-button') as HTMLButtonElement;
+        const addedToCart = addToCartButton.disabled === true;
+        const productPage = detailedProductPage(card.id, addedToCart);
         pageToggle(productPage);
       } else {
         const addToCartButton = target.closest('.add-to-cart-button') as HTMLButtonElement;
