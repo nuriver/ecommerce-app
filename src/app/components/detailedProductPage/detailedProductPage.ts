@@ -229,7 +229,22 @@ export default function detailedProductPage(productId: string, addedToCart: bool
     }
     productPageCartButton.addEventListener('click', productPageCartButtonHandler);
 
-    createElement('p', ['product-cart-action-message'], nadCont, 'Product removed from cart');
+    const productCartActionMessage = createElement(
+      'p',
+      ['product-cart-action-message'],
+      nadCont,
+      'Product removed from cart'
+    );
+    dpp.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (
+        !target.classList.contains('product-page-cart-button') &&
+        !target.classList.contains('product-page-cart-button-text') &&
+        !target.classList.contains('product-page-cart-button-icon')
+      ) {
+        productCartActionMessage.style.display = 'none';
+      }
+    });
 
     const priceCont = createElement('div', ['dpp-price-cont'], textCont);
 
