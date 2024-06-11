@@ -54,7 +54,7 @@
     padding: 20px;
     border-radius: 5px;
     gap: 20px;
-    width: fit-content;
+    width: 570px;
   }
   .card-product__img-part {
     display: flex;
@@ -74,7 +74,9 @@
     align-items: center;
   }
   .card-product__img {
-    background: url('/src/assets/images/main-log-img.png') center center / cover no-repeat;
+    // background: url('/src/assets/images/main-log-img.png') center center / cover no-repeat;
+    background-position: center;
+    background-size: cover;
     width: 250px;
     height: 250px;
     margin: auto;
@@ -106,5 +108,4 @@
       padding: 25px 30px;
     }
   }
-  
 }

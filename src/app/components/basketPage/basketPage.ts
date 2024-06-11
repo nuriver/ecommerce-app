@@ -13,6 +13,7 @@ export default function createBasketPage(): HTMLDivElement {
 
   //     getCartsByCustomerId(customerId)
   // }
+  console.log(77777);
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
   const basketWrapper: HTMLDivElement = createElement('div', ['basket-page__wrapper'], basketPage);
 
@@ -69,15 +70,28 @@ export default function createBasketPage(): HTMLDivElement {
     const productsInBasket = customerCart.body.results[0].lineItems;
     console.log(productsInBasket);
     productsInBasket.forEach((element) => {
-      createBasketProductCard(
-        element.name.en,
-        element.price.value.centAmount / 100,
-        element.price.value.currencyCode,
-        goodsInBasketBlock
-      );
+      if (element.price.discounted) {
+        console.log(element.variant.images?.[0].url);
+        createBasketProductCard(
+          element.variant.images?.[0].url as string,
+
+          element.name.en,
+          (element.price.discounted.value.centAmount / 100).toFixed(2),
+          element.price.value.currencyCode,
+          goodsInBasketBlock,
+          (element.price.value.centAmount / 100).toFixed(2)
+        );
+      } else {
+        createBasketProductCard(
+          element.variant.images?.[0].url as string,
+          element.name.en,
+          (element.price.value.centAmount / 100).toFixed(2),
+          element.price.value.currencyCode,
+          goodsInBasketBlock
+        );
+      }
     });
   }, 1500);
 
-  getCartsByCustomerId('be57bafe-d61b-4919-b690-1b6343d8cbaa');
   return basketPage;
 }
