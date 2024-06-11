@@ -1,6 +1,5 @@
+import { updateCart } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
-import { updateCustomerById } from '../profilePage/updateCustomer';
-import changeQtyProducts from './changeProductQuantity';
 
 export default function createBasketProductCard(
   image: string,
@@ -9,12 +8,14 @@ export default function createBasketProductCard(
   currency: string,
   // id: string,
   block: HTMLDivElement,
+  quantity: string,
+  productId: string,
   startPrice?: string
 ): HTMLDivElement {
   const cardProduct: HTMLDivElement = createElement('div', ['basket-page__card-product'], block);
   const cardProductImgPart: HTMLDivElement = createElement('div', ['card-product__img-part'], cardProduct);
-
-  console.log(cardProductImgPart.style.backgroundImage);
+  
+  cardProduct.setAttribute('id', productId);
 
   const cardProductDataPart: HTMLDivElement = createElement('div', ['card-product__data-part'], cardProduct);
   const cardProductTitle: HTMLHeadingElement = createElement(
@@ -63,6 +64,10 @@ export default function createBasketProductCard(
     ['quantity-block__quantity'],
     cardProductQuantityBlock
   );
+  cardProductQuantity.type = 'number';
+  cardProductQuantity.value = `${quantity}`;
+  cardProductQuantity.min = '1';
+  cardProductQuantity.max = '999';
 
   const cardProductTotalPrice: HTMLDivElement = createElement(
     'div',
@@ -88,8 +93,16 @@ export default function createBasketProductCard(
     cardProductDataPart,
     'Remove'
   );
-  // cardProductQuantity.addEventListener('input', () => {
-  //   cardProductTotalSum.innerHTML = `${+cardProductQuantity.value * +finishPrice} ${currency}`;
-  // });
+  cardProductQuantity.addEventListener('input', async () => {
+    if (+cardProductQuantity.value < 1) {
+      cardProductQuantity.value = '1';
+    }
+    if (+cardProductQuantity.value > 999) {
+      cardProductQuantity.value = '999';
+    }
+    // FIX cardProductQuantity.value !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    cardProductTotalSum.innerHTML = `${+cardProductQuantity.value * +finishPrice} ${currency}`;
+    await updateCart(productId, +cardProductQuantity.value);
+  });
   return cardProduct;
 }

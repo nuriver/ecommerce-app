@@ -1,19 +1,8 @@
-// import { ClientResponse, Customer } from '@commercetools/platform-sdk';
-import { ClientResponse, Customer, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
-import getCartsByCustomerId from './createrCustomerCart';
 import { getCurrentCustomerCart } from '../../api/SDK/client';
 import createBasketProductCard from './addBasketProductCard';
-// import getCustomerById from './getCustomerBuId';
 
 export default function createBasketPage(): HTMLDivElement {
-  // if (localStorage.getItem('customer')) {
-  //     const customerString: string = localStorage.getItem('customer') as string;
-  //       const customerId:string = JSON.parse(customerString).id;
-
-  //     getCartsByCustomerId(customerId)
-  // }
-  console.log(77777);
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
   const basketWrapper: HTMLDivElement = createElement('div', ['basket-page__wrapper'], basketPage);
 
@@ -43,10 +32,6 @@ export default function createBasketPage(): HTMLDivElement {
     'Clean basket'
   );
 
-  //   createBasketProductCard(goodsInBasketBlock);
-  //   createBasketProductCard(goodsInBasketBlock);
-  //   createBasketProductCard(goodsInBasketBlock);
-
   const emptyWrapper: HTMLElement = createElement('div', ['basket-page__empty-wrapper'], basketWrapper);
   const emptyMassage: HTMLElement = createElement(
     'h1',
@@ -54,7 +39,6 @@ export default function createBasketPage(): HTMLDivElement {
     emptyWrapper,
     'Basket is Empty, please go to catalog!'
   );
-  //   const basketToCatalogLink = createElement('a', ['header-link', 'hoverline'], emptyWrapper, 'CATALOG');
   const basketToCatalogBtn: HTMLButtonElement = createElement(
     'button',
     ['button', 'basket-page__to-catalog-button'],
@@ -67,18 +51,19 @@ export default function createBasketPage(): HTMLDivElement {
 
   setTimeout(async () => {
     const customerCart = await getCurrentCustomerCart();
+    localStorage.setItem('customerCart', JSON.stringify(customerCart.body.results[0].version));
     const productsInBasket = customerCart.body.results[0].lineItems;
-    console.log(productsInBasket);
+
     productsInBasket.forEach((element) => {
       if (element.price.discounted) {
-        console.log(element.variant.images?.[0].url);
         createBasketProductCard(
           element.variant.images?.[0].url as string,
-
           element.name.en,
           (element.price.discounted.value.centAmount / 100).toFixed(2),
           element.price.value.currencyCode,
           goodsInBasketBlock,
+          element.quantity.toString(),
+          element.productId,
           (element.price.value.centAmount / 100).toFixed(2)
         );
       } else {
@@ -87,7 +72,9 @@ export default function createBasketPage(): HTMLDivElement {
           element.name.en,
           (element.price.value.centAmount / 100).toFixed(2),
           element.price.value.currencyCode,
-          goodsInBasketBlock
+          goodsInBasketBlock,
+          element.quantity.toString(),
+          element.productId
         );
       }
     });
