@@ -55,7 +55,7 @@ export default async function displayProducts(id?: string): Promise<void> {
   const products = response.body.results;
   const totalProducts = response.body.total as number;
   if (totalProducts > paginationData.pageLimit) paginationRight.classList.remove('pagination-disabled');
-  if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
+  if (totalProducts <= offset + 12) paginationRight.classList.add('pagination-disabled');
 
   const addedProductsId = await getAddedToCartProducts();
   products.forEach((product) => {
