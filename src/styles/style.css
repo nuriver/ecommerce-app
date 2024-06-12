@@ -2681,6 +2681,10 @@ label {
   gap: 20px;
   justify-content: center;
 }
+.basket-page .card-product__shop-prices {
+  display: flex;
+  gap: 20px;
+}
 .basket-page .card-product__quantity-block,
 .basket-page .card-product__price-block {
   display: flex;
@@ -2715,6 +2719,9 @@ label {
 @media screen and (max-width: 900px) {
   .basket-page .basket-page__wrapper {
     padding: 25px 60px;
+  }
+  .basket-page .card-product__data-part {
+    align-items: center;
   }
 }
 @media screen and (max-width: 425px) {

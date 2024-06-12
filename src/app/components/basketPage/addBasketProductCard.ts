@@ -1,4 +1,4 @@
-import { updateCart } from '../../api/SDK/client';
+import { deleteProductFromCart, updateCart } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 
 export default function createBasketProductCard(
@@ -14,7 +14,7 @@ export default function createBasketProductCard(
 ): HTMLDivElement {
   const cardProduct: HTMLDivElement = createElement('div', ['basket-page__card-product'], block);
   const cardProductImgPart: HTMLDivElement = createElement('div', ['card-product__img-part'], cardProduct);
-  
+
   cardProduct.setAttribute('id', productId);
 
   const cardProductDataPart: HTMLDivElement = createElement('div', ['card-product__data-part'], cardProduct);
@@ -83,8 +83,8 @@ export default function createBasketProductCard(
   const cardProductTotalSum: HTMLDivElement = createElement(
     'div',
     ['price-block__price'],
-    cardProductTotalPrice
-    // `${+cardProductQuantity.value * productPrice}`
+    cardProductTotalPrice,
+    `${(+cardProductQuantity.value * +finishPrice).toFixed(2)}`
   );
 
   const cardProductRemoveBtn: HTMLButtonElement = createElement(
@@ -93,6 +93,12 @@ export default function createBasketProductCard(
     cardProductDataPart,
     'Remove'
   );
+
+  cardProductRemoveBtn.addEventListener('click', async () => {
+    await deleteProductFromCart(productId);
+    cardProduct.remove();
+  });
+
   cardProductQuantity.addEventListener('input', async () => {
     if (+cardProductQuantity.value < 1) {
       cardProductQuantity.value = '1';
@@ -102,6 +108,7 @@ export default function createBasketProductCard(
     }
     // FIX cardProductQuantity.value !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     cardProductTotalSum.innerHTML = `${+cardProductQuantity.value * +finishPrice} ${currency}`;
+    console.log(cardProductQuantity.value);
     await updateCart(productId, +cardProductQuantity.value);
   });
   return cardProduct;

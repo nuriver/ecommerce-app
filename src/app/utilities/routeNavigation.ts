@@ -1,3 +1,4 @@
+import createBasketPage from '../components/basketPage/basketPage';
 import displayBySlug from '../components/catalog/displayBySlug';
 import { modalState } from '../components/detailedProductPage/detailedProductPage';
 import customerInStorage from './customerInStorage';
@@ -12,12 +13,12 @@ export default function routeNavigation(
   registration: HTMLElement,
   profile: HTMLElement,
   catalog: HTMLElement,
-  basket: HTMLElement,
+  // basket: HTMLElement,
   wrongRoute: HTMLElement,
   viaUrlBar: boolean
 ) {
   const currentRoute = window.location.hash;
-  const signInRouting = () => {
+  const signInRouting = async () => {
     if (workingRoutes.includes(currentRoute)) {
       pageToggle(main, 'main');
     } else if (currentRoute === '#/profile') {
@@ -30,14 +31,14 @@ export default function routeNavigation(
       }
       modalState.value = false;
     } else if (currentRoute === '#/basket') {
-      pageToggle(basket, 'basket');
+      pageToggle(await createBasketPage(), 'basket');
     } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else {
       pageToggle(wrongRoute, '404');
     }
   };
-  const signOutRoutingManually = () => {
+  const signOutRoutingManually = async () => {
     if (currentRoute === '#/login') {
       pageToggle(login);
     } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '/') {
@@ -56,13 +57,13 @@ export default function routeNavigation(
       }
       modalState.value = false;
     } else if (currentRoute === '#/basket') {
-        pageToggle(basket);
-  } else {
+      pageToggle(await createBasketPage());
+    } else {
       pageToggle(wrongRoute);
     }
   };
 
-  const signOutRoutingAuto = () => {
+  const signOutRoutingAuto = async () => {
     if (currentRoute === '#/login') {
       pageToggle(login, 'login');
     } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '') {
@@ -72,8 +73,8 @@ export default function routeNavigation(
     } else if (currentRoute === '#/profile') {
       pageToggle(login, 'login');
     } else if (currentRoute === '#/basket') {
-        pageToggle(basket, 'basket');
-  } else if (currentRoute.match(productRoutePattern)) {
+      pageToggle(await createBasketPage(), 'basket');
+    } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
       pageToggle(catalog, 'catalog');

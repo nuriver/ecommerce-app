@@ -10,7 +10,6 @@ import createFooter from './app/components/footer';
 import customerInStorage from './app/utilities/customerInStorage';
 import createCatalog from './app/components/catalog/catalog';
 import createProfilePage from './app/components/profilePage/profilePage';
-import createBasketPage from './app/components/basketPage/basketPage';
 import { signInWithRefreshToken } from './app/api/SDK/client';
 
 const { body } = document;
@@ -25,12 +24,11 @@ const mainPage = createMain();
 const registerPage = createRegistrationPage();
 const page404 = create404Page();
 const profilePage = createProfilePage();
-const basketPage = createBasketPage();
 
-routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, basketPage, false);
+routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, false);
 
 window.addEventListener('hashchange', () => {
-    routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, basketPage, page404, true);
+  routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, true);
 });
 
 window.addEventListener('load', () => {

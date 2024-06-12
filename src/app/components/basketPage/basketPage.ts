@@ -2,7 +2,12 @@ import createElement from '../../utilities/createElement';
 import { getCurrentCustomerCart } from '../../api/SDK/client';
 import createBasketProductCard from './addBasketProductCard';
 
-export default function createBasketPage(): HTMLDivElement {
+export default async function createBasketPage(): Promise<HTMLDivElement> {
+  const customerCart = await getCurrentCustomerCart();
+  localStorage.setItem('customerCart', JSON.stringify(customerCart.body.results[0]));
+  const productsInBasket = customerCart.body.results[0].lineItems;
+  const totalSumBasket = customerCart.body.results[0].totalPrice.centAmount;
+
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
   const basketWrapper: HTMLDivElement = createElement('div', ['basket-page__wrapper'], basketPage);
 
@@ -49,36 +54,39 @@ export default function createBasketPage(): HTMLDivElement {
     window.location.href = '#/catalog';
   });
 
-  setTimeout(async () => {
-    const customerCart = await getCurrentCustomerCart();
-    localStorage.setItem('customerCart', JSON.stringify(customerCart.body.results[0].version));
-    const productsInBasket = customerCart.body.results[0].lineItems;
+  // let pageReloaded = false;
 
-    productsInBasket.forEach((element) => {
-      if (element.price.discounted) {
-        createBasketProductCard(
-          element.variant.images?.[0].url as string,
-          element.name.en,
-          (element.price.discounted.value.centAmount / 100).toFixed(2),
-          element.price.value.currencyCode,
-          goodsInBasketBlock,
-          element.quantity.toString(),
-          element.productId,
-          (element.price.value.centAmount / 100).toFixed(2)
-        );
-      } else {
-        createBasketProductCard(
-          element.variant.images?.[0].url as string,
-          element.name.en,
-          (element.price.value.centAmount / 100).toFixed(2),
-          element.price.value.currencyCode,
-          goodsInBasketBlock,
-          element.quantity.toString(),
-          element.productId
-        );
-      }
-    });
-  }, 1500);
+  console.log(customerCart);
+
+  productsInBasket.forEach((element) => {
+    if (element.price.discounted) {
+      createBasketProductCard(
+        element.variant.images?.[0].url as string,
+        element.name.en,
+        (element.price.discounted.value.centAmount / 100).toFixed(2),
+        element.price.value.currencyCode,
+        goodsInBasketBlock,
+        element.quantity.toString(),
+        element.productId,
+        (element.price.value.centAmount / 100).toFixed(2)
+      );
+      console.log(element.quantity);
+    } else {
+      createBasketProductCard(
+        element.variant.images?.[0].url as string,
+        element.name.en,
+        (element.price.value.centAmount / 100).toFixed(2),
+        element.price.value.currencyCode,
+        goodsInBasketBlock,
+        element.quantity.toString(),
+        element.productId
+      );
+    }
+  });
+  // const customerCartString: string = localStorage.getItem('customerCart') as string;
+  // const customerCartObj = JSON.parse(customerCartString);
+  totalSumDisplay.innerHTML = (totalSumBasket / 100).toFixed(2);
+  // console.log(customerCartObj.body.totalPrice);
 
   return basketPage;
 }

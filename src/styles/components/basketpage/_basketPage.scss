@@ -66,6 +66,10 @@
     gap: 20px;
     justify-content: center;
   }
+  .card-product__shop-prices {
+    display: flex;
+    gap: 20px;
+  }
   .card-product__quantity-block,
   .card-product__price-block {
     display: flex;
@@ -101,6 +105,9 @@
   @media screen and (max-width: 900px) {
     .basket-page__wrapper {
       padding: 25px 60px;
+    }
+    .card-product__data-part {
+      align-items: center;
     }
   }
   @media screen and (max-width: 425px) {
