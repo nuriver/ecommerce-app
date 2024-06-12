@@ -1,12 +1,13 @@
-import { deleteProductFromCart, updateCart } from '../../api/SDK/client';
+import { deleteProductFromCart, updateCart, updateQtyCart } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
+import addEmptyBasketPage from './addEmptyBasketPage';
 
 export default function createBasketProductCard(
+  id: string,
   image: string,
   productName: string,
   finishPrice: string,
   currency: string,
-  // id: string,
   block: HTMLDivElement,
   quantity: string,
   productId: string,
@@ -97,19 +98,25 @@ export default function createBasketProductCard(
   cardProductRemoveBtn.addEventListener('click', async () => {
     await deleteProductFromCart(productId);
     cardProduct.remove();
+    if (!block.firstChild) {
+      const basketPageWrapper: HTMLDivElement = document.querySelector('.basket-page') as HTMLDivElement;
+      basketPageWrapper.innerHTML = '';
+      addEmptyBasketPage(basketPageWrapper);
+    }
   });
 
-  cardProductQuantity.addEventListener('input', async () => {
-    if (+cardProductQuantity.value < 1) {
-      cardProductQuantity.value = '1';
+  cardProductQuantity.addEventListener('input', async (event) => {
+    const cardProductQuantityInput: HTMLInputElement = event.target as HTMLInputElement;
+    if (+cardProductQuantityInput.value < 1) {
+      cardProductQuantityInput.value = '1';
     }
-    if (+cardProductQuantity.value > 999) {
-      cardProductQuantity.value = '999';
+    if (+cardProductQuantityInput.value > 999) {
+      cardProductQuantityInput.value = '999';
     }
     // FIX cardProductQuantity.value !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    cardProductTotalSum.innerHTML = `${+cardProductQuantity.value * +finishPrice} ${currency}`;
-    console.log(cardProductQuantity.value);
-    await updateCart(productId, +cardProductQuantity.value);
+    cardProductTotalSum.innerHTML = `${+cardProductQuantityInput.value * +finishPrice} ${currency}`;
+    console.log(id, +cardProductQuantityInput.value);
+    await updateQtyCart(id, +cardProductQuantityInput.value);
   });
   return cardProduct;
 }

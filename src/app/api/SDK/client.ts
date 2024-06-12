@@ -176,14 +176,14 @@ export function startAnonymousSession(): void {
   apiRootStorage.updateRoot();
   createAnonymousCart();
 }
-export function getCurrentCustomerCart(): Promise<ClientResponse<CartPagedQueryResponse>> {
+export async function getCurrentCustomerCart(): Promise<ClientResponse<CartPagedQueryResponse>> {
   return apiRootStorage.value.me().carts().get().execute();
 }
 export async function updateCart(product: string, quantity?: number) {
   showLoadIndicator();
   const response = await getCurrentCustomerCart();
   const cart = response.body.results[0];
-  console.log(cart);
+  console.log(cart.lineItems);
   await apiRoot
     .carts()
     .withId({ ID: cart.id })
@@ -195,6 +195,28 @@ export async function updateCart(product: string, quantity?: number) {
             action: 'addLineItem',
             productId: product,
             variantId: 1,
+            quantity,
+          },
+        ],
+      },
+    })
+    .execute();
+  hideLoadIndicator();
+}
+export async function updateQtyCart(product: string, quantity: number) {
+  showLoadIndicator();
+  const response = await getCurrentCustomerCart();
+  const cart = response.body.results[0];
+  await apiRoot
+    .carts()
+    .withId({ ID: cart.id })
+    .post({
+      body: {
+        version: cart.version,
+        actions: [
+          {
+            action: 'changeLineItemQuantity',
+            lineItemId: product,
             quantity,
           },
         ],
