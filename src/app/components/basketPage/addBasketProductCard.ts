@@ -1,4 +1,6 @@
-import { deleteProductFromCart, updateCart, updateQtyCart } from '../../api/SDK/client';
+import { CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
+import { deleteProductFromCart, getCurrentCustomerCart, updateCart, updateQtyCart } from '../../api/SDK/client';
+import { hideLoadIndicator, showLoadIndicator } from '../../api/SDK/loadIndicator';
 import createElement from '../../utilities/createElement';
 import addEmptyBasketPage from './addEmptyBasketPage';
 
@@ -96,27 +98,49 @@ export default function createBasketProductCard(
   );
 
   cardProductRemoveBtn.addEventListener('click', async () => {
+    const cartTotalPrice: HTMLDivElement = document.querySelector('.total-sum-block__sum') as HTMLDivElement;
+
     await deleteProductFromCart(productId);
     cardProduct.remove();
+
     if (!block.firstChild) {
       const basketPageWrapper: HTMLDivElement = document.querySelector('.basket-page') as HTMLDivElement;
       basketPageWrapper.innerHTML = '';
       addEmptyBasketPage(basketPageWrapper);
     }
+    const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+      new Promise((resolve) => {
+        setTimeout(async () => {
+          resolve(await getCurrentCustomerCart());
+        }, 250);
+      });
+    const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+    cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
+    hideLoadIndicator();
   });
 
   cardProductQuantity.addEventListener('input', async (event) => {
     const cardProductQuantityInput: HTMLInputElement = event.target as HTMLInputElement;
+    const cartTotalPrice: HTMLDivElement = document.querySelector('.total-sum-block__sum') as HTMLDivElement;
     if (+cardProductQuantityInput.value < 1) {
       cardProductQuantityInput.value = '1';
     }
     if (+cardProductQuantityInput.value > 999) {
       cardProductQuantityInput.value = '999';
     }
-    // FIX cardProductQuantity.value !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    cardProductTotalSum.innerHTML = `${+cardProductQuantityInput.value * +finishPrice} ${currency}`;
+    cardProductTotalSum.innerHTML = `${(+cardProductQuantityInput.value * +finishPrice).toFixed(2)} ${currency}`;
     console.log(id, +cardProductQuantityInput.value);
+    showLoadIndicator();
     await updateQtyCart(id, +cardProductQuantityInput.value);
+    const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+      new Promise((resolve) => {
+        setTimeout(async () => {
+          resolve(await getCurrentCustomerCart());
+        }, 250);
+      });
+    const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+    cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
+    hideLoadIndicator();
   });
   return cardProduct;
 }

@@ -51,9 +51,59 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       'Clean basket'
     );
 
-    // let pageReloaded = false;
+    const cleanBasketModalWindow: HTMLDivElement = createElement(
+      'div',
+      ['basket-pade__clean-basket-modal', 'basket-pade__clean-basket-modal-hidden'],
+      basketWrapper
+    );
+    const cleanBasketMessage: HTMLDivElement = createElement(
+      'div',
+      ['clean-basket-moadl__message'],
+      cleanBasketModalWindow,
+      'Are you really insist on cleaning your cart?'
+    );
+    const confirmCleanBasket: HTMLButtonElement = createElement(
+      'button',
+      ['button', 'clean-basket-moadl__clean-basket-btn'],
+      cleanBasketModalWindow
+    );
+    const cancelCleanBasket: HTMLButtonElement = createElement(
+      'button',
+      ['button', 'clean-basket-moadl__cancel-clean-btn'],
+      cleanBasketModalWindow
+    );
 
-    console.log(customerCart);
+    cleanBasketBtn.addEventListener('click', () => {
+      if (cleanBasketModalWindow.classList.contains('basket-pade__clean-basket-modal-hidden')) {
+        cleanBasketModalWindow.classList.remove('basket-pade__clean-basket-modal-hidden');
+      }
+    });
+
+    cancelCleanBasket.addEventListener('click', () => {
+      if (!cleanBasketModalWindow.classList.contains('basket-pade__clean-basket-modal-hidden')) {
+        cleanBasketModalWindow.classList.add('basket-pade__clean-basket-modal-hidden');
+      }
+    });
+
+    confirmCleanBasket.addEventListener('click', async () => {
+      if (!cleanBasketModalWindow.classList.contains('basket-pade__clean-basket-modal-hidden')) {
+        cleanBasketModalWindow.classList.add('basket-pade__clean-basket-modal-hidden');
+      }
+
+      //   cleanBasketBtn.disabled = true;
+      //   const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+      //     new Promise((resolve) => {
+      //       setTimeout(async () => {
+      //         resolve(await getCurrentCustomerCart());
+      //       }, 250);
+      //     });
+      //     const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+
+      //     for (const item of cart.body.lineItems) {
+      //       const changedCart = await this.carts.removeProductOnCart(item.id);
+      // }
+      //
+    });
 
     productsInBasket.forEach((element) => {
       if (element.price.discounted) {
@@ -83,10 +133,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
         console.log(element.quantity);
       }
     });
-    // const customerCartString: string = localStorage.getItem('customerCart') as string;
-    // const customerCartObj = JSON.parse(customerCartString);
     totalSumDisplay.innerHTML = (totalSumBasket / 100).toFixed(2);
-    // console.log(customerCartObj.body.totalPrice);
   } else {
     const emptyWrapper: HTMLElement = createElement('div', ['basket-page__empty-wrapper'], basketPage);
     const emptyMassage: HTMLElement = createElement(
@@ -105,5 +152,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       window.location.href = '#/catalog';
     });
   }
+
   return basketPage;
 }
