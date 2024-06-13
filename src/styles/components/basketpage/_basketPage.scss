@@ -98,12 +98,33 @@
     font-size: 24px;
     font-weight: bold;
   }
-  .basket-pade__clean-basket-modal {
+  .basket-page__clean-basket-modal {
     position: absolute;
     display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    left: 50%;
+    bottom: 0%;
+    transform: translate(-50%, 0%);
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 2px 2px 10px 1px rgb(174, 174, 174);
+    padding: 20px;
+    background-color: black;
+    width: 300px;
   }
-  .basket-pade__clean-basket-modal-hidden {
+  .basket-page__clean-basket-modal-hidden {
     display: none;
+  }
+  .clean-basket-modal__message {
+    color: white;
+    text-align: center;
+  }
+  .clean-basket-modal__clean-basket-btn,
+  .clean-basket-modal__cancel-clean-btn {
+background-color: white;
+color: black;
+font-weight: 900;
   }
   @media screen and (max-width: 1281px) {
     .basket-page__card-product {

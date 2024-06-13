@@ -1,6 +1,6 @@
 import { CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
-import { getCurrentCustomerCart } from '../../api/SDK/client';
+import { deleteProductFromCart, getCurrentCustomerCart } from '../../api/SDK/client';
 import createBasketProductCard from './addBasketProductCard';
 
 export default async function createBasketPage(): Promise<HTMLDivElement> {
@@ -53,55 +53,64 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
 
     const cleanBasketModalWindow: HTMLDivElement = createElement(
       'div',
-      ['basket-pade__clean-basket-modal', 'basket-pade__clean-basket-modal-hidden'],
-      basketWrapper
+      ['basket-page__clean-basket-modal', 'basket-page__clean-basket-modal-hidden'],
+      basketPage
     );
+    cleanBasketModalWindow.setAttribute('id', 'no-blur');
     const cleanBasketMessage: HTMLDivElement = createElement(
-      'div',
-      ['clean-basket-moadl__message'],
+      'h1',
+      ['clean-basket-modal__message'],
       cleanBasketModalWindow,
       'Are you really insist on cleaning your cart?'
     );
     const confirmCleanBasket: HTMLButtonElement = createElement(
       'button',
-      ['button', 'clean-basket-moadl__clean-basket-btn'],
-      cleanBasketModalWindow
+      ['button', 'clean-basket-modal__clean-basket-btn'],
+      cleanBasketModalWindow,
+      'CONFIRM'
     );
     const cancelCleanBasket: HTMLButtonElement = createElement(
       'button',
-      ['button', 'clean-basket-moadl__cancel-clean-btn'],
-      cleanBasketModalWindow
+      ['button', 'clean-basket-modal__cancel-clean-btn'],
+      cleanBasketModalWindow,
+      'CANCEL'
     );
 
     cleanBasketBtn.addEventListener('click', () => {
-      if (cleanBasketModalWindow.classList.contains('basket-pade__clean-basket-modal-hidden')) {
-        cleanBasketModalWindow.classList.remove('basket-pade__clean-basket-modal-hidden');
+      if (cleanBasketModalWindow.classList.contains('basket-page__clean-basket-modal-hidden')) {
+        cleanBasketModalWindow.classList.remove('basket-page__clean-basket-modal-hidden');
+        basketWrapper.style.filter = 'blur(5px)';
       }
     });
 
     cancelCleanBasket.addEventListener('click', () => {
-      if (!cleanBasketModalWindow.classList.contains('basket-pade__clean-basket-modal-hidden')) {
-        cleanBasketModalWindow.classList.add('basket-pade__clean-basket-modal-hidden');
+      if (!cleanBasketModalWindow.classList.contains('basket-page__clean-basket-modal-hidden')) {
+        cleanBasketModalWindow.classList.add('basket-page__clean-basket-modal-hidden');
+        basketWrapper.style.filter = 'none';
       }
     });
 
     confirmCleanBasket.addEventListener('click', async () => {
-      if (!cleanBasketModalWindow.classList.contains('basket-pade__clean-basket-modal-hidden')) {
-        cleanBasketModalWindow.classList.add('basket-pade__clean-basket-modal-hidden');
+      if (!cleanBasketModalWindow.classList.contains('basket-page__clean-basket-modal-hidden')) {
+        cleanBasketModalWindow.classList.add('basket-page__clean-basket-modal-hidden');
       }
+      basketWrapper.style.filter = 'none';
 
-      //   cleanBasketBtn.disabled = true;
-      //   const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
-      //     new Promise((resolve) => {
-      //       setTimeout(async () => {
-      //         resolve(await getCurrentCustomerCart());
-      //       }, 250);
-      //     });
-      //     const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-
-      //     for (const item of cart.body.lineItems) {
-      //       const changedCart = await this.carts.removeProductOnCart(item.id);
-      // }
+      cleanBasketBtn.disabled = true;
+      // const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+      //   new Promise((resolve) => {
+      //     setTimeout(async () => {
+      //       resolve(await getCurrentCustomerCart());
+      //     }, 250);
+      //   });
+      //   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+      // const allCardsInBasket = customerCart.body.results[0].lineItems;
+      // allCardsInBasket.forEach(card => {
+      //     deleteProductFromCart(card.productId)
+      // })
+      //       for (const item of customerCart.body.results[0].lineItems) {
+      //         const changedCart = await this.carts.removeProductOnCart(item.id);
+      //   }
       //
     });
 
