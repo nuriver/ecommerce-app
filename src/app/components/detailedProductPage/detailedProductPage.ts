@@ -192,12 +192,14 @@ export default function detailedProductPage(productId: string, addedToCart: bool
         if (viewedProduct && addedProductsId.includes(productId)) {
           if (addToCartButton.disabled === false) {
             addToCartButton.disabled = true;
+            addToCartButton.innerHTML = 'ADDED TO CART';
           }
         }
 
         if (viewedProduct && !addedProductsId.includes(productId)) {
           if (addToCartButton.disabled === true) {
             addToCartButton.disabled = false;
+            addToCartButton.innerHTML = 'ADD TO CART';
           }
         }
 
