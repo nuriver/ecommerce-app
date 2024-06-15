@@ -14,8 +14,14 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
   const productsInBasket = customerCart.body.results[0]?.lineItems;
   const totalSumBasket = customerCart.body.results[0]?.totalPrice.centAmount;
+//   const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
+//   ? +customerCart.body.results[0].totalLineItemQuantity
+//   : 0;
+// const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
+// basketStatus.innerHTML = totalQty.toString();
 
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
+  
 
   if (customerCart.body.results[0]?.lineItems.length > 0) {
     const basketWrapper: HTMLDivElement = createElement('div', ['basket-page__wrapper'], basketPage);

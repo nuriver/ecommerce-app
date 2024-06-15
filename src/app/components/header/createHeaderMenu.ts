@@ -47,7 +47,9 @@ function createHeaderMenu(container: HTMLElement): void {
           if (headerRegistrationLink?.classList.contains('header-link-registration-hidden')) {
             headerRegistrationLink?.classList.remove('header-link-registration-hidden');
           }
-
+          const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
+          basketStatus.innerHTML = '0';
+          
           startAnonymousSession();
         }
       });
