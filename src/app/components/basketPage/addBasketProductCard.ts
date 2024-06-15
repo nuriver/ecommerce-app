@@ -138,6 +138,7 @@ export default function createBasketProductCard(
         }, 250);
       });
     const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+    console.log(customerCart)
     cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
 
     const totalQty: number = customerCart.body.results[0].totalLineItemQuantity

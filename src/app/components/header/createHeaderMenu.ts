@@ -49,7 +49,7 @@ function createHeaderMenu(container: HTMLElement): void {
           }
           const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
           basketStatus.innerHTML = '0';
-          
+
           startAnonymousSession();
         }
       });
@@ -63,12 +63,15 @@ function createHeaderMenu(container: HTMLElement): void {
         });
 
       const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-
       headerLink.classList.add('header__basket');
-      const totalQty: number = customerCart.body.results[0].totalLineItemQuantity ? +customerCart.body.results[0].totalLineItemQuantity : 0;
-
-      createElement('div', ['header__basket-status'], headerLink, `${totalQty}`);
-      // localStorage.setItem("countProductOnCart", countProductOnCart.toString());
+      if (customerCart.body.results.length > 0) {
+        const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
+          ? +customerCart.body.results[0].totalLineItemQuantity
+          : 0;
+        createElement('div', ['header__basket-status'], headerLink, `${totalQty}`);
+      } else {
+        createElement('div', ['header__basket-status'], headerLink, '0');
+      }
     }
   });
 
