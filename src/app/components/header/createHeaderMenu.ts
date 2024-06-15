@@ -1,4 +1,5 @@
-import { startAnonymousSession } from '../../api/SDK/client';
+import { CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
+import { getCurrentCustomerCart, startAnonymousSession } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 import customerInStorage from '../../utilities/customerInStorage';
 import toggleMenu from './toggleMenu';
@@ -15,7 +16,7 @@ const headerLinks = [
 
 function createHeaderMenu(container: HTMLElement): void {
   const header = createElement('div', ['header-menu'], container);
-  headerLinks.forEach((link) => {
+  headerLinks.forEach(async (link) => {
     const headerLink = createElement('a', ['header-link', 'hoverline'], header, `${link.name}`);
 
     headerLink.addEventListener('click', toggleMenu);
@@ -50,6 +51,22 @@ function createHeaderMenu(container: HTMLElement): void {
           startAnonymousSession();
         }
       });
+    }
+    if (link.name === 'BASKET') {
+      const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+        new Promise((resolve) => {
+          setTimeout(async () => {
+            resolve(await getCurrentCustomerCart());
+          }, 250);
+        });
+
+      const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+
+      headerLink.classList.add('header__basket');
+      const totalQty: number = customerCart.body.results[0].totalLineItemQuantity ? +customerCart.body.results[0].totalLineItemQuantity : 0;
+
+      createElement('div', ['header__basket-status'], headerLink, `${totalQty}`);
+      // localStorage.setItem("countProductOnCart", countProductOnCart.toString());
     }
   });
 

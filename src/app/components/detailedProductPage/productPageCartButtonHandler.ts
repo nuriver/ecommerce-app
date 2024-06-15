@@ -13,13 +13,13 @@ export default async function productPageCartButtonHandler(event: Event): Promis
     cartButtonText.innerText = 'ADD TO CART';
     productCartActionMessage.style.display = 'block';
     productCartActionMessage.innerText = 'Product removed from cart!';
-    deleteProductFromCart(cartButton.id);
+    await deleteProductFromCart(cartButton.id);
   } else {
     cartButton.classList.add('remove-from-cart-button');
     cartButtonIcon.innerText = '-';
     cartButtonText.innerText = 'REMOVE FROM CART';
     productCartActionMessage.style.display = 'block';
     productCartActionMessage.innerText = 'Product added to cart!';
-    updateCart(cartButton.id);
+    await updateCart(cartButton.id);
   }
 }

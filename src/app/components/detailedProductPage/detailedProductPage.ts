@@ -1,6 +1,7 @@
 import { hideLoadIndicator, showLoadIndicator } from '../../api/SDK/loadIndicator';
 import createElement from '../../utilities/createElement';
 import getAddedToCartProducts from '../../utilities/getAddedToCartProducts';
+import updateBasketStatus from '../basketPage/updateBasketStatus';
 import { getProductById } from './getProduct';
 import productPageCartButtonHandler from './productPageCartButtonHandler';
 
@@ -229,7 +230,10 @@ export default function detailedProductPage(productId: string, addedToCart: bool
       productPageCartButton.innerHTML =
         '<span class="product-page-cart-button-icon">-</span> <span class="product-page-cart-button-text">REMOVE FROM CART</span>';
     }
-    productPageCartButton.addEventListener('click', productPageCartButtonHandler);
+    productPageCartButton.addEventListener('click', async (event) => {
+      await productPageCartButtonHandler(event);
+      await updateBasketStatus();
+    });
 
     const productCartActionMessage = createElement(
       'p',

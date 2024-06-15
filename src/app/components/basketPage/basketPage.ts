@@ -12,7 +12,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
     });
 
   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-  localStorage.setItem('customerCart', JSON.stringify(customerCart.body.results[0]));
   const productsInBasket = customerCart.body.results[0]?.lineItems;
   const totalSumBasket = customerCart.body.results[0]?.totalPrice.centAmount;
 
@@ -44,59 +43,59 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
     createElement('h2', ['basket-block__title'], totalSumBlock, 'Total to pay:');
     const totalSumDisplay: HTMLDivElement = createElement('div', ['total-sum-block__sum'], totalSumBlock);
     totalSumDisplay.innerHTML = 'SUM';
-    const cleanBasketBtn: HTMLButtonElement = createElement(
+    const clearBasketBtn: HTMLButtonElement = createElement(
       'button',
-      ['button', 'promo-block__clean-basket-button'],
+      ['button', 'promo-block__clear-basket-button'],
       totalSumBlock,
-      'Clean basket'
+      'Clear basket'
     );
 
-    const cleanBasketModalWindow: HTMLDivElement = createElement(
+    const clearBasketModalWindow: HTMLDivElement = createElement(
       'div',
-      ['basket-page__clean-basket-modal', 'basket-page__clean-basket-modal-hidden'],
+      ['basket-page__clear-basket-modal', 'basket-page__clear-basket-modal-hidden'],
       basketPage
     );
-    cleanBasketModalWindow.setAttribute('id', 'no-blur');
-    const cleanBasketMessage: HTMLDivElement = createElement(
+    clearBasketModalWindow.setAttribute('id', 'no-blur');
+    const clearBasketMessage: HTMLDivElement = createElement(
       'h1',
-      ['clean-basket-modal__message'],
-      cleanBasketModalWindow,
-      'Are you really insist on cleaning your cart?'
+      ['clear-basket-modal__message'],
+      clearBasketModalWindow,
+      'Are you really insist on clearing your cart?'
     );
-    const confirmCleanBasket: HTMLButtonElement = createElement(
+    const confirmClearBasket: HTMLButtonElement = createElement(
       'button',
-      ['button', 'clean-basket-modal__clean-basket-btn'],
-      cleanBasketModalWindow,
+      ['button', 'clear-basket-modal__clear-basket-btn'],
+      clearBasketModalWindow,
       'CONFIRM'
     );
-    const cancelCleanBasket: HTMLButtonElement = createElement(
+    const cancelClearBasket: HTMLButtonElement = createElement(
       'button',
-      ['button', 'clean-basket-modal__cancel-clean-btn'],
-      cleanBasketModalWindow,
+      ['button', 'clear-basket-modal__cancel-clear-btn'],
+      clearBasketModalWindow,
       'CANCEL'
     );
 
-    cleanBasketBtn.addEventListener('click', () => {
-      if (cleanBasketModalWindow.classList.contains('basket-page__clean-basket-modal-hidden')) {
-        cleanBasketModalWindow.classList.remove('basket-page__clean-basket-modal-hidden');
+    clearBasketBtn.addEventListener('click', () => {
+      if (clearBasketModalWindow.classList.contains('basket-page__clear-basket-modal-hidden')) {
+        clearBasketModalWindow.classList.remove('basket-page__clear-basket-modal-hidden');
         basketWrapper.style.filter = 'blur(5px)';
       }
     });
 
-    cancelCleanBasket.addEventListener('click', () => {
-      if (!cleanBasketModalWindow.classList.contains('basket-page__clean-basket-modal-hidden')) {
-        cleanBasketModalWindow.classList.add('basket-page__clean-basket-modal-hidden');
+    cancelClearBasket.addEventListener('click', () => {
+      if (!clearBasketModalWindow.classList.contains('basket-page__clear-basket-modal-hidden')) {
+        clearBasketModalWindow.classList.add('basket-page__clear-basket-modal-hidden');
         basketWrapper.style.filter = 'none';
       }
     });
 
-    confirmCleanBasket.addEventListener('click', async () => {
-      if (!cleanBasketModalWindow.classList.contains('basket-page__clean-basket-modal-hidden')) {
-        cleanBasketModalWindow.classList.add('basket-page__clean-basket-modal-hidden');
+    confirmClearBasket.addEventListener('click', async () => {
+      if (!clearBasketModalWindow.classList.contains('basket-page__clear-basket-modal-hidden')) {
+        clearBasketModalWindow.classList.add('basket-page__clear-basket-modal-hidden');
       }
       basketWrapper.style.filter = 'none';
 
-      cleanBasketBtn.disabled = true;
+      clearBasketBtn.disabled = true;
       // const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
       //   new Promise((resolve) => {
       //     setTimeout(async () => {
@@ -127,7 +126,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
           element.productId,
           (element.price.value.centAmount / 100).toFixed(2)
         );
-        console.log(element.quantity);
       } else {
         createBasketProductCard(
           element.id,
@@ -139,7 +137,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
           element.quantity.toString(),
           element.productId
         );
-        console.log(element.quantity);
       }
     });
     totalSumDisplay.innerHTML = (totalSumBasket / 100).toFixed(2);

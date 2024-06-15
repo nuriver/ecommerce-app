@@ -476,6 +476,16 @@ label {
 .header-menu .header-link-registration-hidden {
   display: none;
 }
+.header-menu .header__basket {
+  display: flex;
+  gap: 5px;
+}
+.header-menu .header__basket-status {
+  color: white;
+  background-color: black;
+  padding: 0px 8px;
+  font-weight: 900;
+}
 @media screen and (max-width: 900px) {
   .header-menu {
     display: none;
@@ -2694,17 +2704,16 @@ label {
 }
 .basket-page .quantity-block__quantity {
   width: 60px;
-  border-radius: 3px;
   padding: 5px;
   text-align: center;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 24px;
 }
 .basket-page .price-block__price {
   font-size: 24px;
   font-weight: bold;
 }
-.basket-page .basket-page__clean-basket-modal {
+.basket-page .basket-page__clear-basket-modal {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
@@ -2719,18 +2728,44 @@ label {
   background-color: black;
   width: 300px;
 }
-.basket-page .basket-page__clean-basket-modal-hidden {
+.basket-page .basket-page__clear-basket-modal-hidden {
   display: none;
 }
-.basket-page .clean-basket-modal__message {
+.basket-page .clear-basket-modal__message {
   color: white;
   text-align: center;
 }
-.basket-page .clean-basket-modal__clean-basket-btn,
-.basket-page .clean-basket-modal__cancel-clean-btn {
+.basket-page .clear-basket-modal__clear-basket-btn,
+.basket-page .clear-basket-modal__cancel-clear-btn {
   background-color: white;
   color: black;
   font-weight: 900;
+}
+.basket-page .quantity-block__quantity-selector {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+}
+.basket-page .quantity-selector__button {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+.basket-page .quantity-selector__button:hover {
+  transform: scale(1.1);
+}
+.basket-page .quantity-selector__button:disabled {
+  background-color: gray;
+  cursor: default;
+  transform: none;
 }
 @media screen and (max-width: 1281px) {
   .basket-page .basket-page__card-product {
