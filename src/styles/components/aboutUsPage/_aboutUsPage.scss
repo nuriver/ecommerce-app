@@ -1,0 +1,104 @@
+.about-us-page {
+  max-width: 1440px;
+  margin: 0 80px;
+}
+
+.about-us-first-block {
+  height: 700px;
+  padding-top: 150px;
+}
+
+.about-us-title-cont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.about-us-fc-title {
+  font-weight: 600;
+  font-size: 96px;
+  line-height: 116px;
+
+  color: #000000;
+}
+
+.about-us-fc-title-line {
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 150%;
+  color: #000000;
+
+  margin-left: 50px;
+}
+
+.about-us-fc-desc {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: right;
+  margin-top: 100px;
+}
+
+.about-us-member {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+  align-items: center;
+
+  justify-content: space-between;
+  width: 100%;
+}
+
+.about-us-members-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 77px;
+
+  color: #000000;
+}
+
+.about-us-member-photo {
+  background-size: cover;
+  background-position: center;
+  width: 417px;
+  height: 417px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.alexei-photo {
+  background-image: url('/src/assets/images/alexei.png');
+}
+
+.maria-photo {
+  background-image: url('/src/assets/images/maria.png');
+}
+
+.about-us-member-text-cont {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  width: 70%;
+}
+
+.about-us-member-text-cont-r {
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+  width: 70%;
+}
+
+.about-us-member-name {
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 77px;
+  text-align: justify;
+}
+
+.about-us-member-decs {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: justify;
+}
