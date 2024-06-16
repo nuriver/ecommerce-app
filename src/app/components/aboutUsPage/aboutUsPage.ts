@@ -27,12 +27,12 @@ export default function createAboutUsPage(): HTMLElement {
   const member1textcont = createElement('div', ['about-us-member-text-cont'], member1);
   const nameCont1 = createElement('div', ['about-us-member-name-cont'], member1textcont);
   createElement('a', ['about-us-member-github'], nameCont1);
-  createElement('div', ['about-us-member-name'], nameCont1, 'Alexei — ');
+  createElement('div', ['about-us-member-name'], nameCont1, 'Alexei Golubkov — ');
   createElement(
     'div',
     ['about-us-member-decs'],
     member1textcont,
-    '&nbsp; &nbsp; &nbsp; our team leader, is the cornerstone of Fun Crafters. His exceptional leadership and technical expertise make him an invaluable asset to our team. Alexei is the go-to person for all things technical. He took charge of setting up GitHub and configuring bundlers, ensuring that our development environment was efficient and streamlined. His deep understanding of the SDK allowed him to assist and guide the rest of the team, fostering a collaborative and supportive atmosphere. Alexei also played a crucial role in configuring routing and developing key components of our website, including the catalog and login pages. His dedication and reliability make him a remarkable leader and teammate.'
+    '&nbsp; &nbsp; &nbsp; &nbsp; is the team leader of Fun Crafters. Aleksei based in Belgrade, Serbia, with a degree in Psychology from Kurgan State University and currently working as an E-commerce Manager. He leads Fun Crafters with exceptional leadership and technical prowess. Aleksei took the initiative to set up GitHub, configure bundlers, and master the SDK, providing essential guidance to the team. Aleksei also played a crucial role in configuring routing and developing key website components, including the Catalog and Login pages. He also developed product mockups, bringing our ideas to life.'
   );
 
   nameCont1.addEventListener('click', () => {
@@ -43,12 +43,12 @@ export default function createAboutUsPage(): HTMLElement {
   const member2textcont = createElement('div', ['about-us-member-text-cont-r'], member2);
   const nameCont2 = createElement('div', ['about-us-member-name-cont'], member2textcont);
   createElement('a', ['about-us-member-github'], nameCont2);
-  createElement('div', ['about-us-member-name'], nameCont2, 'Maria — ');
+  createElement('div', ['about-us-member-name'], nameCont2, 'Maria Panteleeva — ');
   createElement(
     'div',
     ['about-us-member-decs'],
     member2textcont,
-    "&nbsp; &nbsp; &nbsp;   is the powerhouse behind our development process. As the project manager, she is responsible for orchestrating the entire development cycle. Maria ensures that every task is assigned appropriately and that deadlines are met with precision. In addition to her management responsibilities, Maria implemented the Registration and Profile pages, creating user-friendly and visually appealing interfaces. She also developed mockups for our products, bringing our ideas to life with her creative vision. Maria's versatility and commitment to excellence have been instrumental in the success of our projects. Moreover, she provided invaluable support to the team in navigating and utilizing Commercetools, further enhancing our project's functionality."
+    "&nbsp; &nbsp; &nbsp; is the powerhouse behind our development process. Maria based in Mogilev, with a degree in Teaching from Belarusian Pedagogical University and currently working as a Foreign Trade Manager. As the project manager, she orchestrates the entire development cycle, ensuring tasks are assigned appropriately and deadlines are met. Maria implemented the Registration, Profile and Basket pages. Additionally, she provided support to the team in navigating and utilizing Commercetools, enhancing our project's functionality."
   );
   createElement('div', ['about-us-member-photo', 'maria-photo'], member2);
 
@@ -61,12 +61,12 @@ export default function createAboutUsPage(): HTMLElement {
   const member3textcont = createElement('div', ['about-us-member-text-cont'], member3);
   const nameCont3 = createElement('div', ['about-us-member-name-cont'], member3textcont);
   createElement('a', ['about-us-member-github'], nameCont3);
-  createElement('div', ['about-us-member-name'], nameCont3, 'Kate — ');
+  createElement('div', ['about-us-member-name'], nameCont3, 'Kate Sharai — ');
   createElement(
     'div',
     ['about-us-member-decs'],
     member3textcont,
-    "&nbsp; &nbsp; &nbsp;     is the creative force behind Fun Crafter's aesthetic and design. She was responsible for the overall design and user experience, ensuring that our platform is both visually stunning and intuitive to navigate. She worked with Commercetools, leveraging its capabilities to enhance our project's e-commerce functionality. She also took charge of creating the Main page and the About Us page, ensuring they accurately represent our team's ethos and spirit. Kate's design expertise and innovative thinking are at the heart of Fun Crafter's visual identity."
+    "&nbsp; &nbsp; &nbsp; is the creative force behind Fun Crafter's aesthetic and design. Kate is from Simferopol, a Software Engineering student at Crimean Federal University. She is responsible for the overall design and user experience, ensuring our platform is visually stunning and intuitive to navigate. Kate worked with Commercetools, enhancing our project's e-commerce functionality. She also created the Main page and the About Us page, accurately representing our team's ethos and spirit. Kate's design expertise and innovative thinking are at the heart of Fun Crafter's visual identity."
   );
 
   nameCont3.addEventListener('click', () => {

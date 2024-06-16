@@ -2705,7 +2705,7 @@ label {
 
 .about-us-member-name {
   font-weight: 600;
-  font-size: 64px;
+  font-size: 60px;
   line-height: 77px;
   text-align: justify;
 }
@@ -2729,7 +2729,7 @@ label {
   width: 40px;
   height: 40px;
   background-image: url('/src/assets/images/github.png');
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   margin-left: 40px;
   margin-right: 20px;
@@ -2745,7 +2745,7 @@ label {
 .about-us-acknow-logo {
   height: 300px;
   width: 340px;
-  background-image: url('/src/assets/images/rs.png');
+  background-image: url('/src/assets/images/rswithoutbg.png');
   background-repeat: no-repeat;
   cursor: pointer;
   align-self: flex-end;
@@ -2758,6 +2758,7 @@ label {
   font-size: 24px;
   line-height: 29px;
   margin-top: 80px;
+  margin-right: 10px;
 }
 
 .about-us-acknow-title {
@@ -2769,4 +2770,206 @@ label {
 
 .about-us-acknow-cont {
   width: 70%;
+}
+
+@media (max-width: 1300px) {
+  .about-us-member-decs {
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .about-us-acknow-title {
+    font-size: 70px;
+  }
+  .about-us-fc-title {
+    font-size: 80px;
+  }
+  .about-us-fc-title-line {
+    font-size: 50px;
+  }
+  .about-us-member-name {
+    font-size: 50px;
+  }
+}
+@media (max-width: 1200px) {
+  .about-us-member-decs,
+  .about-us-acknow-text {
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .about-us-acknow-title {
+    font-size: 60px;
+  }
+  .about-us-fc-title {
+    font-size: 60px;
+  }
+  .about-us-fc-title-line {
+    font-size: 50px;
+  }
+  .about-us-members-title,
+  .about-us-member-name {
+    font-size: 42px;
+  }
+  .about-us-member-name-cont {
+    margin-bottom: 0;
+  }
+  .about-us-member {
+    margin-top: 70px;
+  }
+  .about-us-acknow-block {
+    margin: 100px 0;
+  }
+  .about-us-acknow-text {
+    margin-top: 40px;
+  }
+  .about-us-acknow-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .about-us-first-block {
+    height: 600px;
+  }
+  .about-us-fc-desc {
+    margin-top: 50px;
+  }
+}
+@media (max-width: 1064px) {
+  .about-us-member-name {
+    font-size: 36px;
+  }
+}
+@media (max-width: 1000px) {
+  .about-us-member-name {
+    font-size: 28px;
+  }
+}
+@media (max-width: 900px) {
+  .about-us-fc-title {
+    font-size: 50px;
+  }
+  .about-us-fc-title-line {
+    font-size: 40px;
+  }
+  .about-us-fc-desc {
+    font-size: 18px;
+    margin-top: 30px;
+  }
+  .about-us-member-photo {
+    height: 300px;
+    width: 300px;
+  }
+  .about-us-member-decs,
+  .about-us-acknow-text {
+    font-size: 14px;
+    line-height: 14px;
+  }
+  .about-us-member-name {
+    font-size: 24px;
+  }
+  .about-us-members-title {
+    font-size: 40px;
+  }
+  .about-us-acknow-title {
+    font-size: 45px;
+  }
+  .about-us-member-github {
+    width: 25px;
+    height: 25px;
+    margin-left: 20px;
+    margin-right: 10px;
+  }
+}
+@media (max-width: 800px) {
+  .about-us-acknow-text {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 764px) {
+  .about-us-fc-desc {
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 18px;
+  }
+  .about-us-fc-title {
+    font-size: 40px;
+  }
+  .about-us-fc-title-line {
+    font-size: 20px;
+  }
+  .about-us-first-block {
+    height: 500px;
+  }
+  .about-us-member {
+    margin-top: 40px;
+  }
+  .about-us-member-name {
+    font-size: 20px;
+  }
+  .about-us-member-photo {
+    height: 250px;
+    width: 250px;
+  }
+  .about-us-page {
+    margin: 0 40px;
+  }
+  .about-us-member-decs {
+    font-size: 12px;
+  }
+}
+@media (max-width: 580px) {
+  .about-us-member-github {
+    margin-left: 10px;
+  }
+  .about-us-member-text-cont {
+    margin-left: 30px;
+  }
+  .about-us-member-text-cont-r {
+    margin-right: 30px;
+  }
+  .about-us-member-decs {
+    font-size: 12px;
+  }
+  .about-us-fc-title,
+  .about-us-members-title {
+    font-size: 32px;
+  }
+  .about-us-fc-desc {
+    font-size: 12px;
+  }
+  .about-us-member-name {
+    font-size: 16px;
+  }
+  .about-us-member {
+    flex-direction: column;
+  }
+  .about-us-member-text-cont {
+    width: 100%;
+    align-items: center;
+    margin-left: 0;
+  }
+  .about-us-member-text-cont-r {
+    order: 2;
+    width: 100%;
+    align-items: center;
+    margin-right: 0;
+  }
+  .about-us-acknow-title {
+    font-size: 35px;
+  }
+  .about-us-acknow-text {
+    font-size: 12px;
+  }
+}
+@media (max-width: 475px) {
+  .about-us-fc-title-line {
+    margin-left: 10px;
+    font-size: 18px;
+  }
+  .about-us-fc-title,
+  .about-us-members-title,
+  .about-us-acknow-title {
+    font-size: 24px;
+  }
+  .about-us-acknow-block {
+    margin-top: 60px;
+  }
 } /*# sourceMappingURL=style.css.map */
