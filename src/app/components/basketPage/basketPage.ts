@@ -1,7 +1,9 @@
-import { CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
+import { Cart, CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
-import { deleteProductFromCart, getCurrentCustomerCart } from '../../api/SDK/client';
+import applyPromo, { deleteProductFromCart, getCurrentCustomerCart } from '../../api/SDK/client';
 import createBasketProductCard from './addBasketProductCard';
+import addEmptyBasketPage from './addEmptyBasketPage';
+import { hideLoadIndicator, showLoadIndicator } from '../../api/SDK/loadIndicator';
 
 export default async function createBasketPage(): Promise<HTMLDivElement> {
   const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
@@ -14,14 +16,9 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
   const productsInBasket = customerCart.body.results[0]?.lineItems;
   const totalSumBasket = customerCart.body.results[0]?.totalPrice.centAmount;
-//   const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
-//   ? +customerCart.body.results[0].totalLineItemQuantity
-//   : 0;
-// const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
-// basketStatus.innerHTML = totalQty.toString();
+  console.log(customerCart);
 
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
-  
 
   if (customerCart.body.results[0]?.lineItems.length > 0) {
     const basketWrapper: HTMLDivElement = createElement('div', ['basket-page__wrapper'], basketPage);
@@ -48,7 +45,11 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
     const totalSumBlock: HTMLDivElement = createElement('div', ['basket-page__total-sum-block'], basketWrapper);
     createElement('h2', ['basket-block__title'], totalSumBlock, 'Total to pay:');
     const totalSumDisplay: HTMLDivElement = createElement('div', ['total-sum-block__sum'], totalSumBlock);
-    totalSumDisplay.innerHTML = 'SUM';
+    const totalSumDisplayDiscounted: HTMLDivElement = createElement(
+      'div',
+      ['total-sum-block__sum-discounted'],
+      totalSumBlock
+    );
     const clearBasketBtn: HTMLButtonElement = createElement(
       'button',
       ['button', 'promo-block__clear-basket-button'],
@@ -80,6 +81,68 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       clearBasketModalWindow,
       'CANCEL'
     );
+
+    if (customerCart.body.results[0].discountCodes.length) {
+      const promoIdToSave: string = customerCart.body.results[0].discountCodes[0].discountCode.id;
+    //   localStorage.setItem('promoId', '');
+      localStorage.setItem('promoId', promoIdToSave);
+      // const totalSumBasketDiscounted = customerCart.body.results[0]?.;
+      const totalPriceWithDiscont: number = +(
+        (customerCart.body.results[0].totalPrice.centAmount as number) / 100
+      ).toFixed(2);
+      const totalPrice: number =
+        totalPriceWithDiscont +
+        +((customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100).toFixed(
+          2
+        );
+
+      ((totalSumDisplay as HTMLDivElement).innerHTML as string) = totalPrice.toString();
+      ((totalSumDisplayDiscounted as HTMLDivElement).innerHTML as string) = totalPriceWithDiscont.toString();
+} else {
+    ((totalSumDisplay as HTMLDivElement).innerHTML as string) = (customerCart.body.results[0].totalPrice.centAmount/100).toFixed(2);
+
+}
+
+    promoApplyBtn.addEventListener('click', async () => {
+      const currentPromoId = localStorage.getItem('promoId') ? localStorage.getItem('promoId') : '';
+      showLoadIndicator();
+      try {
+        const cartWithPromo: ClientResponse<Cart> = await applyPromo(promoInput.value);
+        const newPromoId: string = cartWithPromo.body.discountCodes[0].discountCode.id;
+        if (currentPromoId !== newPromoId) {
+          promoApplyBtn.innerText = 'Success';
+          promoApplyBtn.style.backgroundColor = 'green';
+
+          setTimeout(() => {
+            window.location.href = '#/basket';
+          }, 1000);
+          if (!localStorage.getItem('promoId')) {
+            localStorage.setItem('promoId', `${newPromoId}`);
+          }
+        } else {
+          promoApplyBtn.innerText = 'Already used';
+          promoApplyBtn.style.backgroundColor = 'red';
+          promoInput.value = '';
+          setTimeout(() => {
+            window.location.href = '#/basket';
+          }, 1000);
+        }
+      } catch {
+        promoApplyBtn.innerText = 'Invalid promo';
+        promoApplyBtn.style.backgroundColor = 'red';
+        promoInput.value = '';
+
+        setTimeout(() => {
+          window.location.href = '#/basket';
+        }, 1000);
+      } finally {
+        setTimeout(() => {
+          promoApplyBtn.innerText = 'Apply promo';
+          promoApplyBtn.style.backgroundColor = 'black';
+        }, 2000);
+        hideLoadIndicator();
+      }
+    });
 
     clearBasketBtn.addEventListener('click', () => {
       if (clearBasketModalWindow.classList.contains('basket-page__clear-basket-modal-hidden')) {
@@ -145,24 +208,9 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
         );
       }
     });
-    totalSumDisplay.innerHTML = (totalSumBasket / 100).toFixed(2);
+    // totalSumDisplay.innerHTML = (totalSumBasket / 100).toFixed(2);
   } else {
-    const emptyWrapper: HTMLElement = createElement('div', ['basket-page__empty-wrapper'], basketPage);
-    const emptyMassage: HTMLElement = createElement(
-      'h1',
-      ['basket-page__empty-massage'],
-      emptyWrapper,
-      'Basket is Empty, please go to catalog!'
-    );
-    const basketToCatalogBtn: HTMLButtonElement = createElement(
-      'button',
-      ['button', 'basket-page__to-catalog-button'],
-      emptyWrapper,
-      'To catalog'
-    );
-    basketToCatalogBtn.addEventListener('click', () => {
-      window.location.href = '#/catalog';
-    });
+    addEmptyBasketPage(basketPage);
   }
 
   return basketPage;

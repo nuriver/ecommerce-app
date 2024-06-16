@@ -40,5 +40,7 @@ window.addEventListener('load', () => {
       profileLink.classList.remove('header-link-profile-hidden');
     }
     signInWithRefreshToken();
+  } else if (localStorage.getItem('promoId')) {
+    localStorage.setItem('promoId', '')
   }
 });

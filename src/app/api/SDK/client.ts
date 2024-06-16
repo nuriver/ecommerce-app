@@ -279,4 +279,28 @@ export async function signInCustomer(credentials: CustomerCredentials): Promise<
       return false;
     }
   }
+
+  export default async function applyPromo(promoCode: string) {
+    const customerCart = await getCurrentCustomerCart();
+  
+    const cartId: string = customerCart.body.results[0].id;
+    const cartVersion = customerCart.body.results[0].version;
+    // const apiRoot = apiRootStorage.value.me().carts().get().execute();
+    const cart = await apiRoot
+      .carts()
+      .withId({ ID: cartId })
+      .post({
+        body: {
+          version: cartVersion,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: promoCode,
+            },
+          ],
+        },
+      })
+      .execute();
+    return cart;
+  }
   
