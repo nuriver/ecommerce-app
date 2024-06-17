@@ -12,16 +12,27 @@
   z-index: 1;
 
   .header-link,
-  .header-link-profile {
+  .header-link-profile,
+  .header-link-registration {
     text-decoration: none;
     color: black;
     font-size: 14px;
     white-space: nowrap;
   }
-  .header-link-profile-hidden {
+  .header-link-profile-hidden,
+  .header-link-registration-hidden {
     display: none;
   }
-
+  .header__basket {
+    display: flex;
+    gap: 5px;
+  }
+ .header__basket-status {
+    color: white;
+    background-color: black;
+    padding: 0px 8px;
+    font-weight: 900;
+ }
   @media screen and (max-width: 900px) {
     display: none;
     margin: 0;

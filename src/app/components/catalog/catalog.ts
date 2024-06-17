@@ -1,6 +1,7 @@
 import { updateCart } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 import pageToggle from '../../utilities/pageToggle';
+import updateBasketStatus from '../basketPage/updateBasketStatus';
 import detailedProductPage from '../detailedProductPage/detailedProductPage';
 import categoryButtonToggle from './categoryButtonToggle';
 import createCategoriesMenu from './createCategoriesMenu';
@@ -109,9 +110,10 @@ export default function createCatalog(): HTMLElement {
         pageToggle(productPage);
       } else {
         const addToCartButton = target.closest('.add-to-cart-button') as HTMLButtonElement;
-        updateCart(addToCartButton.id);
+        await updateCart(addToCartButton.id);
         addToCartButton.disabled = true;
         addToCartButton.innerHTML = 'ADDED TO CART';
+        await updateBasketStatus();
       }
     }
   });
