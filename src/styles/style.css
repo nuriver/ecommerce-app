@@ -207,7 +207,7 @@ label {
   border-radius: 3px;
 }
 .add-to-cart-button:hover {
-  cursor: cell;
+  cursor: pointer;
   transform: scale(1.05);
   background-color: #000000;
   color: white;
@@ -966,6 +966,31 @@ label {
 .main-page .pointer:hover {
   cursor: pointer;
 }
+.main-page .sale-banner {
+  position: sticky;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 10px 0;
+  background-color: rgb(255, 255, 255);
+  top: 0;
+  right: 0;
+}
+.main-page .sale-head {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 150%;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000000;
+}
+.main-page .sale-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+}
 @media (max-width: 1230px) {
   .main-page .products-card__img {
     width: 250px;
@@ -1057,6 +1082,12 @@ label {
   .main-page [class*='block'] {
     height: 500px;
   }
+  .main-page .sale-head {
+    font-size: 20px;
+  }
+  .main-page .sale-text {
+    font-size: 10px;
+  }
   .main-page .first-title {
     margin-top: 0;
   }
@@ -1128,6 +1159,9 @@ label {
   .main-page [class*='block'] {
     height: 400px;
   }
+  .main-page .sale-head {
+    font-size: 16px;
+  }
   .main-page .artstyle-block {
     gap: 50px;
   }
@@ -1164,6 +1198,12 @@ label {
 @media (max-width: 541px) {
   .main-page [class*='title'] {
     font-size: 24px;
+  }
+  .main-page .sale-head {
+    font-size: 12px;
+  }
+  .main-page .sale-text {
+    font-size: 8px;
   }
   .main-page .artstyle {
     font-size: 20px;
