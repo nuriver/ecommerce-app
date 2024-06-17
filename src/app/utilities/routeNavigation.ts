@@ -61,7 +61,7 @@ export default function routeNavigation(
     } else if (currentRoute === '#/basket') {
       pageToggle(await createBasketPage());
     } else if (currentRoute === '#/about') {
-      pageToggle(about, 'about');
+      pageToggle(about);
     } else {
       pageToggle(wrongRoute);
     }
@@ -71,26 +71,26 @@ export default function routeNavigation(
     if (currentRoute === '#/login') {
       pageToggle(login, 'login');
     } else if (currentRoute === '#/main' || currentRoute === '#/' || currentRoute === '') {
-      pageToggle(main, 'main');
+      pageToggle(main);
     } else if (currentRoute === '#/registration') {
-      pageToggle(registration, 'registration');
+      pageToggle(registration);
     } else if (currentRoute === '#/profile') {
-      pageToggle(login, 'login');
+      pageToggle(login);
     } else if (currentRoute === '#/basket') {
       pageToggle(await createBasketPage(), 'basket');
     } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else if (currentRoute === '#/catalog') {
-      pageToggle(catalog, 'catalog');
+      pageToggle(catalog);
       if (!modalState.value) {
         const allCategory = document.querySelector('.all-category') as HTMLElement;
         allCategory.click();
       }
       modalState.value = false;
     } else if (currentRoute === '#/about') {
-      pageToggle(about, 'about');
+      pageToggle(about);
     } else {
-      pageToggle(wrongRoute, '404');
+      pageToggle(wrongRoute);
     }
   };
 
