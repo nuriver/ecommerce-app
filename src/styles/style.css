@@ -207,7 +207,7 @@ label {
   border-radius: 3px;
 }
 .add-to-cart-button:hover {
-  cursor: cell;
+  cursor: pointer;
   transform: scale(1.05);
   background-color: #000000;
   color: white;
@@ -966,6 +966,31 @@ label {
 .main-page .pointer:hover {
   cursor: pointer;
 }
+.main-page .sale-banner {
+  position: sticky;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 10px 0;
+  background-color: rgb(255, 255, 255);
+  top: 0;
+  right: 0;
+}
+.main-page .sale-head {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 150%;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000000;
+}
+.main-page .sale-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+}
 @media (max-width: 1230px) {
   .main-page .products-card__img {
     width: 250px;
@@ -1057,6 +1082,12 @@ label {
   .main-page [class*='block'] {
     height: 500px;
   }
+  .main-page .sale-head {
+    font-size: 20px;
+  }
+  .main-page .sale-text {
+    font-size: 10px;
+  }
   .main-page .first-title {
     margin-top: 0;
   }
@@ -1128,6 +1159,9 @@ label {
   .main-page [class*='block'] {
     height: 400px;
   }
+  .main-page .sale-head {
+    font-size: 16px;
+  }
   .main-page .artstyle-block {
     gap: 50px;
   }
@@ -1164,6 +1198,12 @@ label {
 @media (max-width: 541px) {
   .main-page [class*='title'] {
     font-size: 24px;
+  }
+  .main-page .sale-head {
+    font-size: 12px;
+  }
+  .main-page .sale-text {
+    font-size: 8px;
   }
   .main-page .artstyle {
     font-size: 20px;
@@ -2609,4 +2649,367 @@ label {
   margin-top: 10px;
   color: rgb(1, 103, 1);
   display: none;
+}
+
+.about-us-page {
+  max-width: 1440px;
+  margin: 0 80px;
+}
+
+.about-us-first-block {
+  height: 700px;
+  padding-top: 150px;
+}
+
+.about-us-title-cont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.about-us-fc-title {
+  font-weight: 600;
+  font-size: 96px;
+  line-height: 116px;
+  color: #000000;
+}
+
+.about-us-fc-title-line {
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 150%;
+  color: #000000;
+  margin-left: 50px;
+}
+
+.about-us-fc-desc {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: right;
+  margin-top: 100px;
+}
+
+.about-us-member {
+  display: flex;
+  flex-direction: row;
+  margin-top: 150px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.about-us-members-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 77px;
+  color: #000000;
+}
+
+.about-us-member-photo {
+  background-size: cover;
+  background-position: center;
+  width: 417px;
+  height: 417px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.alexei-photo {
+  background-image: url('/src/assets/images/alexei.png');
+}
+
+.maria-photo {
+  background-image: url('/src/assets/images/maria.png');
+}
+
+.kate-photo {
+  background-image: url('/src/assets/images/kate.png');
+}
+
+.about-us-member-text-cont {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  width: 70%;
+  justify-content: space-between;
+}
+
+.about-us-member-text-cont-r {
+  display: flex;
+  flex-direction: column;
+  margin-right: 50px;
+  width: 70%;
+}
+
+.about-us-member-name {
+  font-weight: 600;
+  font-size: 60px;
+  line-height: 77px;
+  text-align: justify;
+}
+
+.about-us-member-decs {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: justify;
+}
+
+.about-us-member-name-cont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.about-us-member-github {
+  width: 40px;
+  height: 40px;
+  background-image: url('/src/assets/images/github.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+.about-us-acknow-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 200px 0;
+}
+
+.about-us-acknow-logo {
+  height: 300px;
+  width: 340px;
+  background-image: url('/src/assets/images/rswithoutbg.png');
+  background-repeat: no-repeat;
+  cursor: pointer;
+  align-self: flex-end;
+  background-size: contain;
+}
+
+.about-us-acknow-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  margin-top: 80px;
+  margin-right: 10px;
+}
+
+.about-us-acknow-title {
+  font-weight: 600;
+  font-size: 96px;
+  line-height: 116px;
+  text-transform: uppercase;
+}
+
+.about-us-acknow-cont {
+  width: 70%;
+}
+
+@media (max-width: 1300px) {
+  .about-us-member-decs {
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .about-us-acknow-title {
+    font-size: 70px;
+  }
+  .about-us-fc-title {
+    font-size: 80px;
+  }
+  .about-us-fc-title-line {
+    font-size: 50px;
+  }
+  .about-us-member-name {
+    font-size: 50px;
+  }
+}
+@media (max-width: 1200px) {
+  .about-us-member-decs,
+  .about-us-acknow-text {
+    font-size: 18px;
+    line-height: 20px;
+  }
+  .about-us-acknow-title {
+    font-size: 60px;
+  }
+  .about-us-fc-title {
+    font-size: 60px;
+  }
+  .about-us-fc-title-line {
+    font-size: 50px;
+  }
+  .about-us-members-title,
+  .about-us-member-name {
+    font-size: 42px;
+  }
+  .about-us-member-name-cont {
+    margin-bottom: 0;
+  }
+  .about-us-member {
+    margin-top: 70px;
+  }
+  .about-us-acknow-block {
+    margin: 100px 0;
+  }
+  .about-us-acknow-text {
+    margin-top: 40px;
+  }
+  .about-us-acknow-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .about-us-first-block {
+    height: 600px;
+  }
+  .about-us-fc-desc {
+    margin-top: 50px;
+  }
+}
+@media (max-width: 1064px) {
+  .about-us-member-name {
+    font-size: 36px;
+  }
+}
+@media (max-width: 1000px) {
+  .about-us-member-name {
+    font-size: 28px;
+  }
+}
+@media (max-width: 900px) {
+  .about-us-fc-title {
+    font-size: 50px;
+  }
+  .about-us-fc-title-line {
+    font-size: 40px;
+  }
+  .about-us-fc-desc {
+    font-size: 18px;
+    margin-top: 30px;
+  }
+  .about-us-member-photo {
+    height: 300px;
+    width: 300px;
+  }
+  .about-us-member-decs,
+  .about-us-acknow-text {
+    font-size: 14px;
+    line-height: 14px;
+  }
+  .about-us-member-name {
+    font-size: 24px;
+  }
+  .about-us-members-title {
+    font-size: 40px;
+  }
+  .about-us-acknow-title {
+    font-size: 45px;
+  }
+  .about-us-member-github {
+    width: 25px;
+    height: 25px;
+    margin-left: 20px;
+    margin-right: 10px;
+  }
+}
+@media (max-width: 800px) {
+  .about-us-acknow-text {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 764px) {
+  .about-us-fc-desc {
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 18px;
+  }
+  .about-us-fc-title {
+    font-size: 40px;
+  }
+  .about-us-fc-title-line {
+    font-size: 20px;
+  }
+  .about-us-first-block {
+    height: 500px;
+  }
+  .about-us-member {
+    margin-top: 40px;
+  }
+  .about-us-member-name {
+    font-size: 20px;
+  }
+  .about-us-member-photo {
+    height: 250px;
+    width: 250px;
+  }
+  .about-us-page {
+    margin: 0 40px;
+  }
+  .about-us-member-decs {
+    font-size: 12px;
+  }
+}
+@media (max-width: 580px) {
+  .about-us-member-github {
+    margin-left: 10px;
+  }
+  .about-us-member-text-cont {
+    margin-left: 30px;
+  }
+  .about-us-member-text-cont-r {
+    margin-right: 30px;
+  }
+  .about-us-member-decs {
+    font-size: 12px;
+  }
+  .about-us-fc-title,
+  .about-us-members-title {
+    font-size: 32px;
+  }
+  .about-us-fc-desc {
+    font-size: 12px;
+  }
+  .about-us-member-name {
+    font-size: 16px;
+  }
+  .about-us-member {
+    flex-direction: column;
+  }
+  .about-us-member-text-cont {
+    width: 100%;
+    align-items: center;
+    margin-left: 0;
+  }
+  .about-us-member-text-cont-r {
+    order: 2;
+    width: 100%;
+    align-items: center;
+    margin-right: 0;
+  }
+  .about-us-acknow-title {
+    font-size: 35px;
+  }
+  .about-us-acknow-text {
+    font-size: 12px;
+  }
+}
+@media (max-width: 475px) {
+  .about-us-fc-title-line {
+    margin-left: 10px;
+    font-size: 18px;
+  }
+  .about-us-fc-title,
+  .about-us-members-title,
+  .about-us-acknow-title {
+    font-size: 24px;
+  }
+  .about-us-acknow-block {
+    margin-top: 60px;
+  }
 } /*# sourceMappingURL=style.css.map */

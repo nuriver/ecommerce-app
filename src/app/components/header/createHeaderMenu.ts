@@ -6,7 +6,7 @@ import toggleMenu from './toggleMenu';
 const headerLinks = [
   { name: 'CATALOG', href: '#/catalog' },
   { name: 'MAIN', href: '#/main' },
-  { name: 'ABOUT US', href: '#/404' },
+  { name: 'ABOUT US', href: '#/about' },
   { name: 'LOGIN', href: '#/login' },
   { name: 'PROFILE', href: '#/profile' },
   { name: 'REGISTRATION', href: '#/registration' },

@@ -3,7 +3,7 @@ import { modalState } from '../components/detailedProductPage/detailedProductPag
 import customerInStorage from './customerInStorage';
 import pageToggle from './pageToggle';
 
-const workingRoutes = ['#/login', '#/main', '#/registration'];
+const workingRoutes = ['#/login', '#/main', '#/registration', '#/about'];
 const productRoutePattern = /^#\/catalog\/((?:\w+-)+\w+)$/;
 
 export default function routeNavigation(
@@ -12,6 +12,7 @@ export default function routeNavigation(
   registration: HTMLElement,
   profile: HTMLElement,
   catalog: HTMLElement,
+  about: HTMLElement,
   wrongRoute: HTMLElement,
   viaUrlBar: boolean
 ) {
@@ -28,6 +29,8 @@ export default function routeNavigation(
         allCategory.click();
       }
       modalState.value = false;
+    } else if (currentRoute === '#/about') {
+      pageToggle(about, 'about');
     } else if (currentRoute.match(productRoutePattern)) {
       displayBySlug(currentRoute);
     } else {
@@ -52,6 +55,8 @@ export default function routeNavigation(
         allCategory.click();
       }
       modalState.value = false;
+    } else if (currentRoute === '#/about') {
+      pageToggle(about, 'about');
     } else {
       pageToggle(wrongRoute);
     }
@@ -75,6 +80,8 @@ export default function routeNavigation(
         allCategory.click();
       }
       modalState.value = false;
+    } else if (currentRoute === '#/about') {
+      pageToggle(about, 'about');
     } else {
       pageToggle(wrongRoute, '404');
     }
