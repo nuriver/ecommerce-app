@@ -2717,7 +2717,6 @@ label {
 }
 .basket-page .basket-page__card-product {
   display: flex;
-  border: 1px solid gray;
   box-shadow: 2px 2px 10px 1px rgb(174, 174, 174);
   padding: 20px;
   border-radius: 5px;
@@ -2865,6 +2864,7 @@ label {
     padding: 25px 30px;
   }
 }
+
 .about-us-page {
   max-width: 1440px;
   margin: 0 80px;

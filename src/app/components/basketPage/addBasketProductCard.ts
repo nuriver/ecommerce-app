@@ -29,7 +29,7 @@ export default function createBasketProductCard(
 
   cardProductTitle.innerHTML = `${productName}`;
 
-  const cardProductImg: HTMLImageElement = createElement('img', ['card-product__img'], cardProductImgPart);
+  const cardProductImg: HTMLDivElement = createElement('div', ['card-product__img'], cardProductImgPart);
   cardProductImg.style.backgroundImage = `url('${image}')`;
 
   const shopPrices: HTMLDivElement = createElement('div', ['card-product__shop-prices'], cardProductDataPart);
@@ -107,7 +107,7 @@ export default function createBasketProductCard(
     'button',
     ['button', 'card-product__button'],
     cardProductDataPart,
-    'Remove'
+    'REMOVE'
   );
 
   cardProductRemoveBtn.addEventListener('click', async () => {

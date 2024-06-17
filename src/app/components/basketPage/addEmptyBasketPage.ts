@@ -14,7 +14,7 @@ export default function addEmptyBasketPage(block: HTMLDivElement) {
     'button',
     ['button', 'basket-page__to-catalog-button'],
     textAndBtnBlock,
-    'To catalog'
+    'TO CATALOG'
   );
   basketToCatalogBtn.addEventListener('click', () => {
     window.location.href = '#/catalog';
