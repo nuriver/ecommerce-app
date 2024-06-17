@@ -41,7 +41,7 @@
   .total-sum-block__sum,
   .total-sum-block__sum-discounted {
     max-width: fit-content;
-    // box-shadow: 0px 0px 6px 2px rgb(174 174 174 / 33%);
+    //  box-shadow: 0px 0px 6px 2px rgb(174 174 174 / 33%);
     display: flex;
     align-self: center;
     font-weight: bold;
@@ -50,7 +50,7 @@
   }
   .basket-page__card-product {
     display: flex;
-    border: 1px solid gray;
+    // border: 1px solid gray;
     box-shadow: 2px 2px 10px 1px rgb(174, 174, 174);
     padding: 20px;
     border-radius: 5px;
@@ -197,21 +197,21 @@
     }
   }
 
-//   @media screen and (max-width: 650px) {
-//     .basket-page__wrapper {
-//       padding: 25px 30px;
-//     }
-//     .basket-page__empty-wrapper {
-//       margin: 30px;
-//     }
-//     .basket-page__empty-message {
-//       font-size: 16px;
-//     }
-//     .basket-page__empty-page-image {
-//       min-width: 300px;
-//       min-height: 300px;
-//     }
-//   }
+  //   @media screen and (max-width: 650px) {
+  //     .basket-page__wrapper {
+  //       padding: 25px 30px;
+  //     }
+  //     .basket-page__empty-wrapper {
+  //       margin: 30px;
+  //     }
+  //     .basket-page__empty-message {
+  //       font-size: 16px;
+  //     }
+  //     .basket-page__empty-page-image {
+  //       min-width: 300px;
+  //       min-height: 300px;
+  //     }
+  //   }
 
   @media screen and (max-width: 425px) {
     .basket-page__wrapper {

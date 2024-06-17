@@ -29,7 +29,7 @@ export default function createBasketProductCard(
 
   cardProductTitle.innerHTML = `${productName}`;
 
-  const cardProductImg: HTMLImageElement = createElement('img', ['card-product__img'], cardProductImgPart);
+  const cardProductImg: HTMLDivElement = createElement('div', ['card-product__img'], cardProductImgPart);
   cardProductImg.style.backgroundImage = `url('${image}')`;
 
   const shopPrices: HTMLDivElement = createElement('div', ['card-product__shop-prices'], cardProductDataPart);
@@ -56,12 +56,7 @@ export default function createBasketProductCard(
     cardProductDataPart
   );
 
-  const cardProductQuantityTitle: HTMLDivElement = createElement(
-    'div',
-    ['quantity-block__title', 'card-product__data'],
-    cardProductQuantityBlock,
-    'Quantity:'
-  );
+  createElement('div', ['quantity-block__title', 'card-product__data'], cardProductQuantityBlock, 'Quantity:');
   const quantitySelector: HTMLDivElement = createElement(
     'div',
     ['quantity-block__quantity-selector'],
@@ -100,12 +95,7 @@ export default function createBasketProductCard(
     ['card-product__price-block'],
     cardProductDataPart
   );
-  const cardProductPriceTitle: HTMLDivElement = createElement(
-    'div',
-    ['price-block__title', 'card-product__data'],
-    cardProductTotalPrice,
-    'Total: '
-  );
+  createElement('div', ['price-block__title', 'card-product__data'], cardProductTotalPrice, 'Total: ');
   const cardProductTotalSum: HTMLDivElement = createElement(
     'div',
     ['price-block__price'],
@@ -117,7 +107,7 @@ export default function createBasketProductCard(
     'button',
     ['button', 'card-product__button'],
     cardProductDataPart,
-    'Remove'
+    'REMOVE'
   );
 
   cardProductRemoveBtn.addEventListener('click', async () => {
@@ -258,7 +248,6 @@ export default function createBasketProductCard(
           (cartTotalPriceDiscont as HTMLDivElement).innerHTML = totalPriceWithDiscont;
           cartTotalPriceDiscont.style.color = 'red';
           cartTotalPrice.style.textDecoration = 'line-through';
-  
         }
       } else {
         cartTotalPrice.innerHTML = (customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2);

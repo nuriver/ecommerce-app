@@ -37,7 +37,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       'button',
       ['button', 'promo-block__promo-apply-button'],
       promoBlock,
-      'Apply promo'
+      'APPLY PROMO'
     );
 
     const totalSumBlock: HTMLDivElement = createElement('div', ['basket-page__total-sum-block'], basketWrapper);
@@ -52,7 +52,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       'button',
       ['button', 'promo-block__clear-basket-button'],
       totalSumBlock,
-      'Clear basket'
+      'CLEAR BASKET'
     );
 
     const clearBasketModalWindow: HTMLDivElement = createElement(
@@ -61,7 +61,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       basketPage
     );
     clearBasketModalWindow.setAttribute('id', 'no-blur');
- createElement(
+    createElement(
       'h1',
       ['clear-basket-modal__message'],
       clearBasketModalWindow,
@@ -180,7 +180,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       basketStatus.innerHTML = '0';
 
       addEmptyBasketPage(basketPageWrapper);
-
     });
 
     productsInBasket.forEach((element) => {

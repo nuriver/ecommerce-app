@@ -3,8 +3,8 @@ import createElement from '../../utilities/createElement';
 export default function addEmptyBasketPage(block: HTMLDivElement) {
   const emptyWrapper: HTMLElement = createElement('div', ['basket-page__empty-wrapper'], block);
   createElement('div', ['basket-page__empty-page-image'], emptyWrapper);
-  const textAndBtnBlock: HTMLDivElement = createElement('div', ['basket-page__empty-text-block'], emptyWrapper)
- createElement(
+  const textAndBtnBlock: HTMLDivElement = createElement('div', ['basket-page__empty-text-block'], emptyWrapper);
+  createElement(
     'div',
     ['basket-page__empty-message'],
     textAndBtnBlock,
@@ -14,7 +14,7 @@ export default function addEmptyBasketPage(block: HTMLDivElement) {
     'button',
     ['button', 'basket-page__to-catalog-button'],
     textAndBtnBlock,
-    'To catalog'
+    'TO CATALOG'
   );
   basketToCatalogBtn.addEventListener('click', () => {
     window.location.href = '#/catalog';
@@ -22,6 +22,3 @@ export default function addEmptyBasketPage(block: HTMLDivElement) {
 
   return emptyWrapper;
 }
-
-
-
