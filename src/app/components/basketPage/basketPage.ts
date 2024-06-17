@@ -16,7 +16,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
   const productsInBasket = customerCart.body.results[0]?.lineItems;
   const totalSumBasket = customerCart.body.results[0]?.totalPrice.centAmount;
-  console.log(customerCart);
 
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
 
@@ -43,7 +42,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
     );
 
     const totalSumBlock: HTMLDivElement = createElement('div', ['basket-page__total-sum-block'], basketWrapper);
-    createElement('h2', ['basket-block__title'], totalSumBlock, 'Total to pay:');
+    createElement('h2', ['basket-block__title'], totalSumBlock, 'Total, USD:');
     const totalSumDisplay: HTMLDivElement = createElement('div', ['total-sum-block__sum'], totalSumBlock);
     const totalSumDisplayDiscounted: HTMLDivElement = createElement(
       'div',
@@ -84,24 +83,24 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
 
     if (customerCart.body.results[0].discountCodes.length) {
       const promoIdToSave: string = customerCart.body.results[0].discountCodes[0].discountCode.id;
-    //   localStorage.setItem('promoId', '');
       localStorage.setItem('promoId', promoIdToSave);
-      // const totalSumBasketDiscounted = customerCart.body.results[0]?.;
-      const totalPriceWithDiscont: number = +(
+      const totalPriceWithDiscont: string = (
         (customerCart.body.results[0].totalPrice.centAmount as number) / 100
       ).toFixed(2);
-      const totalPrice: number =
-        totalPriceWithDiscont +
-        +((customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100).toFixed(
-          2
-        );
+      const totalPrice: string = (
+        +totalPriceWithDiscont +
+        (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100
+      ).toFixed(2);
 
-      ((totalSumDisplay as HTMLDivElement).innerHTML as string) = totalPrice.toString();
-      ((totalSumDisplayDiscounted as HTMLDivElement).innerHTML as string) = totalPriceWithDiscont.toString();
-} else {
-    ((totalSumDisplay as HTMLDivElement).innerHTML as string) = (customerCart.body.results[0].totalPrice.centAmount/100).toFixed(2);
-
-}
+      (totalSumDisplay as HTMLDivElement).innerHTML = totalPrice;
+      (totalSumDisplayDiscounted as HTMLDivElement).innerHTML = totalPriceWithDiscont;
+      totalSumDisplay.style.textDecoration = 'line-through';
+      totalSumDisplayDiscounted.style.color = 'red';
+    } else {
+      (totalSumDisplay as HTMLDivElement).innerHTML = (
+        customerCart.body.results[0].totalPrice.centAmount / 100
+      ).toFixed(2);
+    }
 
     promoApplyBtn.addEventListener('click', async () => {
       const currentPromoId = localStorage.getItem('promoId') ? localStorage.getItem('promoId') : '';
@@ -119,6 +118,17 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
           if (!localStorage.getItem('promoId')) {
             localStorage.setItem('promoId', `${newPromoId}`);
           }
+          const totalPriceWithDiscont: string = ((cartWithPromo.body.totalPrice.centAmount as number) / 100).toFixed(2);
+          const totalPrice: string = (
+            +totalPriceWithDiscont +
+            (cartWithPromo.body.discountOnTotalPrice?.discountedAmount.centAmount as number) / 100
+          ).toFixed(2);
+
+          (totalSumDisplay as HTMLDivElement).innerHTML = totalPrice;
+          (totalSumDisplayDiscounted as HTMLDivElement).innerHTML = totalPriceWithDiscont;
+          totalSumDisplay.style.textDecoration = 'line-through';
+          totalSumDisplayDiscounted.style.color = 'red';
+    
         } else {
           promoApplyBtn.innerText = 'Already used';
           promoApplyBtn.style.backgroundColor = 'red';

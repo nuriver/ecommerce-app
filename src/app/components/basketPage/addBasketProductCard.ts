@@ -122,7 +122,9 @@ export default function createBasketProductCard(
 
   cardProductRemoveBtn.addEventListener('click', async () => {
     const cartTotalPrice: HTMLDivElement = document.querySelector('.total-sum-block__sum') as HTMLDivElement;
-    const cartTotalPriceDiscont: HTMLDivElement = document.querySelector('.total-sum-block__sum-discounted') as HTMLDivElement;
+    const cartTotalPriceDiscont: HTMLDivElement = document.querySelector(
+      '.total-sum-block__sum-discounted'
+    ) as HTMLDivElement;
 
     await deleteProductFromCart(productId);
     cardProduct.remove();
@@ -139,22 +141,22 @@ export default function createBasketProductCard(
         }, 250);
       });
     const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-    console.log(customerCart);
     if (localStorage.getItem('promoId')) {
       if (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount) {
-        const totalPriceWithDiscont: number = +(
+        const totalPriceWithDiscont: string = (
           (customerCart.body.results[0].totalPrice.centAmount as number) / 100
         ).toFixed(2);
-        const totalPrice: number =
-          totalPriceWithDiscont +
-          +((customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100).toFixed(
-            2
-          );
-        ((cartTotalPrice as HTMLDivElement).innerHTML as string) = totalPrice.toString();
-        ((cartTotalPriceDiscont as HTMLDivElement).innerHTML as string) = totalPriceWithDiscont.toString();
+        const totalPrice: string = (
+          +totalPriceWithDiscont +
+          (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100
+        ).toFixed(2);
+        cartTotalPrice.innerHTML = totalPrice;
+        cartTotalPriceDiscont.innerHTML = totalPriceWithDiscont;
+        cartTotalPriceDiscont.style.color = 'red';
+        cartTotalPrice.style.textDecoration = 'line-through';
       }
     } else {
-        (cartTotalPrice as HTMLDivElement).innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
+      cartTotalPrice.innerHTML = (customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2);
     }
 
     const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
@@ -166,55 +168,57 @@ export default function createBasketProductCard(
   });
 
   buttonMinus.addEventListener('click', async () => {
-    if (+quantity > 1) {
-      const cartTotalPrice: HTMLDivElement = document.querySelector('.total-sum-block__sum') as HTMLDivElement;
-      const cartTotalPriceDiscont: HTMLDivElement = document.querySelector('.total-sum-block__sum-discounted') as HTMLDivElement;
+    const cartTotalPrice: HTMLDivElement = document.querySelector('.total-sum-block__sum') as HTMLDivElement;
+    const cartTotalPriceDiscont: HTMLDivElement = document.querySelector(
+      '.total-sum-block__sum-discounted'
+    ) as HTMLDivElement;
 
-      try {
-        buttonMinus.disabled = true;
-        buttonPlus.disabled = true;
-        cardProductQuantity.innerHTML = (+cardProductQuantity.innerHTML - 1).toString();
-        cardProductTotalSum.innerHTML = `${(+cardProductQuantity.innerHTML * +finishPrice).toFixed(2)} ${currency}`;
-        showLoadIndicator();
-        await updateQtyCart(id, +cardProductQuantity.innerHTML);
-        const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
-          new Promise((resolve) => {
-            setTimeout(async () => {
-              resolve(await getCurrentCustomerCart());
-            }, 250);
-          });
-        const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-        // cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
-        if (localStorage.getItem('promoId')) {
-          if (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount) {
-            const totalPriceWithDiscont: number = +(
-              (customerCart.body.results[0].totalPrice.centAmount as number) / 100
-            ).toFixed(2);
-            const totalPrice: number =
-              totalPriceWithDiscont +
-              +(
-                (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100
-              ).toFixed(2);
+    try {
+      buttonMinus.disabled = true;
+      buttonPlus.disabled = true;
+      cardProductQuantity.innerHTML = (+cardProductQuantity.innerHTML - 1).toString();
+      cardProductTotalSum.innerHTML = `${(+cardProductQuantity.innerHTML * +finishPrice).toFixed(2)} ${currency}`;
+      showLoadIndicator();
+      await updateQtyCart(id, +cardProductQuantity.innerHTML);
+      const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+        new Promise((resolve) => {
+          setTimeout(async () => {
+            resolve(await getCurrentCustomerCart());
+          }, 250);
+        });
+      const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+      // cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
+      if (localStorage.getItem('promoId')) {
+        if (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount) {
+          const totalPriceWithDiscont: string = (
+            (customerCart.body.results[0].totalPrice.centAmount as number) / 100
+          ).toFixed(2);
+          const totalPrice: string = (
+            +totalPriceWithDiscont +
+            (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100
+          ).toFixed(2);
 
-            ((cartTotalPrice as HTMLDivElement).innerHTML as string) = totalPrice.toString();
-            ((cartTotalPriceDiscont as HTMLDivElement).innerHTML as string) = totalPriceWithDiscont.toString();
-          }
-        } else {
-          cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
+          (cartTotalPrice as HTMLDivElement).innerHTML = totalPrice;
+          (cartTotalPriceDiscont as HTMLDivElement).innerHTML = totalPriceWithDiscont;
+          cartTotalPrice.style.textDecoration = 'line-through';
+          cartTotalPriceDiscont.style.color = 'red';
         }
-        const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
-          ? +customerCart.body.results[0].totalLineItemQuantity
-          : 0;
-        const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
-        basketStatus.innerHTML = totalQty.toString();
-      } catch (error) {
-        console.error((error as Error).message);
-      } finally {
-        hideLoadIndicator();
-        buttonMinus.disabled = false;
-        buttonPlus.disabled = false;
+      } else {
+        cartTotalPrice.innerHTML = (customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2);
       }
+      const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
+        ? +customerCart.body.results[0].totalLineItemQuantity
+        : 0;
+      const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
+      basketStatus.innerHTML = totalQty.toString();
+    } catch (error) {
+      console.error((error as Error).message);
+    } finally {
+      hideLoadIndicator();
+      buttonMinus.disabled = false;
+      buttonPlus.disabled = false;
     }
+    // }
     if (cardProductQuantity.innerHTML === '1') {
       buttonMinus.disabled = true;
     }
@@ -222,7 +226,9 @@ export default function createBasketProductCard(
 
   buttonPlus.addEventListener('click', async () => {
     const cartTotalPrice: HTMLDivElement = document.querySelector('.total-sum-block__sum') as HTMLDivElement;
-    const cartTotalPriceDiscont: HTMLDivElement = document.querySelector('.total-sum-block__sum-discounted') as HTMLDivElement;
+    const cartTotalPriceDiscont: HTMLDivElement = document.querySelector(
+      '.total-sum-block__sum-discounted'
+    ) as HTMLDivElement;
 
     try {
       buttonMinus.disabled = true;
@@ -239,24 +245,24 @@ export default function createBasketProductCard(
         });
       const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
 
-      console.log(customerCart.body.results[0]);
-      //   cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
       if (localStorage.getItem('promoId')) {
         if (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount) {
-          const totalPriceWithDiscont: number = +(
+          const totalPriceWithDiscont: string = (
             (customerCart.body.results[0].totalPrice.centAmount as number) / 100
           ).toFixed(2);
-          const totalPrice: number =
-            totalPriceWithDiscont +
-            +((customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100).toFixed(
-              2
-            );
+          const totalPrice: string = (
+            +totalPriceWithDiscont +
+            (customerCart.body.results[0].discountOnTotalPrice?.discountedAmount.centAmount as number) / 100
+          ).toFixed(2);
 
-          ((cartTotalPrice as HTMLDivElement).innerHTML as string) = totalPrice.toString();
-          ((cartTotalPriceDiscont as HTMLDivElement).innerHTML as string) = totalPriceWithDiscont.toString();
+          (cartTotalPrice as HTMLDivElement).innerHTML = totalPrice;
+          (cartTotalPriceDiscont as HTMLDivElement).innerHTML = totalPriceWithDiscont;
+          cartTotalPriceDiscont.style.color = 'red';
+          cartTotalPrice.style.textDecoration = 'line-through';
+  
         }
       } else {
-        cartTotalPrice.innerHTML = `${(customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2)}`;
+        cartTotalPrice.innerHTML = (customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2);
       }
       const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
         ? +customerCart.body.results[0].totalLineItemQuantity
