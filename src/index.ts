@@ -11,6 +11,7 @@ import customerInStorage from './app/utilities/customerInStorage';
 import createCatalog from './app/components/catalog/catalog';
 import createProfilePage from './app/components/profilePage/profilePage';
 import { signInWithRefreshToken } from './app/api/SDK/client';
+import createAboutUsPage from './app/components/aboutUsPage/aboutUsPage';
 
 const { body } = document;
 
@@ -24,11 +25,12 @@ const mainPage = createMain();
 const registerPage = createRegistrationPage();
 const page404 = create404Page();
 const profilePage = createProfilePage();
+const aboutUsPage = createAboutUsPage();
 
-routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, false);
+routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, aboutUsPage, page404, false);
 
 window.addEventListener('hashchange', () => {
-  routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, page404, true);
+  routeNavigation(mainPage, loginPage, registerPage, profilePage, catalogPage, aboutUsPage, page404, true);
 });
 
 window.addEventListener('load', () => {

@@ -3,6 +3,14 @@ import simpleRedirect from '../../utilities/simpleRedirect';
 
 export default function createMain(): HTMLElement {
   const mainPage = createElement('div', ['main-page']);
+  const saleBanner = createElement('div', ['sale-banner'], mainPage);
+  createElement('div', ['sale-head'], saleBanner, 'use promo code <b> ART </b> to get 20% discount');
+  createElement(
+    'div',
+    ['sale-text'],
+    saleBanner,
+    '*applies to all items in the cart, including those already discounted'
+  );
 
   //  first
   const firstBlock = createElement('div', ['first-block'], mainPage);
@@ -85,6 +93,8 @@ export default function createMain(): HTMLElement {
     simpleRedirect('login');
   });
   createElement('div', ['join-img'], joinBlock);
+
+  // const saleBanner = createElement('div', ['sale-banner'], mainPage);
 
   return mainPage;
 }
