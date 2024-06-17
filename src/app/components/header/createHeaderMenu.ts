@@ -55,6 +55,10 @@ function createHeaderMenu(container: HTMLElement): void {
       });
     }
     if (link.name === 'BASKET') {
+      headerLink.innerHTML = '';
+      headerLink.classList.remove('hoverline');
+      createElement('div', ['header-cart-icon'], headerLink);
+
       const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
         new Promise((resolve) => {
           setTimeout(async () => {
