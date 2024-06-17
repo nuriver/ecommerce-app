@@ -27,12 +27,12 @@
     display: flex;
     gap: 5px;
   }
- .header__basket-status {
+  .header__basket-status {
     color: white;
     background-color: black;
     padding: 0px 8px;
     font-weight: 900;
- }
+  }
   @media screen and (max-width: 900px) {
     display: none;
     margin: 0;

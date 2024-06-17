@@ -43,6 +43,6 @@ window.addEventListener('load', () => {
     }
     signInWithRefreshToken();
   } else if (localStorage.getItem('promoId')) {
-    localStorage.setItem('promoId', '')
+    localStorage.setItem('promoId', '');
   }
 });

@@ -56,12 +56,7 @@ export default function createBasketProductCard(
     cardProductDataPart
   );
 
-  const cardProductQuantityTitle: HTMLDivElement = createElement(
-    'div',
-    ['quantity-block__title', 'card-product__data'],
-    cardProductQuantityBlock,
-    'Quantity:'
-  );
+  createElement('div', ['quantity-block__title', 'card-product__data'], cardProductQuantityBlock, 'Quantity:');
   const quantitySelector: HTMLDivElement = createElement(
     'div',
     ['quantity-block__quantity-selector'],
@@ -100,12 +95,7 @@ export default function createBasketProductCard(
     ['card-product__price-block'],
     cardProductDataPart
   );
-  const cardProductPriceTitle: HTMLDivElement = createElement(
-    'div',
-    ['price-block__title', 'card-product__data'],
-    cardProductTotalPrice,
-    'Total: '
-  );
+  createElement('div', ['price-block__title', 'card-product__data'], cardProductTotalPrice, 'Total: ');
   const cardProductTotalSum: HTMLDivElement = createElement(
     'div',
     ['price-block__price'],
@@ -258,7 +248,6 @@ export default function createBasketProductCard(
           (cartTotalPriceDiscont as HTMLDivElement).innerHTML = totalPriceWithDiscont;
           cartTotalPriceDiscont.style.color = 'red';
           cartTotalPrice.style.textDecoration = 'line-through';
-  
         }
       } else {
         cartTotalPrice.innerHTML = (customerCart.body.results[0].totalPrice.centAmount / 100).toFixed(2);

@@ -260,7 +260,6 @@ export async function clearCart(cartId: string) {
   } finally {
     hideLoadIndicator();
   }
-
 }
 
 export async function signInCustomer(credentials: CustomerCredentials): Promise<boolean> {

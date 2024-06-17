@@ -61,7 +61,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       basketPage
     );
     clearBasketModalWindow.setAttribute('id', 'no-blur');
- createElement(
+    createElement(
       'h1',
       ['clear-basket-modal__message'],
       clearBasketModalWindow,
@@ -180,7 +180,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       basketStatus.innerHTML = '0';
 
       addEmptyBasketPage(basketPageWrapper);
-
     });
 
     productsInBasket.forEach((element) => {
