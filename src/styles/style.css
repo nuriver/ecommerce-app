@@ -2775,7 +2775,8 @@ label {
 }
 .basket-page .basket-page__empty-page-image {
   background: url("/src/assets/images/basket-empty.png") center center/contain no-repeat;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   aspect-ratio: 1/1;
 }
 .basket-page .basket-page__empty-text-block {
@@ -2807,21 +2808,6 @@ label {
   }
   .basket-page .basket-page__empty-page-image {
     max-width: 500px;
-  }
-}
-@media screen and (max-width: 650px) {
-  .basket-page .basket-page__wrapper {
-    padding: 25px 30px;
-  }
-  .basket-page .basket-page__empty-wrapper {
-    margin: 30px;
-  }
-  .basket-page .basket-page__empty-message {
-    font-size: 16px;
-  }
-  .basket-page .basket-page__empty-page-image {
-    min-width: 300px;
-    min-height: 300px;
   }
 }
 @media screen and (max-width: 425px) {

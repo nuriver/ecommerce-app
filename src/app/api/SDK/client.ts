@@ -10,6 +10,7 @@ import {
   ByProjectKeyRequestBuilder,
   CartPagedQueryResponse,
   Cart,
+  CartUpdateAction,
 } from '@commercetools/platform-sdk';
 import { Client, TokenCache } from '@commercetools/sdk-client-v2';
 import { ApiRootStorage, CustomerCredentials } from '../../types/interfaces';
@@ -151,7 +152,6 @@ export async function updateCart(product: string, quantity?: number) {
   showLoadIndicator();
   const response = await getCurrentCustomerCart();
   const cart = response.body.results[0];
-  console.log(cart.lineItems);
   await apiRoot
     .carts()
     .withId({ ID: cart.id })
@@ -205,8 +205,14 @@ export function signInWithRefreshToken(): void {
 
 export async function deleteProductFromCart(product: string) {
   showLoadIndicator();
+  const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+    new Promise((resolve) => {
+      setTimeout(async () => {
+        resolve(await getCurrentCustomerCart());
+      }, 250);
+    });
 
-  const response = await getCurrentCustomerCart();
+  const response: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
   const cart = response.body.results[0];
   const { lineItems } = cart;
   let lineItemId: string = '';
@@ -231,76 +237,101 @@ export async function deleteProductFromCart(product: string) {
     })
     .execute();
   hideLoadIndicator();
+  return response;
 }
-export async function signInCustomer(credentials: CustomerCredentials): Promise<boolean> {
-    const ctpClientPasswordFlow = createCtpClientPasswordFlow(credentials);
-    const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
-      projectKey: process.env.CTP_PROJECT_KEY as string,
-    });
-    apiRoot = apiRootPasswordFlow;
-    apiRootStorage.updateRoot();
-    try {
-      const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
-      const customerId = response.body.customer.id;
-      const customerVersion = response.body.customer.version;
-      const tokenCache = tokenCacheObject.tokenCache as TokenCache;
-      const customerToken = tokenCache.get().refreshToken;
-      const loginLink = document.querySelector('.header-link-login') as HTMLElement;
-      const profileLink: HTMLLinkElement = document.querySelector('.header-link-profile') as HTMLLinkElement;
-      const registerLink: HTMLLinkElement = document.querySelector('.header-link-registration') as HTMLLinkElement;
-      const customer = {
-        id: customerId,
-        token: customerToken,
-        version: customerVersion,
-      };
-      localStorage.setItem('customer', JSON.stringify(customer));
-      loginLink.innerText = 'LOGOUT';
-      if (profileLink.classList.contains('header-link-profile-hidden')) {
-        profileLink.classList.remove('header-link-profile-hidden');
-      }
-      if (!registerLink.classList.contains('header-link-registration-hidden')) {
-          registerLink.classList.add('header-link-registration-hidden');
-        }
-    const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
-  new Promise((resolve) => {
-    setTimeout(async () => {
-      resolve(await getCurrentCustomerCart());
-    }, 250);
-  });
-  
-  const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-  const totalQty: number = customerCart.body.results[0].totalLineItemQuantity ? +customerCart.body.results[0].totalLineItemQuantity : 0;
-  const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
-  basketStatus.innerHTML = `${totalQty}`
-      window.location.href = '#/main';
-      sessionStorage.clear();
-      return true;
-    } catch {
-      return false;
-    }
-  }
 
-  export default async function applyPromo(promoCode: string) {
-    const customerCart = await getCurrentCustomerCart();
-  
-    const cartId: string = customerCart.body.results[0].id;
-    const cartVersion = customerCart.body.results[0].version;
-    // const apiRoot = apiRootStorage.value.me().carts().get().execute();
-    const cart = await apiRoot
+export async function clearCart(cartId: string) {
+  const productCards: NodeListOf<HTMLDivElement> = document.querySelectorAll('.basket-page__card-product');
+  showLoadIndicator();
+  try {
+    const cart = await apiRoot.carts().withId({ ID: cartId }).get().execute();
+    const actions: CartUpdateAction[] = cart.body.lineItems.map((lineItem) => ({
+      action: 'removeLineItem',
+      lineItemId: lineItem.id,
+    }));
+    await apiRoot
       .carts()
       .withId({ ID: cartId })
-      .post({
-        body: {
-          version: cartVersion,
-          actions: [
-            {
-              action: 'addDiscountCode',
-              code: promoCode,
-            },
-          ],
-        },
-      })
+      .post({ body: { version: cart.body.version, actions } })
       .execute();
-    return cart;
+    productCards.forEach((card) => card.remove());
+  } catch (error) {
+    console.error((error as Error).message);
+  } finally {
+    hideLoadIndicator();
   }
-  
+
+}
+
+export async function signInCustomer(credentials: CustomerCredentials): Promise<boolean> {
+  const ctpClientPasswordFlow = createCtpClientPasswordFlow(credentials);
+  const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
+    projectKey: process.env.CTP_PROJECT_KEY as string,
+  });
+  try {
+    const response = await apiRootPasswordFlow.login().post({ body: credentials }).execute();
+    apiRoot = apiRootPasswordFlow;
+    apiRootStorage.updateRoot();
+    const customerId = response.body.customer.id;
+    const customerVersion = response.body.customer.version;
+    const tokenCache = tokenCacheObject.tokenCache as TokenCache;
+    const customerToken = tokenCache.get().refreshToken;
+    const loginLink = document.querySelector('.header-link-login') as HTMLElement;
+    const profileLink: HTMLLinkElement = document.querySelector('.header-link-profile') as HTMLLinkElement;
+    const registerLink: HTMLLinkElement = document.querySelector('.header-link-registration') as HTMLLinkElement;
+    const customer = {
+      id: customerId,
+      token: customerToken,
+      version: customerVersion,
+    };
+    localStorage.setItem('customer', JSON.stringify(customer));
+    loginLink.innerText = 'LOGOUT';
+    if (profileLink.classList.contains('header-link-profile-hidden')) {
+      profileLink.classList.remove('header-link-profile-hidden');
+    }
+    if (!registerLink.classList.contains('header-link-registration-hidden')) {
+      registerLink.classList.add('header-link-registration-hidden');
+    }
+    const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
+      new Promise((resolve) => {
+        setTimeout(async () => {
+          resolve(await getCurrentCustomerCart());
+        }, 250);
+      });
+
+    const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
+    const totalQty: number = customerCart.body.results[0].totalLineItemQuantity
+      ? +customerCart.body.results[0].totalLineItemQuantity
+      : 0;
+    const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
+    basketStatus.innerHTML = `${totalQty}`;
+    window.location.href = '#/main';
+    sessionStorage.clear();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export default async function applyPromo(promoCode: string) {
+  const customerCart = await getCurrentCustomerCart();
+
+  const cartId: string = customerCart.body.results[0].id;
+  const cartVersion = customerCart.body.results[0].version;
+  const cart = await apiRoot
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'addDiscountCode',
+            code: promoCode,
+          },
+        ],
+      },
+    })
+    .execute();
+  return cart;
+}

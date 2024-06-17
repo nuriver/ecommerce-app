@@ -1,6 +1,6 @@
 import { Cart, CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
 import createElement from '../../utilities/createElement';
-import applyPromo, { deleteProductFromCart, getCurrentCustomerCart } from '../../api/SDK/client';
+import applyPromo, { clearCart, getCurrentCustomerCart } from '../../api/SDK/client';
 import createBasketProductCard from './addBasketProductCard';
 import addEmptyBasketPage from './addEmptyBasketPage';
 import { hideLoadIndicator, showLoadIndicator } from '../../api/SDK/loadIndicator';
@@ -15,7 +15,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
 
   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
   const productsInBasket = customerCart.body.results[0]?.lineItems;
-  const totalSumBasket = customerCart.body.results[0]?.totalPrice.centAmount;
 
   const basketPage: HTMLDivElement = createElement('div', ['basket-page']);
 
@@ -62,7 +61,7 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       basketPage
     );
     clearBasketModalWindow.setAttribute('id', 'no-blur');
-    const clearBasketMessage: HTMLDivElement = createElement(
+ createElement(
       'h1',
       ['clear-basket-modal__message'],
       clearBasketModalWindow,
@@ -128,7 +127,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
           (totalSumDisplayDiscounted as HTMLDivElement).innerHTML = totalPriceWithDiscont;
           totalSumDisplay.style.textDecoration = 'line-through';
           totalSumDisplayDiscounted.style.color = 'red';
-    
         } else {
           promoApplyBtn.innerText = 'Already used';
           promoApplyBtn.style.backgroundColor = 'red';
@@ -175,21 +173,14 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
       basketWrapper.style.filter = 'none';
 
       clearBasketBtn.disabled = true;
-      // const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
-      //   new Promise((resolve) => {
-      //     setTimeout(async () => {
-      //       resolve(await getCurrentCustomerCart());
-      //     }, 250);
-      //   });
-      //   const customerCart: ClientResponse<CartPagedQueryResponse> = await returnCustomerCartAfterHalfSecond();
-      // const allCardsInBasket = customerCart.body.results[0].lineItems;
-      // allCardsInBasket.forEach(card => {
-      //     deleteProductFromCart(card.productId)
-      // })
-      //       for (const item of customerCart.body.results[0].lineItems) {
-      //         const changedCart = await this.carts.removeProductOnCart(item.id);
-      //   }
-      //
+      await clearCart(customerCart.body.results[0].id);
+      const basketPageWrapper: HTMLDivElement = document.querySelector('.basket-page') as HTMLDivElement;
+      basketPageWrapper.innerHTML = '';
+      const basketStatus: HTMLDivElement = document.querySelector('.header__basket-status') as HTMLDivElement;
+      basketStatus.innerHTML = '0';
+
+      addEmptyBasketPage(basketPageWrapper);
+
     });
 
     productsInBasket.forEach((element) => {
@@ -218,7 +209,6 @@ export default async function createBasketPage(): Promise<HTMLDivElement> {
         );
       }
     });
-    // totalSumDisplay.innerHTML = (totalSumBasket / 100).toFixed(2);
   } else {
     addEmptyBasketPage(basketPage);
   }

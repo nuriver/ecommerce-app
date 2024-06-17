@@ -1,5 +1,5 @@
 import { CartPagedQueryResponse, ClientResponse } from '@commercetools/platform-sdk';
-import { deleteProductFromCart, getCurrentCustomerCart, updateCart, updateQtyCart } from '../../api/SDK/client';
+import { deleteProductFromCart, getCurrentCustomerCart, updateQtyCart } from '../../api/SDK/client';
 import { hideLoadIndicator, showLoadIndicator } from '../../api/SDK/loadIndicator';
 import createElement from '../../utilities/createElement';
 import addEmptyBasketPage from './addEmptyBasketPage';
@@ -128,7 +128,6 @@ export default function createBasketProductCard(
 
     await deleteProductFromCart(productId);
     cardProduct.remove();
-
     if (!block.firstChild) {
       const basketPageWrapper: HTMLDivElement = document.querySelector('.basket-page') as HTMLDivElement;
       basketPageWrapper.innerHTML = '';
