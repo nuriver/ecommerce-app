@@ -325,6 +325,34 @@
     cursor: pointer;
   }
 
+  .sale-banner {
+    position: sticky;
+    width: 100%;
+    height: fit-content;
+    padding: 10px 0;
+    background-color: rgb(255, 255, 255);
+    top: 0;
+    right: 0;
+  }
+
+  .sale-head {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 150%;
+    text-align: center;
+    text-transform: uppercase;
+
+    color: #000000;
+  }
+
+  .sale-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+  }
+
   @media (max-width: 1230px) {
     .products-card__img {
       width: 250px;
@@ -439,6 +467,14 @@
       height: 500px;
     }
 
+    .sale-head {
+      font-size: 20px;
+    }
+
+    .sale-text {
+      font-size: 10px;
+    }
+
     .first-title {
       margin-top: 0;
     }
@@ -532,6 +568,10 @@
       height: 400px;
     }
 
+    .sale-head {
+      font-size: 16px;
+    }
+
     .artstyle-block {
       gap: 50px;
     }
@@ -577,6 +617,14 @@
   @media (max-width: 541px) {
     [class*='title'] {
       font-size: 24px;
+    }
+
+    .sale-head {
+      font-size: 12px;
+    }
+
+    .sale-text {
+      font-size: 8px;
     }
 
     .artstyle {

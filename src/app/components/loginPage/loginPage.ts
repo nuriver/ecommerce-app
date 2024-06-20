@@ -62,7 +62,7 @@ export default function createLoginPage(): HTMLElement {
     loginForm,
     'TO THE REGISTRATION PAGE'
   );
-  registrationPage.addEventListener('click', (event) => {
+  registrationPage.addEventListener('click', async (event) => {
     event.preventDefault();
     window.location.href = '#/registration';
   });

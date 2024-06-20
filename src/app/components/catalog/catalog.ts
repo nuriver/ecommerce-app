@@ -1,5 +1,7 @@
+import { updateCart } from '../../api/SDK/client';
 import createElement from '../../utilities/createElement';
 import pageToggle from '../../utilities/pageToggle';
+import updateBasketStatus from '../basketPage/updateBasketStatus';
 import detailedProductPage from '../detailedProductPage/detailedProductPage';
 import categoryButtonToggle from './categoryButtonToggle';
 import createCategoriesMenu from './createCategoriesMenu';
@@ -27,6 +29,12 @@ export default function createCatalog(): HTMLElement {
   const filterButtonInnerText = '<span class="filter-icon"></span> SHOW FILTERS';
   const filterButton = createElement('button', ['button', 'filter-button'], sortBlock, filterButtonInnerText);
   filterButton.addEventListener('click', showFilter);
+  // filterButton.addEventListener('click', async () => {
+
+  //   const response = await getCurrentCustomerCart()
+  //   const products = response.body.results[0].lineItems;
+  //   console.log(products);
+  // });
 
   const searchBlock = createElement('div', ['search-block'], catalogWrapper);
   const searchLabel = createElement('label', ['search-label'], searchBlock, 'SEARCH');
@@ -94,9 +102,19 @@ export default function createCatalog(): HTMLElement {
   catalog.addEventListener('click', async (event) => {
     const target = event.target as HTMLElement;
     if (!target.classList.contains('catalog')) {
-      const card = target.closest('.product-card') as HTMLElement;
-      const productPage = detailedProductPage(card.id);
-      pageToggle(productPage);
+      if (!target.classList.contains('add-to-cart-button')) {
+        const card = target.closest('.product-card') as HTMLElement;
+        const addToCartButton = card.querySelector('.add-to-cart-button') as HTMLButtonElement;
+        const addedToCart = addToCartButton.disabled === true;
+        const productPage = detailedProductPage(card.id, addedToCart);
+        pageToggle(productPage);
+      } else {
+        const addToCartButton = target.closest('.add-to-cart-button') as HTMLButtonElement;
+        await updateCart(addToCartButton.id);
+        addToCartButton.disabled = true;
+        addToCartButton.innerHTML = 'ADDED TO CART';
+        await updateBasketStatus();
+      }
     }
   });
 

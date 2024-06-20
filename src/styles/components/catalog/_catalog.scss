@@ -253,7 +253,7 @@
   .product-card {
     position: relative;
     width: 308px;
-    height: 488px;
+    height: 520px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -284,7 +284,10 @@
     .product-description {
       width: 287px;
       font-size: 14px;
-      margin-bottom: 25px;
+      margin-bottom: 10px;
+    }
+    .add-to-cart-button {
+      margin-bottom: 10px;
     }
     .product-price {
       font-size: 24px;
@@ -307,6 +310,9 @@
       .product-image {
         background-size: 120%;
         border-radius: 10px;
+      }
+      .add-to-cart-button:disabled {
+        cursor: auto;
       }
       .bag-image {
         background-size: 135%;

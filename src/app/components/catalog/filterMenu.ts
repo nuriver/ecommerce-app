@@ -1,5 +1,6 @@
 import createElement from '../../utilities/createElement';
 import displayProducts, { filterData, sortData } from './displayProducts';
+import { updatePage } from './pagination';
 import showAppliedFilters from './showAppliedFilters';
 
 const { body } = document;
@@ -90,11 +91,6 @@ priceReset.addEventListener('click', () => {
   priceRangeToInput.value = '';
 });
 
-export const showFilter = () => {
-  filterMenuWrapper.style.display = 'block';
-  body.classList.add('filters-shown');
-};
-
 export function resetFilterMenu() {
   priceReset.click();
   artistReset.click();
@@ -108,6 +104,12 @@ export function totalFiltersReset() {
   resetAppliedFilters.style.display = 'none';
   filterData.clearFilters();
 }
+
+export const showFilter = () => {
+  filterMenuWrapper.style.display = 'block';
+  body.classList.add('filters-shown');
+  totalFiltersReset();
+};
 
 applyButton.addEventListener('click', () => {
   const appliedFiltersNames: string[] = [];
@@ -143,7 +145,7 @@ applyButton.addEventListener('click', () => {
 
   filterMenuWrapper.style.display = 'none';
   body.classList.remove('filters-shown');
-
+  updatePage(1);
   displayProducts(sortData.currentId);
   if (appliedFiltersNames.length > 0) {
     showAppliedFilters(appliedFiltersNames);

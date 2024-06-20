@@ -4,6 +4,7 @@ import createProductCard from './createProductCard';
 import getProductDataFromProductProjection from './getProductData';
 import { FilterData, SortData } from '../../types/types';
 import { hideLoadIndicator } from '../../api/SDK/loadIndicator';
+import getAddedToCartProducts from '../../utilities/getAddedToCartProducts';
 
 export const currentSubcategory: { value: undefined | string } = {
   value: undefined,
@@ -54,11 +55,12 @@ export default async function displayProducts(id?: string): Promise<void> {
   const products = response.body.results;
   const totalProducts = response.body.total as number;
   if (totalProducts > paginationData.pageLimit) paginationRight.classList.remove('pagination-disabled');
-  if (totalProducts < offset + 12) paginationRight.classList.add('pagination-disabled');
+  if (totalProducts <= offset + 12) paginationRight.classList.add('pagination-disabled');
 
+  const addedProductsId = await getAddedToCartProducts();
   products.forEach((product) => {
     const productCardData = getProductDataFromProductProjection(product);
-    createProductCard(productCardData, catalog);
+    createProductCard(productCardData, catalog, addedProductsId);
   });
   hideLoadIndicator();
 }
