@@ -491,10 +491,10 @@ label {
   gap: 5px;
 }
 .header-menu .header__basket-status {
-  color: white;
-  background-color: black;
-  padding: 0px 8px;
-  font-weight: 900;
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: -3px;
 }
 @media screen and (max-width: 900px) {
   .header-menu {
@@ -513,6 +513,10 @@ label {
   .header-menu .header-link {
     font-size: 48px;
     font-weight: 650;
+  }
+  .header-menu .header__basket-status {
+    font-size: 45px;
+    margin-top: 3px;
   }
 }
 @media (max-width: 464px) {
@@ -535,7 +539,7 @@ label {
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  z-index: 1;
+  z-index: 10;
   cursor: pointer;
 }
 .burger .burger-part {
@@ -546,6 +550,23 @@ label {
 @media screen and (max-width: 900px) {
   .burger {
     display: flex;
+  }
+}
+
+.header-cart-icon {
+  width: 33px;
+  height: 33px;
+  background-image: url(/src/assets/images/cart-icon.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: -9px;
+  padding: 10px;
+}
+@media screen and (max-width: 900px) {
+  .header-cart-icon {
+    width: 70px;
+    height: 70px;
   }
 }
 

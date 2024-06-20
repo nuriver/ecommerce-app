@@ -19,7 +19,9 @@ function createHeaderMenu(container: HTMLElement): void {
   headerLinks.forEach(async (link) => {
     const headerLink = createElement('a', ['header-link', 'hoverline'], header, `${link.name}`);
 
-    headerLink.addEventListener('click', toggleMenu);
+    headerLink.addEventListener('click', (event) => {
+      toggleMenu(event);
+    });
     headerLink.href = `${link.href}`;
     if (link.name === 'PROFILE') {
       headerLink.classList.add('header-link-profile');
@@ -55,6 +57,10 @@ function createHeaderMenu(container: HTMLElement): void {
       });
     }
     if (link.name === 'BASKET') {
+      headerLink.innerHTML = '';
+      headerLink.classList.remove('hoverline');
+      createElement('div', ['header-cart-icon'], headerLink);
+
       const returnCustomerCartAfterHalfSecond = async (): Promise<ClientResponse<CartPagedQueryResponse>> =>
         new Promise((resolve) => {
           setTimeout(async () => {
